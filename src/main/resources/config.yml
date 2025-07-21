@@ -55,13 +55,13 @@ options: # General world options
     creative_bypass: true # If true, players in creative mode can break blocks
 
 messages:
-  no_permission: "&8[&7S&9L&8] &cMissing permission!"
-  only_players: "&8[&7S&9L&8] &cThis command can only be executed by players."
+  no_permission: "&7[&f&lS&a&lL&7] &cMissing permission!"
+  only_players: "&7[&f&lS&a&lL&7] &cThis command can only be executed by players."
   spawn:
-    delay_started: "&8[&7S&9L&8] &aYou will be teleported to spawn in %time% second(s)" # Placeholders: %time%; requires spawn command delay to be enabled
-    delay_started_still: "&8[&7S&9L&8] &aYou will be teleported to spawn in %time% second(s). Do not move." # Placeholders: %time%; requires spawn command delay to be enabled and require_player_still to be true
-    teleport_canceled: "&8[&7S&9L&8] &cTeleport to spawn canceled, you moved." # Requires spawn command delay to be enabled and require_player_still to be true
-    teleported: "&8[&7S&9L&8] &aYou have been teleported to spawn."
+    delay_started: "&7[&f&lS&a&lL&7] &aYou will be teleported to spawn in %time% second(s)" # Placeholders: %time%; requires spawn command delay to be enabled
+    delay_started_still: "&7[&f&lS&a&lL&7] &aYou will be teleported to spawn in %time% second(s). Do not move." # Placeholders: %time%; requires spawn command delay to be enabled and require_player_still to be true
+    teleport_canceled: "&7[&f&lS&a&lL&7] &cTeleport to spawn canceled, you moved." # Requires spawn command delay to be enabled and require_player_still to be true
+    teleported: "&7[&f&lS&a&lL&7] &aYou have been teleported to spawn."
 
 # Log level for the plugin. Can be: DEBUG, INFO, WARN, ERROR.
 # Leave as it is if you don't know what to choose.

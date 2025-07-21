@@ -23,7 +23,7 @@ public class SetSpawnSubCommand implements SubCommand {
 
         if (!(sender instanceof Player player)) {
             sender.sendMessage(Colorize.color(
-                    "&8[&7S&9L&8] &cThis command can only be executed by a player."
+                    "&7[&f&lS&a&lL&7] &cThis command can only be executed by a player."
             ));
             return;
         }
@@ -48,7 +48,7 @@ public class SetSpawnSubCommand implements SubCommand {
         command.getPlugin().saveConfig();
 
         player.sendMessage(Colorize.color(
-                "&8[&7S&9L&8] &aSuccessfully set the spawn in " + world + " to &9" + x + "&a, &9" + y + "&a, &9" + z + "&a, &9yaw:" + yaw + "&a, &9pitch:" + pitch + "&a!"
+                "&7[&f&lS&a&lL&7] &aSuccessfully set the spawn in &f" + world + "&a to &f" + x + "&a, &f" + y + "&a, &f" + z + "&a, &fyaw:" + yaw + "&a, &fpitch:" + pitch + "&a!"
         ));
 
     }

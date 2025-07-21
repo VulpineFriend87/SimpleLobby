@@ -9,7 +9,7 @@ import top.vulpine.simpleLobby.utils.Colorize;
 public class Logger {
 
     private static LogLevel logLevel = LogLevel.INFO;
-    private static final String prefix = "&8[&7&lSimple&a&lLobby&8] &r";
+    private static final String prefix = "&8[&f&lSimple&a&lLobby&8] &r";
 
     /**
      * Initializes the Logger with a specified log level.
