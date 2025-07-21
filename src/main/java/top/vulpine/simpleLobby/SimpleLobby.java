@@ -29,13 +29,13 @@ public final class SimpleLobby extends JavaPlugin {
 
         String[] message = {
                 "",
-                "&7&l     _____ &a&l__",
-                "&7&l    |   __&a&l|  |",
-                "&7&l    |__   &a&l|  |__",
-                "&7&l    |_____&a&l|_____|",
+                "&f&l     _____ &a&l__",
+                "&f&l    |   __&a&l|  |",
+                "&f&l    |__   &a&l|  |__",
+                "&f&l    |_____&a&l|_____|",
                 "",
-                "&7    By &a" + String.join(", ", getDescription().getAuthors()),
-                "&7    Version: &a" + getDescription().getVersion(),
+                "&f    By &a" + String.join(", ", getDescription().getAuthors()),
+                "&f    Version: &a" + getDescription().getVersion(),
                 ""
         };
 
