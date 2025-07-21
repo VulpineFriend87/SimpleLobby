@@ -1,0 +1,13 @@
+name: SimpleLobby
+version: '1.0'
+main: top.vulpine.simpleLobby.SimpleLobby
+api-version: '1.13'
+authors: [ VulpineFriend87 ]
+website: https://vulpine.top
+
+commands:
+  simplelobby:
+    description: "Main SimpleLobby command"
+    aliases: [sl, slobby]
+  spawn:
+    description: "Teleports the executor to the spawn (if enabled)"

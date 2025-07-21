@@ -1,0 +1,68 @@
+# Simple Lobby Configuration - By Vulpine (https://vulpine.top)
+
+# Wherever you see the [action] tag, you can put in a list all the actions you want to perform in order.
+# These are the actions you can use:
+#
+#    <required> [optional]
+#
+# - "[COMMAND] <console/player>; <command without slash>"
+# - "[GAMEMODE] <global/player>; <gamemode>"
+# - "[TITLE] <global/player>; <title>; [subtitle]; [fadeIn]; [stay]; [fadeOut]"
+# - "[ACTIONBAR] <global/player>; <message>"
+# - "[MESSAGE] <global/player>; <message>"
+# - "[SOUND] <global/player>; <sound>; [volume]; [pitch]"
+# - "[DELAY] <milliseconds>"
+
+spawn:
+  command: # If enabled, players can use the '/spawn' command to teleport to spawn
+    enabled: true
+    delay: # If enabled, players will have to wait a certain amount of time before being teleported to spawn
+      enabled: false
+      time: 3 # Time in seconds
+      require_player_still: true # If true, the player must not move during the delay time, or else the teleport will be canceled
+  tp_on_join: false # If true, players will be teleported to spawn when they join the server
+  location: # Can be set using the '/sl setspawn' command in-game
+    world: world
+    x: 0
+    y: 0
+    z: 0
+    yaw: 0
+    pitch: 0
+
+actions:
+  join:
+    enabled: true
+    actions: # [action] Placeholders: %player%, any PlaceholderAPI placeholder (if installed)
+      - "[TITLE] player; &bWelcome to the server!; &7Enjoy your stay!; 20; 60; 20"
+      - "[MESSAGE] global; &b%player% &7has joined the server."
+      - "[GAMEMODE] player; adventure"
+  quit:
+    enabled: true
+    actions: # [action] Placeholders: %player%, any PlaceholderAPI placeholder (if installed)
+      - "[MESSAGE] global; &b%player% &7has left the server."
+
+options: # General world options
+  disable_hunger_loss: true
+  disable_mob_spawning: true
+  disable_damage: true
+  clear_inventory_on_join: false
+  clear_effects_on_join: false
+  disable_block_placing:
+    enabled: true
+    creative_bypass: true # If true, players in creative mode can place blocks
+  disable_block_breaking:
+    enabled: true
+    creative_bypass: true # If true, players in creative mode can break blocks
+
+messages:
+  no_permission: "&8[&7S&9L&8] &cMissing permission!"
+  only_players: "&8[&7S&9L&8] &cThis command can only be executed by players."
+  spawn:
+    delay_started: "&8[&7S&9L&8] &aYou will be teleported to spawn in %time% second(s)" # Placeholders: %time%; requires spawn command delay to be enabled
+    delay_started_still: "&8[&7S&9L&8] &aYou will be teleported to spawn in %time% second(s). Do not move." # Placeholders: %time%; requires spawn command delay to be enabled and require_player_still to be true
+    teleport_canceled: "&8[&7S&9L&8] &cTeleport to spawn canceled, you moved." # Requires spawn command delay to be enabled and require_player_still to be true
+    teleported: "&8[&7S&9L&8] &aYou have been teleported to spawn."
+
+# Log level for the plugin. Can be: DEBUG, INFO, WARN, ERROR.
+# Leave as it is if you don't know what to choose.
+log_level: INFO
