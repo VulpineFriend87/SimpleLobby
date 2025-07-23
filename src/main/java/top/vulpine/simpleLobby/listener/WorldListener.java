@@ -1,9 +1,12 @@
 package top.vulpine.simpleLobby.listener;
 
 import org.bukkit.GameMode;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -30,11 +33,11 @@ public class WorldListener implements Listener {
             return;
         }
 
-        boolean globalEnabled = plugin.getConfig().getBoolean("options.disable_hunger_loss.enabled");
+        boolean enabled = plugin.getConfig().getBoolean("options.disable_hunger_loss.enabled");
         boolean whitelistEnabled = plugin.getConfig().getBoolean("options.disable_hunger_loss.whitelist.enabled");
-        List<String> worlds = plugin.getConfig().getStringList("options.disable_hunger_loss.whitelist.worlds");
+        List<String> whitelistedWorlds = plugin.getConfig().getStringList("options.disable_hunger_loss.whitelist.worlds");
         String world = player.getWorld().getName();
-        if (globalEnabled && (!whitelistEnabled || worlds.contains(world))) {
+        if (enabled && (!whitelistEnabled || whitelistedWorlds.contains(world))) {
             event.setCancelled(true);
             Logger.debug("Hunger loss prevented for player: " + player.getName());
         }
@@ -44,14 +47,14 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onMobSpawn(CreatureSpawnEvent event) {
 
-        boolean globalSpawn = plugin.getConfig().getBoolean("options.disable_mob_spawning.enabled");
-        boolean spawnWhitelist = plugin.getConfig().getBoolean("options.disable_mob_spawning.whitelist.enabled");
-        List<String> spawnWorlds = plugin.getConfig().getStringList("options.disable_mob_spawning.whitelist.worlds");
-        String spawnWorld = event.getLocation().getWorld().getName();
-        if (globalSpawn && event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL
-                && (!spawnWhitelist || spawnWorlds.contains(spawnWorld))) {
+        boolean enabled = plugin.getConfig().getBoolean("options.disable_mob_spawning.enabled");
+        boolean whitelistEnabled = plugin.getConfig().getBoolean("options.disable_mob_spawning.whitelist.enabled");
+        List<String> whitelistedWorlds = plugin.getConfig().getStringList("options.disable_mob_spawning.whitelist.worlds");
+        String world = event.getLocation().getWorld().getName();
+        if (enabled && event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL
+                && (!whitelistEnabled || whitelistedWorlds.contains(world))) {
             event.setCancelled(true);
-            Logger.debug("Mob spawn prevented in world: " + spawnWorld);
+            Logger.debug("Mob spawn prevented in world: " + world);
         }
 
     }
@@ -63,29 +66,30 @@ public class WorldListener implements Listener {
             return;
         }
 
-        boolean antiDamageEnabled = plugin.getConfig().getBoolean("options.disable_damage.enabled");
+        boolean enabled = plugin.getConfig().getBoolean("options.disable_damage.enabled");
         boolean whitelistEnabled = plugin.getConfig().getBoolean("options.disable_damage.whitelist.enabled");
         List<String> whitelistedWorlds = plugin.getConfig().getStringList("options.disable_damage.whitelist.worlds");
-        String dmgWorld = player.getWorld().getName();
-        if (antiDamageEnabled && (!whitelistEnabled || whitelistedWorlds.contains(dmgWorld))) {
+        String world = player.getWorld().getName();
+        if (enabled && (!whitelistEnabled || whitelistedWorlds.contains(world))) {
             event.setCancelled(true);
             Logger.debug("Damage prevented for player: " + player.getName());
         }
+
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
 
-        boolean placeEnabled = plugin.getConfig().getBoolean("options.disable_block_placing.enabled");
-        if (placeEnabled) {
+        boolean enabled = plugin.getConfig().getBoolean("options.disable_block_placing.enabled");
+        if (enabled) {
             boolean creativeBypass = plugin.getConfig().getBoolean("options.disable_block_placing.creative_bypass");
             if (!(event.getPlayer().getGameMode() == GameMode.CREATIVE && creativeBypass)) {
-                boolean placeWhite = plugin.getConfig().getBoolean("options.disable_block_placing.whitelist.enabled");
-                List<String> placeWorlds = plugin.getConfig().getStringList("options.disable_block_placing.whitelist.worlds");
-                String pw = event.getPlayer().getWorld().getName();
-                if (!placeWhite || placeWorlds.contains(pw)) {
+                boolean whitelistEnabled = plugin.getConfig().getBoolean("options.disable_block_placing.whitelist.enabled");
+                List<String> whitelistedWorlds = plugin.getConfig().getStringList("options.disable_block_placing.whitelist.worlds");
+                String world = event.getPlayer().getWorld().getName();
+                if (!whitelistEnabled || whitelistedWorlds.contains(world)) {
                     event.setCancelled(true);
-                    Logger.debug("Block place prevented in world: " + pw);
+                    Logger.debug("Block place prevented in world: " + world);
                 }
             }
         }
@@ -95,37 +99,53 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
 
-        boolean breakEnabled = plugin.getConfig().getBoolean("options.disable_block_breaking.enabled");
-        if (breakEnabled) {
+        boolean enabled = plugin.getConfig().getBoolean("options.disable_block_breaking.enabled");
+        if (enabled) {
             boolean creativeBypass = plugin.getConfig().getBoolean("options.disable_block_breaking.creative_bypass");
             if (!(event.getPlayer().getGameMode() == GameMode.CREATIVE && creativeBypass)) {
-                boolean breakWhite = plugin.getConfig().getBoolean("options.disable_block_breaking.whitelist.enabled");
-                List<String> breakWorlds = plugin.getConfig().getStringList("options.disable_block_breaking.whitelist.worlds");
-                String bw = event.getPlayer().getWorld().getName();
-                if (!breakWhite || breakWorlds.contains(bw)) {
+                boolean whitelistEnabled = plugin.getConfig().getBoolean("options.disable_block_breaking.whitelist.enabled");
+                List<String> whitelistedWorlds = plugin.getConfig().getStringList("options.disable_block_breaking.whitelist.worlds");
+                String world = event.getPlayer().getWorld().getName();
+                if (!whitelistEnabled || whitelistedWorlds.contains(world)) {
                     event.setCancelled(true);
-                    Logger.debug("Block break prevented in world: " + bw);
+                    Logger.debug("Block break prevented in world: " + world);
                 }
             }
         }
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockInteraction(PlayerInteractEvent event) {
-        boolean interactEnabled = plugin.getConfig().getBoolean("options.disable_block_interaction.enabled");
-        if (interactEnabled) {
+
+        boolean enabled = plugin.getConfig().getBoolean("options.disable_block_interaction.enabled");
+        if (enabled) {
             boolean creativeBypass = plugin.getConfig().getBoolean("options.disable_block_interaction.creative_bypass");
             if (!(event.getPlayer().getGameMode() == GameMode.CREATIVE && creativeBypass)) {
-                boolean interactWhite = plugin.getConfig().getBoolean("options.disable_block_interaction.whitelist.enabled");
-                List<String> interactWorlds = plugin.getConfig().getStringList("options.disable_block_interaction.whitelist.worlds");
-                String iw = event.getPlayer().getWorld().getName();
-                if (!interactWhite || interactWorlds.contains(iw)) {
+                boolean whitelistEnabled = plugin.getConfig().getBoolean("options.disable_block_interaction.whitelist.enabled");
+                List<String> whitelistedWorlds = plugin.getConfig().getStringList("options.disable_block_interaction.whitelist.worlds");
+                String world = event.getPlayer().getWorld().getName();
+                if (!whitelistEnabled || whitelistedWorlds.contains(world)) {
+
+                    if (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.LEFT_CLICK_BLOCK) {
+                        return;
+                    }
+
+                    Block block = event.getClickedBlock();
+                    if (block == null) {
+                        return;
+                    }
+
+                    if (!block.getType().isInteractable()) {
+                        return;
+                    }
+
                     event.setCancelled(true);
-                    Logger.debug("Block interaction prevented in world: " + iw);
+                    Logger.debug("Block interaction prevented in world: " + world);
                 }
             }
         }
+
     }
 
 }
