@@ -1,6 +1,6 @@
 # Simple Lobby Configuration - By Vulpine (https://vulpine.top)
 
-# Wherever you see the [action] tag, you can put in a list all the actions you want to perform in order.
+# Wherever you see the [actions] tag, you can put in a list all the actions you want to perform in order.
 # These are the actions you can use:
 #
 #    <required> [optional]
@@ -32,13 +32,13 @@ spawn:
 actions:
   join:
     enabled: true
-    actions: # [action] Placeholders: %player%, any PlaceholderAPI placeholder (if installed)
+    actions: # [actions] Placeholders: %player%, any PlaceholderAPI placeholder (if installed)
       - "[TITLE] player; &bWelcome to the server!; &7Enjoy your stay!; 20; 60; 20"
       - "[MESSAGE] global; &b%player% &7has joined the server."
       - "[GAMEMODE] player; adventure"
   quit:
     enabled: true
-    actions: # [action] Placeholders: %player%, any PlaceholderAPI placeholder (if installed)
+    actions: # [actions] Placeholders: %player%, any PlaceholderAPI placeholder (if installed)
       - "[MESSAGE] global; &b%player% &7has left the server."
 
 options: # General world options
