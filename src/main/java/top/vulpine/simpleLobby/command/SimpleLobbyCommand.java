@@ -48,7 +48,7 @@ public class SimpleLobbyCommand implements CommandExecutor, TabCompleter {
 
         }
 
-        if (!PermissionChecker.hasPermission(sender, args[0].toLowerCase())) {
+        if (!PermissionChecker.hasPermission(sender, "command." + args[0].toLowerCase())) {
 
             sender.sendMessage(Colorize.color(
                     plugin.getConfig().getString("messages.no_permission")
@@ -82,7 +82,7 @@ public class SimpleLobbyCommand implements CommandExecutor, TabCompleter {
 
         if (args.length == 1) {
             return subCommands.keySet().stream()
-                    .filter(cmd -> PermissionChecker.hasPermission(sender, cmd.toLowerCase()))
+                    .filter(cmd -> PermissionChecker.hasPermission(sender, "command." + cmd.toLowerCase()))
                     .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
                     .collect(Collectors.toList());
         }
