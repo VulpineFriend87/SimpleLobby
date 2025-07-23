@@ -36,7 +36,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!PermissionChecker.hasPermission(sender, "simplelobby.spawn")) {
+        if (!PermissionChecker.hasPermission(sender, "command.spawn")) {
             sender.sendMessage(Colorize.color(plugin.getConfig().getString("messages.no_permission")));
             return true;
         }
