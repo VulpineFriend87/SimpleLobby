@@ -45,9 +45,14 @@ public class ActionParser {
 
             try {
 
-                int closingBracketIndex = actionString.lastIndexOf("]");
+                if (!actionString.startsWith("[")) {
+                    Logger.warn("Invalid action format (missing opening bracket): " + actionString);
+                    continue;
+                }
+
+                int closingBracketIndex = actionString.indexOf("]");
                 if (closingBracketIndex == -1) {
-                    Logger.warn("Invalid action format: " + actionString);
+                    Logger.warn("Invalid action format (missing closing bracket): " + actionString);
                     continue;
                 }
 
