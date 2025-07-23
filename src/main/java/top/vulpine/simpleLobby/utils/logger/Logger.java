@@ -51,9 +51,14 @@ public class Logger {
      *
      * @return A formatted string containing the prefix and the calling class name.
      */
-    private static String buildPathString() {
+    private static String buildPathString(LogLevel level) {
 
-        return prefix + "&7[" + getCallerClass() + "&7] &r";
+        String logPrefix = "";
+        if (level == LogLevel.DEBUG) {
+            logPrefix = "&7[&9DEBUG&7] ";
+        }
+
+        return prefix + logPrefix + "&7[" + getCallerClass() + "&7] &r";
 
     }
 
@@ -66,7 +71,7 @@ public class Logger {
 
         if (logLevel.ordinal() > LogLevel.INFO.ordinal()) return;
 
-        String pathString = buildPathString();
+        String pathString = buildPathString(LogLevel.INFO);
         Bukkit.getConsoleSender().sendMessage(Colorize.color(pathString + "&7" + message));
 
     }
@@ -80,7 +85,7 @@ public class Logger {
 
         if (logLevel.ordinal() > LogLevel.ERROR.ordinal()) return;
 
-        String pathString = buildPathString();
+        String pathString = buildPathString(LogLevel.ERROR);
         Bukkit.getConsoleSender().sendMessage(Colorize.color(pathString + "&c" + message));
 
     }
@@ -94,7 +99,7 @@ public class Logger {
 
         if (logLevel.ordinal() > LogLevel.WARN.ordinal()) return;
 
-        String pathString = buildPathString();
+        String pathString = buildPathString(LogLevel.WARN);
         Bukkit.getConsoleSender().sendMessage(Colorize.color(pathString + "&e" + message));
 
     }
@@ -108,7 +113,7 @@ public class Logger {
 
         if (logLevel.ordinal() > LogLevel.DEBUG.ordinal()) return;
 
-        String pathString = "&7[&9DEBUG&7]" + buildPathString();
+        String pathString = buildPathString(LogLevel.DEBUG);
         Bukkit.getConsoleSender().sendMessage(Colorize.color(pathString + "&9" + message));
 
     }
@@ -120,7 +125,7 @@ public class Logger {
      */
     public static void system(String message) {
 
-        String pathString = buildPathString();
+        String pathString = buildPathString(null);
         Bukkit.getConsoleSender().sendMessage(Colorize.color(pathString + "&f" + message));
 
     }
