@@ -8,8 +8,17 @@ import org.bukkit.entity.Player;
 import top.vulpine.simpleLobby.SimpleLobby;
 import top.vulpine.simpleLobby.utils.logger.Logger;
 
+/**
+ * Utility class for player-related operations in the SimpleLobby plugin.
+ */
 public class PlayerUtils {
 
+    /**
+     * Teleports a player to the spawn location defined in the plugin's configuration.
+     *
+     * @param plugin The SimpleLobby plugin instance.
+     * @param player The player to teleport.
+     */
     public static void teleportPlayer(SimpleLobby plugin, Player player) {
 
         FileConfiguration config = plugin.getConfig();
@@ -27,7 +36,6 @@ public class PlayerUtils {
         float pitch = (float) config.getDouble("spawn.location.pitch");
 
         player.teleport(new Location(world, x, y, z, yaw, pitch));
-        player.sendMessage(Colorize.color(config.getString("messages.spawn.teleported")));
 
         Logger.debug("Teleported player " + player.getName() + " to spawn at " + world + " (" + x + ", " + y + ", " + z + ")");
 

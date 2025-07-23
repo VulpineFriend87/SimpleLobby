@@ -13,6 +13,11 @@ import top.vulpine.simpleLobby.utils.logger.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Handles player joins and quits events in the SimpleLobby plugin.
+ * It clears inventory and potion effects on join, executes actions on join and quit,
+ * and teleports players to the spawn location based on the configuration.
+ */
 public class PlayerListener implements Listener {
 
     private final SimpleLobby plugin;

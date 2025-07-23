@@ -18,6 +18,11 @@ import top.vulpine.simpleLobby.utils.logger.Logger;
 
 import java.util.List;
 
+/**
+ * Handles various world-related events in the plugin.
+ * It prevents hunger loss, mob spawning, player damage, block placing, breaking, and interaction
+ * based on the configuration settings.
+ */
 public class WorldListener implements Listener {
 
     private final SimpleLobby plugin;

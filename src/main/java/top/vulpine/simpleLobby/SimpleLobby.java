@@ -9,6 +9,11 @@ import top.vulpine.simpleLobby.utils.ActionParser;
 import top.vulpine.simpleLobby.utils.logger.LogLevel;
 import top.vulpine.simpleLobby.utils.logger.Logger;
 
+/**
+ * Main class for the SimpleLobby plugin.
+ * This class initializes the plugin, sets up logging, and registers commands and event listeners.
+ * It also provides access to the ActionParser for executing actions defined in the configuration.
+ */
 public final class SimpleLobby extends JavaPlugin {
 
     private ActionParser actionParser;
