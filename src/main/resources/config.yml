@@ -42,17 +42,37 @@ actions:
       - "[MESSAGE] global; &b%player% &7has left the server."
 
 options: # General world options
-  disable_hunger_loss: true
-  disable_mob_spawning: true
-  disable_damage: true
-  clear_inventory_on_join: false
-  clear_effects_on_join: false
+  disable_hunger_loss:
+    enabled: true
+    whitelist:
+      enabled: false
+      worlds: [] # List of worlds where hunger loss is disabled
+  disable_mob_spawning:
+    enabled: true
+    whitelist:
+      enabled: false
+      worlds: [] # List of worlds where mob spawning is disabled
+  disable_damage:
+    enabled: true
+    whitelist:
+      enabled: false
+      worlds: [] # List of worlds where damage is disabled
+  clear_inventory_on_join:
+    enabled: true
+  clear_effects_on_join:
+    enabled: false
   disable_block_placing:
     enabled: true
     creative_bypass: true # If true, players in creative mode can place blocks
+    whitelist:
+      enabled: false
+      worlds: [] # List of worlds where block placing is disabled
   disable_block_breaking:
     enabled: true
     creative_bypass: true # If true, players in creative mode can break blocks
+    whitelist:
+      enabled: false
+      worlds: [] # List of worlds where block breaking is disabled
 
 messages:
   no_permission: "&7[&f&lS&a&lL&7] &cMissing permission!"

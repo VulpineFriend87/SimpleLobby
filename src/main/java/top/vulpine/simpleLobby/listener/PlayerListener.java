@@ -24,12 +24,12 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
 
-        if (plugin.getConfig().getBoolean("options.clear_inventory_on_join")) {
+        if (plugin.getConfig().getBoolean("options.clear_inventory_on_join.enabled")) {
             event.getPlayer().getInventory().clear();
             Logger.debug("Inventory cleared for player: " + event.getPlayer().getName());
         }
 
-        if (plugin.getConfig().getBoolean("options.clear_effects_on_join")) {
+        if (plugin.getConfig().getBoolean("options.clear_effects_on_join.enabled")) {
             event.getPlayer().getActivePotionEffects().forEach(effect ->
                     event.getPlayer().removePotionEffect(effect.getType())
             );
