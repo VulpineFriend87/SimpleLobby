@@ -28,6 +28,15 @@ spawn:
     z: 0
     yaw: 0
     pitch: 0
+  actions: # Placeholders: any PlaceholderAPI placeholder (if installed)
+    delay_started: # [actions] Placeholders: %time%; requires spawn command delay to be enabled
+      - "[MESSAGE] player; &7[&f&lS&a&lL&7] &aYou will be teleported to spawn in %time% second(s)"
+    delay_started_still: # [actions] Placeholders: %time%; requires spawn command delay to be enabled and require_player_still to be true
+      - "[MESSAGE] player; &7[&f&lS&a&lL&7] &aYou will be teleported to spawn in %time% second(s). Do not move."
+    teleport_canceled: # [actions] Requires spawn command delay to be enabled and require_player_still to be true
+      - "[MESSAGE] player; &7[&f&lS&a&lL&7] &cTeleport to spawn canceled, you moved."
+    teleported: # [actions]
+      - "[MESSAGE] player; &7[&f&lS&a&lL&7] &aYou have been teleported to spawn."
 
 actions:
   join:
@@ -83,11 +92,6 @@ options: # General world options
 messages:
   no_permission: "&7[&f&lS&a&lL&7] &cMissing permission!"
   only_players: "&7[&f&lS&a&lL&7] &cThis command can only be executed by players."
-  spawn:
-    delay_started: "&7[&f&lS&a&lL&7] &aYou will be teleported to spawn in %time% second(s)" # Placeholders: %time%; requires spawn command delay to be enabled
-    delay_started_still: "&7[&f&lS&a&lL&7] &aYou will be teleported to spawn in %time% second(s). Do not move." # Placeholders: %time%; requires spawn command delay to be enabled and require_player_still to be true
-    teleport_canceled: "&7[&f&lS&a&lL&7] &cTeleport to spawn canceled, you moved." # Requires spawn command delay to be enabled and require_player_still to be true
-    teleported: "&7[&f&lS&a&lL&7] &aYou have been teleported to spawn."
 
 # Log level for the plugin. Can be: DEBUG, INFO, WARN, ERROR.
 # Leave as it is if you don't know what to choose.
