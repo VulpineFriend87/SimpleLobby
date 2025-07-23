@@ -9,6 +9,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import top.vulpine.simpleLobby.SimpleLobby;
 import top.vulpine.simpleLobby.utils.logger.Logger;
 
@@ -108,6 +109,23 @@ public class WorldListener implements Listener {
             }
         }
 
+    }
+
+    @EventHandler
+    public void onBlockInteraction(PlayerInteractEvent event) {
+        boolean interactEnabled = plugin.getConfig().getBoolean("options.disable_block_interaction.enabled");
+        if (interactEnabled) {
+            boolean creativeBypass = plugin.getConfig().getBoolean("options.disable_block_interaction.creative_bypass");
+            if (!(event.getPlayer().getGameMode() == GameMode.CREATIVE && creativeBypass)) {
+                boolean interactWhite = plugin.getConfig().getBoolean("options.disable_block_interaction.whitelist.enabled");
+                List<String> interactWorlds = plugin.getConfig().getStringList("options.disable_block_interaction.whitelist.worlds");
+                String iw = event.getPlayer().getWorld().getName();
+                if (!interactWhite || interactWorlds.contains(iw)) {
+                    event.setCancelled(true);
+                    Logger.debug("Block interaction prevented in world: " + iw);
+                }
+            }
+        }
     }
 
 }

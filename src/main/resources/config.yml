@@ -73,6 +73,12 @@ options: # General world options
     whitelist:
       enabled: false
       worlds: [] # List of worlds where block breaking is disabled
+  disable_block_interaction:
+    enabled: true
+    creative_bypass: true # If true, players in creative mode can interact with blocks
+    whitelist:
+      enabled: false
+      worlds: [] # List of worlds where block interaction is disabled
 
 messages:
   no_permission: "&7[&f&lS&a&lL&7] &cMissing permission!"
