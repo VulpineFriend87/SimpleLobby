@@ -5,10 +5,10 @@
 <h1 align="center">SimpleLobby</h1>
 
 <p align="center">
-  <a href="https://www.spigotmc.org/">
+  <a href="https://www.spigotmc.org/resources/127262/">
     <img src="https://img.shields.io/badge/SpigotMC-f09630?style=for-the-badge&logo=spigotmc&logoColor=fff" alt="SpigotMC" />
   </a>
-  <a href="https://modrinth.com/">
+  <a href="https://modrinth.com/plugin/simplelobby">
     <img src="https://img.shields.io/badge/Modrinth-%2300AF5C?style=for-the-badge&logo=modrinth&logoColor=fff" alt="Modrinth" />
   </a>
   <a href="https://github.com/VulpineFriend87/SimpleLobby/releases/latest">
