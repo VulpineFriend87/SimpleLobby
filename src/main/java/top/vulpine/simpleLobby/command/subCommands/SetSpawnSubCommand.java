@@ -48,7 +48,13 @@ public class SetSpawnSubCommand implements SubCommand {
         command.getPlugin().saveConfig();
 
         player.sendMessage(Colorize.color(
-                "&7[&f&lS&a&lL&7] &aSuccessfully set the spawn in &f" + world + "&a to &f" + x + "&a, &f" + y + "&a, &f" + z + "&a, &fyaw:" + yaw + "&a, &fpitch:" + pitch + "&a!"
+                command.getPlugin().getConfig().getString("messages.spawn_set")
+                        .replace("%world%", world)
+                        .replace("%x%", String.valueOf(x))
+                        .replace("%y%", String.valueOf(y))
+                        .replace("%z%", String.valueOf(z))
+                        .replace("%yaw%", String.valueOf(yaw))
+                        .replace("%pitch%", String.valueOf(pitch))
         ));
 
     }

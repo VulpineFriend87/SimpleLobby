@@ -24,7 +24,8 @@ public class ReloadSubCommand implements SubCommand {
         long duration = endTime - startTime;
 
         sender.sendMessage(Colorize.color(
-                "&7[&f&lS&a&lL&7] &aConfiguration reloaded in &f" + duration + "ms&a."
+                command.getPlugin().getConfig().getString("messages.reloaded")
+                        .replace("%time%", String.valueOf(duration))
         ));
 
     }

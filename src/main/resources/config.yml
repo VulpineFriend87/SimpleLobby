@@ -92,6 +92,8 @@ options: # General world options
 messages:
   no_permission: "&7[&f&lS&a&lL&7] &cMissing permission!"
   only_players: "&7[&f&lS&a&lL&7] &cThis command can only be executed by players."
+  reloaded: "&7[&f&lS&a&lL&7] &aConfiguration reloaded in &f%time%ms&a." # Placeholders: %time%
+  spawn_set: "&7[&f&lS&a&lL&7] &aSuccessfully set the spawn in &f%world%&a at &f%x%&a, &f%y%&a, &f%z%&a, &fyaw:%yaw%&a, &fpitch:%pitch%&a." # Placeholders: %world%, %x%, %y%, %z%, %yaw%, %pitch%
 
 # Log level for the plugin. Can be: DEBUG, INFO, WARN, ERROR.
 # Leave as it is if you don't know what to choose.
