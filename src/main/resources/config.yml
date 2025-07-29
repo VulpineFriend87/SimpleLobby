@@ -40,12 +40,14 @@ spawn:
 
 actions:
   join:
+    suppress_default_message: true # If true, the default join message will not be shown
     enabled: true
     actions: # [actions] Placeholders: %player%, any PlaceholderAPI placeholder (if installed)
       - "[TITLE] player; &bWelcome to the server!; &7Enjoy your stay!; 20; 60; 20"
       - "[MESSAGE] global; &b%player% &7has joined the server."
       - "[GAMEMODE] player; adventure"
   quit:
+    suppress_default_message: true # If true, the default quit message will not be shown
     enabled: true
     actions: # [actions] Placeholders: %player%, any PlaceholderAPI placeholder (if installed)
       - "[MESSAGE] global; &b%player% &7has left the server."

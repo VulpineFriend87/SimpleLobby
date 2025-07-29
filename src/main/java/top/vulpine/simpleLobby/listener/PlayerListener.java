@@ -29,6 +29,11 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
 
+        if (plugin.getConfig().getBoolean("actions.join.suppress_default_message")) {
+            event.setJoinMessage(null);
+            Logger.debug("Join message suppressed for player: " + event.getPlayer().getName());
+        }
+
         if (plugin.getConfig().getBoolean("options.clear_inventory_on_join.enabled")) {
             event.getPlayer().getInventory().clear();
             Logger.debug("Inventory cleared for player: " + event.getPlayer().getName());
@@ -70,6 +75,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
+
+        if (plugin.getConfig().getBoolean("actions.quit.suppress_default_message")) {
+            event.setQuitMessage(null);
+            Logger.debug("Quit message suppressed for player: " + event.getPlayer().getName());
+        }
 
         if (plugin.getConfig().getBoolean("actions.quit.enabled")) {
 
