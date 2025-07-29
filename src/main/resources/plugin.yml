@@ -4,6 +4,8 @@ main: top.vulpine.simpleLobby.SimpleLobby
 api-version: '1.13'
 authors: [ VulpineFriend87 ]
 website: https://vulpine.top
+softdepend:
+  - PlaceholderAPI
 
 commands:
   simplelobby:
