@@ -6,7 +6,7 @@
 
     <groupId>top.vulpine</groupId>
     <artifactId>SimpleLobby</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <name>SimpleLobby</name>
@@ -77,6 +77,11 @@
             <artifactId>placeholderapi</artifactId>
             <version>2.11.6</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-minimessage</artifactId>
+            <version>4.25.0</version>
         </dependency>
     </dependencies>
 </project>

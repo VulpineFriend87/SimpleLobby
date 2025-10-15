@@ -1,5 +1,8 @@
 package top.vulpine.simpleLobby.utils;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 
 import java.util.List;
@@ -12,6 +15,8 @@ import java.util.regex.Pattern;
 public class Colorize {
 
     private static final Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
+    private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
+    private static final LegacyComponentSerializer LEGACY = LegacyComponentSerializer.legacySection();
 
     /**
      * Colorizes a single string.
@@ -20,7 +25,9 @@ public class Colorize {
      * @return The colorized message.
      */
     public static String color(final String message) {
-        return translateHexColorCodes(ChatColor.translateAlternateColorCodes('&', message));
+        String processed = translateHexColorCodes(ChatColor.translateAlternateColorCodes('&', message));
+        Component component = MINI_MESSAGE.deserialize(processed);
+        return LEGACY.serialize(component);
     }
 
     /**
