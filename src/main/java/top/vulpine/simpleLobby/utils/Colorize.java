@@ -14,9 +14,13 @@ import java.util.regex.Pattern;
  */
 public class Colorize {
 
-    private static final Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
-    private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
-    private static final LegacyComponentSerializer LEGACY = LegacyComponentSerializer.legacySection();
+    private static final MiniMessage MINI = MiniMessage.miniMessage();
+    private static final LegacyComponentSerializer AMP = LegacyComponentSerializer.legacyAmpersand();
+    private static final LegacyComponentSerializer SEC = LegacyComponentSerializer.legacySection();
+
+    private static final Pattern HEX = Pattern.compile("&#([A-Fa-f0-9]{6})");
+    private static final Pattern MINI_TAG = Pattern.compile("<[^>]+>");
+    private static final Pattern AMP_CODE = Pattern.compile("&([0-9A-FK-ORa-fk-or])");
 
     /**
      * Colorizes a single string.
@@ -25,9 +29,7 @@ public class Colorize {
      * @return The colorized message.
      */
     public static String color(final String message) {
-        String processed = translateHexColorCodes(ChatColor.translateAlternateColorCodes('&', message));
-        Component component = MINI_MESSAGE.deserialize(processed);
-        return LEGACY.serialize(component);
+        return SEC.serialize(toComponent(message));
     }
 
     /**
@@ -37,11 +39,11 @@ public class Colorize {
      * @return An array of colorized messages.
      */
     public static String[] color(final String[] message) {
-        String[] colored = new String[message.length];
+        String[] out = new String[message.length];
         for (int i = 0; i < message.length; i++) {
-            colored[i] = color(colored[i]);
+            out[i] = color(message[i]);
         }
-        return colored;
+        return out;
     }
 
     /**
@@ -55,29 +57,77 @@ public class Colorize {
         return message;
     }
 
-    /**
-     * Translates hex color codes in a message to Minecraft's color codes.
-     * Hex color codes are specified as &# followed by a 6-digit hex code.
-     *
-     * @param message The message containing hex color codes.
-     * @return The message with hex color codes translated to Minecraft's format.
-     */
-    public static String translateHexColorCodes(final String message) {
-        final char colorChar = ChatColor.COLOR_CHAR;
-
-        final Matcher matcher = HEX_PATTERN.matcher(message);
-        final StringBuilder buffer = new StringBuilder(message.length() + 4 * 8);
-
-        while (matcher.find()) {
-            final String group = matcher.group(1);
-
-            matcher.appendReplacement(buffer, colorChar + "x"
-                    + colorChar + group.charAt(0) + colorChar + group.charAt(1)
-                    + colorChar + group.charAt(2) + colorChar + group.charAt(3)
-                    + colorChar + group.charAt(4) + colorChar + group.charAt(5));
+    public static Component toComponent(final String message) {
+        if (looksLikeMini(message)) {
+            String normalized = convertLegacyToMini(message);
+            return MINI.deserialize(normalized);
         }
+        if (message.indexOf('§') >= 0) {
+            return SEC.deserialize(message);
+        }
+        String legacy = translateLegacyHexToSection(message);
+        legacy = ChatColor.translateAlternateColorCodes('&', legacy);
+        return SEC.deserialize(legacy);
+    }
 
-        return matcher.appendTail(buffer).toString();
+    private static boolean looksLikeMini(final String s) {
+        return MINI_TAG.matcher(s).find();
+    }
+
+    private static String convertLegacyToMini(final String s) {
+        String out = HEX.matcher(s).replaceAll("<#$1>");
+        Matcher m = AMP_CODE.matcher(out);
+        StringBuilder sb = new StringBuilder(out.length());
+        while (m.find()) {
+            char c = Character.toLowerCase(m.group(1).charAt(0));
+            String rep = switch (c) {
+                case '0' -> "<black>";
+                case '1' -> "<dark_blue>";
+                case '2' -> "<dark_green>";
+                case '3' -> "<dark_aqua>";
+                case '4' -> "<dark_red>";
+                case '5' -> "<dark_purple>";
+                case '6' -> "<gold>";
+                case '7' -> "<gray>";
+                case '8' -> "<dark_gray>";
+                case '9' -> "<blue>";
+                case 'a' -> "<green>";
+                case 'b' -> "<aqua>";
+                case 'c' -> "<red>";
+                case 'd' -> "<light_purple>";
+                case 'e' -> "<yellow>";
+                case 'f' -> "<white>";
+                case 'l' -> "<bold>";
+                case 'n' -> "<underlined>";
+                case 'o' -> "<italic>";
+                case 'm' -> "<strikethrough>";
+                case 'k' -> "<obfuscated>";
+                case 'r' -> "<reset>";
+                default -> "";
+            };
+            m.appendReplacement(sb, Matcher.quoteReplacement(rep));
+        }
+        m.appendTail(sb);
+        return sb.toString();
+    }
+
+    private static String translateLegacyHexToSection(final String message) {
+        Matcher matcher = HEX.matcher(message);
+        StringBuilder sb = new StringBuilder(message.length());
+        while (matcher.find()) {
+            String group = matcher.group(1);
+            char cc = ChatColor.COLOR_CHAR;
+            String replacement = String.valueOf(cc) + 'x' +
+                    cc + group.charAt(0) +
+                    cc + group.charAt(1) +
+                    cc + group.charAt(2) +
+                    cc + group.charAt(3) +
+                    cc + group.charAt(4) +
+                    cc + group.charAt(5);
+            matcher.appendReplacement(sb, Matcher.quoteReplacement(replacement));
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 
 }
