@@ -18,6 +18,8 @@ public final class SimpleLobby extends JavaPlugin {
 
     private ActionParser actionParser;
 
+    private static final int PLUGIN_ID = 28227;
+
     @Override
     public void onEnable() {
 
@@ -62,6 +64,9 @@ public final class SimpleLobby extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WorldListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         Logger.debug("Commands and listeners registered successfully.");
+
+        Logger.debug("Initializing metrics...");
+        Metrics metrics = new Metrics(this, PLUGIN_ID);
 
         Logger.system("SimpleLobby has been enabled successfully.");
     }
