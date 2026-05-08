@@ -9,7 +9,7 @@ import top.vulpine.simpleLobby.utils.Colorize;
 public class Logger {
 
     private static LogLevel logLevel = LogLevel.INFO;
-    private static final String prefix = "&8[&f&lSimple&a&lLobby&8] &r";
+    private static final String prefix = "<dark_gray>[<white>Simple<green>Lobby<dark_gray>] <reset>";
 
     /**
      * Initializes the Logger with a specified log level.
@@ -126,7 +126,7 @@ public class Logger {
     public static void system(String message) {
 
         String pathString = buildPathString(null);
-        Bukkit.getConsoleSender().sendMessage(Colorize.color(pathString + "&f" + message));
+        Bukkit.getConsoleSender().sendMessage(Colorize.color(pathString + message));
 
     }
 

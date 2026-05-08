@@ -36,13 +36,13 @@ public final class SimpleLobby extends JavaPlugin {
 
         String[] message = {
                 "",
-                "&f&l     _____ &a&l__",
-                "&f&l    |   __&a&l|  |",
-                "&f&l    |__   &a&l|  |__",
-                "&f&l    |_____&a&l|_____|",
+                "<white>     _____ <green>__",
+                "<white>    |   __<green>|  |",
+                "<white>    |__   <green>|  |__",
+                "<white>    |_____<green>|_____|",
                 "",
-                "&f    By &a" + String.join(", ", getDescription().getAuthors()),
-                "&f    Version: &a" + getDescription().getVersion(),
+                "<white>    By <green>" + String.join(", ", getDescription().getAuthors()),
+                "<white>    Version: <green>" + getDescription().getVersion(),
                 ""
         };
 
