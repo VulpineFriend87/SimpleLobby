@@ -2,8 +2,6 @@
   <img height="400" width="400" src="https://raw.githubusercontent.com/VulpineFriend87/SimpleLobby/refs/heads/main/logo.png" alt="SimpleLobby logo" />
 </p>
 
-<h1 align="center">SimpleLobby</h1>
-
 <p align="center">
   <a href="https://www.spigotmc.org/resources/127262/">
     <img src="https://img.shields.io/badge/SpigotMC-f09630?style=for-the-badge&logo=spigotmc&logoColor=fff" alt="SpigotMC" />
