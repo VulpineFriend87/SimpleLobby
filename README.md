@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="400" width="400" src="https://github.com/VulpineFriend87/SimpleLobby/blob/master/logo.png?raw=true" alt="SimpleLobby logo" />
+  <img height="400" width="400" src="https://raw.githubusercontent.com/VulpineFriend87/SimpleLobby/refs/heads/main/logo.png" alt="SimpleLobby logo" />
 </p>
 
 <h1 align="center">SimpleLobby</h1>
