@@ -1,5 +1,6 @@
 package top.vulpine.simpleLobby;
 
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
 import top.vulpine.simpleLobby.command.SpawnCommand;
@@ -14,6 +15,7 @@ import top.vulpine.simpleLobby.utils.logger.Logger;
  * This class initializes the plugin, sets up logging, and registers commands and event listeners.
  * It also provides access to the ActionParser for executing actions defined in the configuration.
  */
+@Getter
 public final class SimpleLobby extends JavaPlugin {
 
     private ActionParser actionParser;
@@ -71,7 +73,4 @@ public final class SimpleLobby extends JavaPlugin {
         Logger.system("SimpleLobby has been enabled successfully.");
     }
 
-    public ActionParser getActionParser() {
-        return actionParser;
-    }
 }

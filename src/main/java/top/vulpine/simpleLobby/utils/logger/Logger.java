@@ -1,11 +1,13 @@
 package top.vulpine.simpleLobby.utils.logger;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import top.vulpine.simpleLobby.utils.Colorize;
 
 /**
  * A utility class for logging messages to the console with different log levels.
  */
+@Getter
 public class Logger {
 
     private static LogLevel logLevel = LogLevel.INFO;
@@ -129,9 +131,4 @@ public class Logger {
         Bukkit.getConsoleSender().sendMessage(Colorize.color(pathString + message));
 
     }
-
-    public static String getPrefix() {
-        return prefix;
-    }
-
 }

@@ -1,5 +1,6 @@
 package top.vulpine.simpleLobby.command;
 
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Getter
 public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
 
     private final SimpleLobby plugin;
@@ -144,9 +146,5 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
             Logger.debug("Player " + player.getName() + " moved while waiting for spawn teleport, teleport canceled.");
 
         }
-    }
-
-    public SimpleLobby getPlugin() {
-        return plugin;
     }
 }

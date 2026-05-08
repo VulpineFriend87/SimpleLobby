@@ -1,5 +1,6 @@
 package top.vulpine.simpleLobby.command;
 
+import lombok.Getter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,6 +15,7 @@ import top.vulpine.simpleLobby.utils.PermissionChecker;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Getter
 public class SimpleLobbyCommand implements CommandExecutor, TabCompleter {
 
     private final SimpleLobby plugin;
@@ -94,13 +96,5 @@ public class SimpleLobbyCommand implements CommandExecutor, TabCompleter {
         }
 
         return Collections.emptyList();
-    }
-
-    public SimpleLobby getPlugin() {
-        return plugin;
-    }
-
-    public Map<String, SubCommand> getSubCommands() {
-        return subCommands;
     }
 }
