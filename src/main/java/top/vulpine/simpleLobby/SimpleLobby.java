@@ -5,6 +5,9 @@ import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
 import top.vulpine.simpleLobby.command.SpawnCommand;
 import top.vulpine.simpleLobby.listener.PlayerListener;
 import top.vulpine.simpleLobby.listener.WorldListener;
+import top.vulpine.simpleLobby.scheduler.BukkitSchedulerAdapter;
+import top.vulpine.simpleLobby.scheduler.FoliaScheduler;
+import top.vulpine.simpleLobby.scheduler.SchedulerAdapter;
 import top.vulpine.simpleLobby.utils.ActionParser;
 import top.vulpine.simpleLobby.utils.logger.LogLevel;
 import top.vulpine.simpleLobby.utils.logger.Logger;
@@ -17,6 +20,7 @@ import top.vulpine.simpleLobby.utils.logger.Logger;
 public final class SimpleLobby extends JavaPlugin {
 
     private ActionParser actionParser;
+    private SchedulerAdapter scheduler;
 
     private static final int PLUGIN_ID = 28227;
 
@@ -33,6 +37,17 @@ public final class SimpleLobby extends JavaPlugin {
             logLevel = LogLevel.INFO;
         }
         Logger.init(logLevel);
+
+        boolean folia;
+        try {
+            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+            folia = true;
+        } catch (ClassNotFoundException e) {
+            folia = false;
+        }
+        this.scheduler = folia ? new FoliaScheduler(this) : new BukkitSchedulerAdapter(this);
+        Logger.debug("Detected " + (folia ? "Folia" : "Bukkit/Spigot") + " server, using "
+                + scheduler.getClass().getSimpleName());
 
         String[] message = {
                 "",
@@ -73,5 +88,9 @@ public final class SimpleLobby extends JavaPlugin {
 
     public ActionParser getActionParser() {
         return actionParser;
+    }
+
+    public SchedulerAdapter scheduler() {
+        return scheduler;
     }
 }

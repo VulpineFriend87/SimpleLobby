@@ -10,9 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import top.vulpine.simpleLobby.SimpleLobby;
+import top.vulpine.simpleLobby.scheduler.Cancellable;
 import top.vulpine.simpleLobby.utils.ActionParser;
 import top.vulpine.simpleLobby.utils.Colorize;
 import top.vulpine.simpleLobby.utils.PermissionChecker;
@@ -29,7 +28,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
 
     private final SimpleLobby plugin;
     private final ActionParser actionParser;
-    private final Map<UUID, BukkitTask> tasks = new ConcurrentHashMap<>();
+    private final Map<UUID, Cancellable> tasks = new ConcurrentHashMap<>();
     private final Map<UUID, Location> locations = new ConcurrentHashMap<>();
 
     public SpawnCommand(SimpleLobby plugin) {
@@ -76,30 +75,22 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
                 UUID uuid = player.getUniqueId();
                 locations.put(uuid, player.getLocation().clone());
 
-                BukkitTask task = new BukkitRunnable() {
+                Cancellable task = plugin.scheduler().runEntityLater(player, () -> {
+                    PlayerUtils.teleportPlayer(plugin, player);
+                    tasks.remove(uuid);
+                    locations.remove(uuid);
 
-                    @Override
-                    public void run() {
-                        PlayerUtils.teleportPlayer(plugin, player);
-                        tasks.remove(uuid);
-                        locations.remove(uuid);
-
-                        List<String> teleportActions = plugin.getConfig().getStringList("spawn.actions.teleported");
-                        actionParser.executeActions(teleportActions, player, 0, new HashMap<>());
-                    }
-
-                }.runTaskLater(plugin, seconds * 20L);
+                    List<String> teleportActions = plugin.getConfig().getStringList("spawn.actions.teleported");
+                    actionParser.executeActions(teleportActions, player, 0, new HashMap<>());
+                }, seconds * 20L);
 
                 tasks.put(uuid, task);
 
             } else {
 
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        PlayerUtils.teleportPlayer(plugin, player);
-                    }
-                }.runTaskLater(plugin, seconds * 20L);
+                plugin.scheduler().runEntityLater(player,
+                        () -> PlayerUtils.teleportPlayer(plugin, player),
+                        seconds * 20L);
 
             }
 
@@ -134,7 +125,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
 
         if (from.getBlockX() != to.getBlockX() || from.getBlockY() != to.getBlockY() || from.getBlockZ() != to.getBlockZ()) {
 
-            BukkitTask task = tasks.remove(uuid);
+            Cancellable task = tasks.remove(uuid);
             if (task != null) task.cancel();
             locations.remove(uuid);
 

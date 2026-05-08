@@ -123,9 +123,9 @@ public class ActionParser {
         String command = parts[1].trim().replace("%player%", player.getName());
 
         if (target.equalsIgnoreCase("console")) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+            plugin.scheduler().runGlobal(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
         } else if (target.equalsIgnoreCase("player")) {
-            player.performCommand(command);
+            plugin.scheduler().runEntity(player, () -> player.performCommand(command));
         }
 
     }
@@ -153,10 +153,10 @@ public class ActionParser {
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                p.setGameMode(gamemode);
+                plugin.scheduler().runEntity(p, () -> p.setGameMode(gamemode));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            player.setGameMode(gamemode);
+            plugin.scheduler().runEntity(player, () -> player.setGameMode(gamemode));
         }
 
     }
@@ -282,8 +282,11 @@ public class ActionParser {
     private void executeDelay(String params, List<String> actions, Player player, int nextIndex, Map<String, String> placeholders) {
 
         int delay = Integer.parseInt(params.trim());
+        long ticks = delay / 50L;
 
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> executeActions(actions, player, nextIndex, placeholders), delay / 50L);
+        plugin.scheduler().runEntityLater(player,
+                () -> executeActions(actions, player, nextIndex, placeholders),
+                ticks);
 
     }
 
