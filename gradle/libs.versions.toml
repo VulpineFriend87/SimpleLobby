@@ -1,0 +1,20 @@
+[versions]
+spigot = "1.13-R0.1-SNAPSHOT"
+papi = "2.11.6"
+
+minimessage = "4.25.0"
+minimessage-legacy = "4.25.0"
+
+shadow = "9.3.0"
+lombok = "9.2.0"
+
+[libraries]
+spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
+papi = { module = "me.clip:placeholderapi", version.ref = "papi" }
+
+minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "minimessage" }
+minimessage-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "minimessage-legacy" }
+
+[plugins ]
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+lombok = { id = "io.freefair.lombok", version.ref = "lombok" }
