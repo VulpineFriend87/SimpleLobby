@@ -54,7 +54,6 @@ Missing permissions will show a configurable "no permission" message.
 
 ## Requirements
 
-- Minecraft server version 1.13 to 1.21
 - [PlaceholderAPI](https://github.com/PlaceholderAPI/PlaceholderAPI) (optional for placeholder support)
 
 ## Support & Documentation
