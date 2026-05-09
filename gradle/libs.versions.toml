@@ -1,5 +1,5 @@
 [versions]
-spigot = "1.13-R0.1-SNAPSHOT"
+spigot = "1.17-R0.1-SNAPSHOT"
 bungeecord-chat = "1.16-R0.4"
 papi = "2.11.6"
 

@@ -18,9 +18,7 @@ dependencies {
     implementation(libs.minimessage)
     implementation(libs.minimessage.legacy)
 
-    compileOnly(libs.spigot) {
-        exclude(group = "net.md-5", module = "bungeecord-chat")
-    }
+    compileOnly(libs.spigot)
     compileOnly(libs.bungeecord.chat)
     compileOnly(libs.papi)
 }
@@ -31,8 +29,8 @@ version = "1.2.2"
 description = "SimpleLobby"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 tasks {
