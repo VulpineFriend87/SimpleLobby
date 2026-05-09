@@ -1,13 +1,18 @@
-name: Build
+name: CI & Release
 
 on:
   push:
+    branches: [ "main" ]
+    tags: [ "v*" ]
   pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    outputs:
+      version: ${{ steps.version.outputs.VERSION }}
+      type: ${{ steps.type.outputs.TYPE }}
     steps:
       - uses: actions/checkout@v4
 
@@ -23,9 +28,87 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: Upload artifacts (entire libs folder)
+      - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: jars
-          path: build/libs/**
-          retention-days: 30
+          name: plugin-jar
+          path: build/libs/*.jar
+          retention-days: 1
+
+      - name: Extract version
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      - name: Detect release type
+        id: type
+        run: |
+          if [[ "${{ steps.version.outputs.VERSION }}" == *"alpha"* ]]; then
+            echo "TYPE=alpha" >> $GITHUB_OUTPUT
+          elif [[ "${{ steps.version.outputs.VERSION }}" == *"beta"* ]]; then
+            echo "TYPE=beta" >> $GITHUB_OUTPUT
+          else
+            echo "TYPE=release" >> $GITHUB_OUTPUT
+          fi
+
+  publish:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: plugin-jar
+          path: build/libs
+
+      - name: Upload to Modrinth
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: 3QWfMhOv
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          files: build/libs/*.jar
+          version: ${{ needs.build.outputs.version }}
+          name: ${{ needs.build.outputs.version }}
+          version-type: ${{ needs.build.outputs.type }}
+
+          loaders: |
+            paper
+            spigot
+            purpur
+
+          game-versions: |
+            1.17
+            1.17.1
+            1.18
+            1.18.1
+            1.18.2
+            1.19
+            1.19.1
+            1.19.2
+            1.19.3
+            1.19.4
+            1.20
+            1.20.1
+            1.20.2
+            1.20.3
+            1.20.4
+            1.20.5
+            1.20.6
+            1.21
+            1.21.1
+            1.21.2
+            1.21.3
+            1.21.4
+            1.21.5
+            1.21.6
+            1.21.7
+            1.21.8
+            1.21.9
+            1.21.10
+            1.21.11
+            26.1
+            26.1.1
+            26.1.2
