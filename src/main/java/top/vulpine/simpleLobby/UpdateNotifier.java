@@ -39,7 +39,7 @@ public class UpdateNotifier implements Listener {
             URL url = new URL("https://api.modrinth.com/v2/project/" + projectSlug + "/version");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
-            con.setRequestProperty("User-Agent", "VulpineDevelopment/SimpleLobby/" + plugin.getDescription().getVersion());
+            con.setRequestProperty("User-Agent", "SimpleLobby/" + plugin.getDescription().getVersion());
             con.setConnectTimeout(5000);
             con.setReadTimeout(5000);
 
