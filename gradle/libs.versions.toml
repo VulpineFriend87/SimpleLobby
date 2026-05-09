@@ -1,5 +1,6 @@
 [versions]
 spigot = "1.13-R0.1-SNAPSHOT"
+bungeecord-chat = "1.16-R0.4"
 papi = "2.11.6"
 
 minimessage = "4.25.0"
@@ -10,6 +11,7 @@ lombok = "9.2.0"
 
 [libraries]
 spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
+bungeecord-chat = { module = "net.md-5:bungeecord-chat", version.ref = "bungeecord-chat" }
 papi = { module = "me.clip:placeholderapi", version.ref = "papi" }
 
 minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "minimessage" }

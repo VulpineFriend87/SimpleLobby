@@ -18,7 +18,10 @@ dependencies {
     implementation(libs.minimessage)
     implementation(libs.minimessage.legacy)
 
-    compileOnly(libs.spigot)
+    compileOnly(libs.spigot) {
+        exclude(group = "net.md-5", module = "bungeecord-chat")
+    }
+    compileOnly(libs.bungeecord.chat)
     compileOnly(libs.papi)
 }
 
