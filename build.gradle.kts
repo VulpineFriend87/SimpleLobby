@@ -25,7 +25,7 @@ dependencies {
 
 group = "top.vulpine"
 val packageName = "simpleLobby"
-version = "1.2.2"
+version = "1.2.3"
 description = "SimpleLobby"
 
 java {
