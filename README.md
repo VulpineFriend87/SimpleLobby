@@ -9,9 +9,6 @@
   <a href="https://modrinth.com/plugin/simplelobby">
     <img src="https://img.shields.io/badge/Modrinth-%2300AF5C?style=for-the-badge&logo=modrinth&logoColor=fff" alt="Modrinth" />
   </a>
-  <a href="https://github.com/VulpineFriend87/SimpleLobby/releases/latest">
-    <img src="https://img.shields.io/github/v/release/VulpineFriend87/SimpleLobby?style=for-the-badge" alt="GitHub Latest Version" />
-  </a>
 </p>
 
 <br><br>
