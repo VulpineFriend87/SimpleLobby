@@ -70,7 +70,7 @@ public final class SimpleLobby extends JavaPlugin {
         Logger.debug("Initializing metrics...");
         Metrics metrics = new Metrics(this, PLUGIN_ID);
 
-        new UpdateNotifier(this, "VulpineFriend87/SimpleLobby",
+        new UpdateNotifier(this, "simplelobby",
                 "<gray>[<b><white>S<green>L<gray></b>] <white>A new version of SimpleLobby is available! <gray>(<st>%current%</st> <green>%new%<gray>)");
 
         Logger.system("SimpleLobby has been enabled successfully.");
