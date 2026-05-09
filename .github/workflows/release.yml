@@ -50,7 +50,10 @@ jobs:
           name: ${{ steps.version.outputs.VERSION }}
           version-type: ${{ steps.type.outputs.TYPE }}
 
-          loaders: paper,spigot,purpur
+          loaders: |
+            paper
+            spigot
+            purpur
 
           game-versions: |
             1.13
