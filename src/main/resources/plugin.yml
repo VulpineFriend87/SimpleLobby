@@ -2,6 +2,7 @@ name: SimpleLobby
 version: '1.2.3'
 main: top.vulpine.simpleLobby.SimpleLobby
 api-version: '1.13'
+folia-supported: true
 authors: [ VulpineFriend87 ]
 website: https://vulpine.top
 softdepend:

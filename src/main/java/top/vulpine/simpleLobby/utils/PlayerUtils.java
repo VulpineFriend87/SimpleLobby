@@ -35,7 +35,7 @@ public class PlayerUtils {
         float yaw = (float) config.getDouble("spawn.location.yaw");
         float pitch = (float) config.getDouble("spawn.location.pitch");
 
-        player.teleport(new Location(world, x, y, z, yaw, pitch));
+        plugin.getScheduler().teleport(player, new Location(world, x, y, z, yaw, pitch));
 
         Logger.debug("Teleported player " + player.getName() + " to spawn at " + world + " (" + x + ", " + y + ", " + z + ")");
 

@@ -8,30 +8,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import top.vulpine.simpleLobby.utils.Colorize;
 import top.vulpine.simpleLobby.utils.PermissionChecker;
 
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class UpdateNotifier implements Listener {
 
-    private final JavaPlugin plugin;
+    private final SimpleLobby plugin;
     private final String projectSlug;
     private final String message;
     private volatile String cachedLatestVersion;
 
-    public UpdateNotifier(JavaPlugin plugin, String projectSlug, String message) {
+    public UpdateNotifier(SimpleLobby plugin, String projectSlug, String message) {
         this.plugin = plugin;
         this.projectSlug = projectSlug;
         this.message = message;
 
         Bukkit.getPluginManager().registerEvents(this, plugin);
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, this::updateCache);
-        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this::updateCache, 20L * 60L * 30L, 20L * 60L * 30L);
+        plugin.getScheduler().runAsync(this::updateCache);
+        plugin.getScheduler().runAsyncRepeating(this::updateCache, 30, 30, TimeUnit.MINUTES);
     }
 
     private void updateCache() {

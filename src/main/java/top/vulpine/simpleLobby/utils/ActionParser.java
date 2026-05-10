@@ -123,9 +123,9 @@ public class ActionParser {
         String command = parts[1].trim().replace("%player%", player.getName());
 
         if (target.equalsIgnoreCase("console")) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+            plugin.getScheduler().runGlobal(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
         } else if (target.equalsIgnoreCase("player")) {
-            player.performCommand(command);
+            plugin.getScheduler().runEntity(player, () -> player.performCommand(command));
         }
 
     }
@@ -153,10 +153,10 @@ public class ActionParser {
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                p.setGameMode(gamemode);
+                plugin.getScheduler().runEntity(p, () -> p.setGameMode(gamemode));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            player.setGameMode(gamemode);
+            plugin.getScheduler().runEntity(player, () -> player.setGameMode(gamemode));
         }
 
     }
@@ -180,17 +180,16 @@ public class ActionParser {
         int stay = parts.length > 4 ? Integer.parseInt(parts[4].trim()) : 40;
         int fadeOut = parts.length > 5 ? Integer.parseInt(parts[5].trim()) : 10;
 
-        title = replacePlaceholders(player, title, placeholders);
-        subtitle = replacePlaceholders(player, subtitle, placeholders);
+        String finalTitle = replacePlaceholders(player, title, placeholders);
+        String finalSubtitle = replacePlaceholders(player, subtitle, placeholders);
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                p.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+                plugin.getScheduler().runEntity(p, () -> p.sendTitle(finalTitle, finalSubtitle, fadeIn, stay, fadeOut));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+            plugin.getScheduler().runEntity(player, () -> player.sendTitle(finalTitle, finalSubtitle, fadeIn, stay, fadeOut));
         }
-
     }
 
     /**
@@ -209,10 +208,10 @@ public class ActionParser {
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+                plugin.getScheduler().runEntity(p, () -> p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message)));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+            plugin.getScheduler().runEntity(player, () -> player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message)));
         }
 
     }
@@ -231,14 +230,14 @@ public class ActionParser {
         String target = parts[0].trim();
         String message = Colorize.color(parts[1].trim());
 
-        message = replacePlaceholders(player, message, placeholders);
+        String finalMessage = replacePlaceholders(player, message, placeholders);
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                p.sendMessage(message);
+                plugin.getScheduler().runEntity(p, () -> p.sendMessage(finalMessage));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            player.sendMessage(message);
+            plugin.getScheduler().runEntity(player, () -> player.sendMessage(finalMessage));
         }
 
     }
@@ -262,10 +261,10 @@ public class ActionParser {
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                p.playSound(p.getLocation(), sound, volume, pitch);
+                plugin.getScheduler().runEntity(p, () -> p.playSound(p.getLocation(), sound, volume, pitch));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            player.playSound(player.getLocation(), sound, volume, pitch);
+            plugin.getScheduler().runEntity(player, () -> player.playSound(player.getLocation(), sound, volume, pitch));
         }
 
     }
@@ -282,8 +281,11 @@ public class ActionParser {
     private void executeDelay(String params, List<String> actions, Player player, int nextIndex, Map<String, String> placeholders) {
 
         int delay = Integer.parseInt(params.trim());
+        long ticks = delay / 50L;
 
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> executeActions(actions, player, nextIndex, placeholders), delay / 50L);
+        plugin.getScheduler().runEntityLater(player,
+                () -> executeActions(actions, player, nextIndex, placeholders),
+                ticks);
 
     }
 
