@@ -1,5 +1,6 @@
 package top.vulpine.simpleLobby.command;
 
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Getter
 public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
 
     private final SimpleLobby plugin;
@@ -75,7 +77,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
                 UUID uuid = player.getUniqueId();
                 locations.put(uuid, player.getLocation().clone());
 
-                Cancellable task = plugin.scheduler().runEntityLater(player, () -> {
+                Cancellable task = plugin.getScheduler().runEntityLater(player, () -> {
                     PlayerUtils.teleportPlayer(plugin, player);
                     tasks.remove(uuid);
                     locations.remove(uuid);
@@ -88,7 +90,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
 
             } else {
 
-                plugin.scheduler().runEntityLater(player,
+                plugin.getScheduler().runEntityLater(player,
                         () -> PlayerUtils.teleportPlayer(plugin, player),
                         seconds * 20L);
 
@@ -135,9 +137,5 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
             Logger.debug("Player " + player.getName() + " moved while waiting for spawn teleport, teleport canceled.");
 
         }
-    }
-
-    public SimpleLobby getPlugin() {
-        return plugin;
     }
 }

@@ -7,14 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 /**
- * Folia implementation of {@link SchedulerAdapter}, using reflection so the plugin
- * still compiles against and runs on plain Spigot.
- *
- * This class is only loaded when Folia is detected at startup, so the missing
- * Paper/Folia classes never trigger a {@link NoClassDefFoundError} on Spigot.
+ * Folia implementation of {@link SchedulerAdapter} using reflection.
  */
 public class FoliaScheduler implements SchedulerAdapter {
 
@@ -26,6 +23,9 @@ public class FoliaScheduler implements SchedulerAdapter {
     private final Method bukkitGetGlobalScheduler;
     private final Method globalSchedulerExecute;
     private final Method globalSchedulerRunDelayed;
+    private final Method asyncSchedulerRunNow;
+    private final Method asyncSchedulerRunDelayed;
+    private final Method asyncSchedulerRunAtFixedRate;
     private final Method scheduledTaskCancel;
     private final Method playerTeleportAsync;
 
@@ -34,23 +34,24 @@ public class FoliaScheduler implements SchedulerAdapter {
         try {
             this.entityGetScheduler = Entity.class.getMethod("getScheduler");
 
-            Class<?> entitySchedulerCls = Class.forName(
-                    "io.papermc.paper.threadedregions.scheduler.EntityScheduler");
-            this.entitySchedulerRun = entitySchedulerCls.getMethod(
-                    "run", Plugin.class, Consumer.class, Runnable.class);
-            this.entitySchedulerRunDelayed = entitySchedulerCls.getMethod(
-                    "runDelayed", Plugin.class, Consumer.class, Runnable.class, long.class);
+            Class<?> entitySchedulerCls = Class.forName("io.papermc.paper.threadedregions.scheduler.EntityScheduler");
+            this.entitySchedulerRun = entitySchedulerCls.getMethod("run", Plugin.class, Consumer.class, Runnable.class);
+            this.entitySchedulerRunDelayed = entitySchedulerCls.getMethod("runDelayed", Plugin.class, Consumer.class, Runnable.class, long.class);
 
             this.bukkitGetGlobalScheduler = Bukkit.class.getMethod("getGlobalRegionScheduler");
-            Class<?> globalSchedulerCls = Class.forName(
-                    "io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler");
-            this.globalSchedulerExecute = globalSchedulerCls.getMethod(
-                    "execute", Plugin.class, Runnable.class);
-            this.globalSchedulerRunDelayed = globalSchedulerCls.getMethod(
-                    "runDelayed", Plugin.class, Consumer.class, long.class);
+            Class<?> globalSchedulerCls = Class.forName("io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler");
+            this.globalSchedulerExecute = globalSchedulerCls.getMethod("execute", Plugin.class, Runnable.class);
+            this.globalSchedulerRunDelayed = globalSchedulerCls.getMethod("runDelayed", Plugin.class, Consumer.class, long.class);
 
-            Class<?> scheduledTaskCls = Class.forName(
-                    "io.papermc.paper.threadedregions.scheduler.ScheduledTask");
+            Method getAsyncScheduler = Bukkit.class.getMethod("getServer");
+            Object server = getAsyncScheduler.invoke(null);
+            Method serverAsync = server.getClass().getMethod("getAsyncScheduler");
+            Class<?> asyncSchedulerCls = Class.forName("io.papermc.paper.threadedregions.scheduler.AsyncScheduler");
+            this.asyncSchedulerRunNow = asyncSchedulerCls.getMethod("runNow", Plugin.class, Consumer.class);
+            this.asyncSchedulerRunDelayed = asyncSchedulerCls.getMethod("runDelayed", Plugin.class, Consumer.class, long.class, TimeUnit.class);
+            this.asyncSchedulerRunAtFixedRate = asyncSchedulerCls.getMethod("runAtFixedRate", Plugin.class, Consumer.class, long.class, long.class, TimeUnit.class);
+
+            Class<?> scheduledTaskCls = Class.forName("io.papermc.paper.threadedregions.scheduler.ScheduledTask");
             this.scheduledTaskCancel = scheduledTaskCls.getMethod("cancel");
 
             this.playerTeleportAsync = Player.class.getMethod("teleportAsync", Location.class);
@@ -104,6 +105,48 @@ public class FoliaScheduler implements SchedulerAdapter {
             return cancellableOf(scheduledTask);
         } catch (ReflectiveOperationException e) {
             plugin.getLogger().warning("FoliaScheduler#runGlobalLater failed: " + e.getMessage());
+            return Cancellable.NOOP;
+        }
+    }
+
+    @Override
+    public Cancellable runAsync(Runnable task) {
+        try {
+            Object server = Bukkit.class.getMethod("getServer").invoke(null);
+            Object asyncSched = server.getClass().getMethod("getAsyncScheduler").invoke(server);
+            Consumer<Object> consumer = ignored -> task.run();
+            Object scheduledTask = asyncSchedulerRunNow.invoke(asyncSched, plugin, consumer);
+            return cancellableOf(scheduledTask);
+        } catch (ReflectiveOperationException e) {
+            plugin.getLogger().warning("FoliaScheduler#runAsync failed: " + e.getMessage());
+            return Cancellable.NOOP;
+        }
+    }
+
+    @Override
+    public Cancellable runAsyncLater(Runnable task, long delay, TimeUnit unit) {
+        try {
+            Object server = Bukkit.class.getMethod("getServer").invoke(null);
+            Object asyncSched = server.getClass().getMethod("getAsyncScheduler").invoke(server);
+            Consumer<Object> consumer = ignored -> task.run();
+            Object scheduledTask = asyncSchedulerRunDelayed.invoke(asyncSched, plugin, consumer, Math.max(1L, delay), unit);
+            return cancellableOf(scheduledTask);
+        } catch (ReflectiveOperationException e) {
+            plugin.getLogger().warning("FoliaScheduler#runAsyncLater failed: " + e.getMessage());
+            return Cancellable.NOOP;
+        }
+    }
+
+    @Override
+    public Cancellable runAsyncRepeating(Runnable task, long initialDelay, long period, TimeUnit unit) {
+        try {
+            Object server = Bukkit.class.getMethod("getServer").invoke(null);
+            Object asyncSched = server.getClass().getMethod("getAsyncScheduler").invoke(server);
+            Consumer<Object> consumer = ignored -> task.run();
+            Object scheduledTask = asyncSchedulerRunAtFixedRate.invoke(asyncSched, plugin, consumer, Math.max(1L, initialDelay), Math.max(1L, period), unit);
+            return cancellableOf(scheduledTask);
+        } catch (ReflectiveOperationException e) {
+            plugin.getLogger().warning("FoliaScheduler#runAsyncRepeating failed: " + e.getMessage());
             return Cancellable.NOOP;
         }
     }

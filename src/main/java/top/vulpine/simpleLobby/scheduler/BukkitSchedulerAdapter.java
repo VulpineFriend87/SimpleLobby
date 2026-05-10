@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.concurrent.TimeUnit;
+
 public class BukkitSchedulerAdapter implements SchedulerAdapter {
 
     private final Plugin plugin;
@@ -42,6 +44,27 @@ public class BukkitSchedulerAdapter implements SchedulerAdapter {
     @Override
     public Cancellable runGlobalLater(Runnable task, long ticks) {
         BukkitTask bt = Bukkit.getScheduler().runTaskLater(plugin, task, Math.max(1L, ticks));
+        return bt::cancel;
+    }
+
+    @Override
+    public Cancellable runAsync(Runnable task) {
+        BukkitTask bt = Bukkit.getScheduler().runTaskAsynchronously(plugin, task);
+        return bt::cancel;
+    }
+
+    @Override
+    public Cancellable runAsyncLater(Runnable task, long delay, TimeUnit unit) {
+        long ticks = Math.max(1L, unit.toMillis(delay) / 50L);
+        BukkitTask bt = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, task, ticks);
+        return bt::cancel;
+    }
+
+    @Override
+    public Cancellable runAsyncRepeating(Runnable task, long initialDelay, long period, TimeUnit unit) {
+        long delayTicks = Math.max(1L, unit.toMillis(initialDelay) / 50L);
+        long periodTicks = Math.max(1L, unit.toMillis(period) / 50L);
+        BukkitTask bt = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, task, delayTicks, periodTicks);
         return bt::cancel;
     }
 

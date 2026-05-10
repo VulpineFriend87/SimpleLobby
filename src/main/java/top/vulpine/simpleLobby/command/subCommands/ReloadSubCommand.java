@@ -1,5 +1,6 @@
 package top.vulpine.simpleLobby.command.subCommands;
 
+import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
 import top.vulpine.simpleLobby.instance.SubCommand;
@@ -7,6 +8,7 @@ import top.vulpine.simpleLobby.utils.Colorize;
 
 import java.util.List;
 
+@Getter
 public class ReloadSubCommand implements SubCommand {
 
     private final SimpleLobbyCommand command;
@@ -33,9 +35,4 @@ public class ReloadSubCommand implements SubCommand {
     public List<String> executeTabComplete(CommandSender sender, String[] args) {
         return List.of();
     }
-
-    public SimpleLobbyCommand getCommand() {
-        return command;
-    }
-
 }

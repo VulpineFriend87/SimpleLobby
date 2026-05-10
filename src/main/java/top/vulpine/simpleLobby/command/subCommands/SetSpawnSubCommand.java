@@ -1,5 +1,6 @@
 package top.vulpine.simpleLobby.command.subCommands;
 
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,6 +11,7 @@ import top.vulpine.simpleLobby.utils.Colorize;
 
 import java.util.List;
 
+@Getter
 public class SetSpawnSubCommand implements SubCommand {
 
     private final SimpleLobbyCommand command;
@@ -61,9 +63,5 @@ public class SetSpawnSubCommand implements SubCommand {
 
     public List<String> executeTabComplete(CommandSender sender, String[] args) {
         return List.of();
-    }
-
-    public SimpleLobbyCommand getCommand() {
-        return command;
     }
 }

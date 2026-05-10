@@ -1,8 +1,6 @@
 <p align="center">
-  <img height="400" width="400" src="https://github.com/VulpineFriend87/SimpleLobby/blob/master/logo.png?raw=true" alt="SimpleLobby logo" />
+  <img height="400" width="400" src="https://raw.githubusercontent.com/VulpineFriend87/SimpleLobby/refs/heads/main/logo.png" alt="SimpleLobby logo" />
 </p>
-
-<h1 align="center">SimpleLobby</h1>
 
 <p align="center">
   <a href="https://www.spigotmc.org/resources/127262/">
@@ -10,9 +8,6 @@
   </a>
   <a href="https://modrinth.com/plugin/simplelobby">
     <img src="https://img.shields.io/badge/Modrinth-%2300AF5C?style=for-the-badge&logo=modrinth&logoColor=fff" alt="Modrinth" />
-  </a>
-  <a href="https://github.com/VulpineFriend87/SimpleLobby/releases/latest">
-    <img src="https://img.shields.io/github/v/release/VulpineFriend87/SimpleLobby?style=for-the-badge" alt="GitHub Latest Version" />
   </a>
 </p>
 
@@ -59,7 +54,6 @@ Missing permissions will show a configurable "no permission" message.
 
 ## Requirements
 
-- Minecraft server version 1.13 to 1.21
 - [PlaceholderAPI](https://github.com/PlaceholderAPI/PlaceholderAPI) (optional for placeholder support)
 
 ## Support & Documentation

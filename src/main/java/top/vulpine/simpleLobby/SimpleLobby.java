@@ -1,5 +1,6 @@
 package top.vulpine.simpleLobby;
 
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
 import top.vulpine.simpleLobby.command.SpawnCommand;
@@ -17,6 +18,7 @@ import top.vulpine.simpleLobby.utils.logger.Logger;
  * This class initializes the plugin, sets up logging, and registers commands and event listeners.
  * It also provides access to the ActionParser for executing actions defined in the configuration.
  */
+@Getter
 public final class SimpleLobby extends JavaPlugin {
 
     private ActionParser actionParser;
@@ -51,13 +53,13 @@ public final class SimpleLobby extends JavaPlugin {
 
         String[] message = {
                 "",
-                "&f&l     _____ &a&l__",
-                "&f&l    |   __&a&l|  |",
-                "&f&l    |__   &a&l|  |__",
-                "&f&l    |_____&a&l|_____|",
+                "<white>     _____ <green>__",
+                "<white>    |   __<green>|  |",
+                "<white>    |__   <green>|  |__",
+                "<white>    |_____<green>|_____|",
                 "",
-                "&f    By &a" + String.join(", ", getDescription().getAuthors()),
-                "&f    Version: &a" + getDescription().getVersion(),
+                "<white>    By <green>" + String.join(", ", getDescription().getAuthors()),
+                "<white>    Version: <green>" + getDescription().getVersion(),
                 ""
         };
 
@@ -83,14 +85,10 @@ public final class SimpleLobby extends JavaPlugin {
         Logger.debug("Initializing metrics...");
         Metrics metrics = new Metrics(this, PLUGIN_ID);
 
+        new UpdateNotifier(this, "simplelobby",
+                "<gray>[<b><white>S<green>L<gray></b>] <white>A new version of SimpleLobby is available! <gray>(<st>%current%</st> <green>%new%<gray>)");
+
         Logger.system("SimpleLobby has been enabled successfully.");
     }
 
-    public ActionParser getActionParser() {
-        return actionParser;
-    }
-
-    public SchedulerAdapter scheduler() {
-        return scheduler;
-    }
 }
