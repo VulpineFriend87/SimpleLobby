@@ -69,7 +69,6 @@ public final class SimpleLobby extends JavaPlugin {
 
         Logger.debug("Loading Action Parser...");
         actionParser = new ActionParser(this);
-        Logger.debug("Action Parser loaded successfully.");
 
         Logger.debug("Registering commands and listeners...");
         getCommand("simplelobby").setExecutor(new SimpleLobbyCommand(this));
@@ -80,7 +79,6 @@ public final class SimpleLobby extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new WorldListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-        Logger.debug("Commands and listeners registered successfully.");
 
         Logger.debug("Initializing metrics...");
         Metrics metrics = new Metrics(this, PLUGIN_ID);
