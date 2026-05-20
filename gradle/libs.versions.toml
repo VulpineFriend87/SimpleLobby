@@ -5,6 +5,7 @@ papi = "2.11.6"
 
 minimessage = "4.25.0"
 minimessage-legacy = "4.25.0"
+bstats = "3.2.1"
 
 shadow = "9.3.0"
 lombok = "9.2.0"
@@ -16,6 +17,7 @@ papi = { module = "me.clip:placeholderapi", version.ref = "papi" }
 
 minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "minimessage" }
 minimessage-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "minimessage-legacy" }
+bstats = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
 
 [plugins ]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

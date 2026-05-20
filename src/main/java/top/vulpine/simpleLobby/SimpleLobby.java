@@ -1,6 +1,7 @@
 package top.vulpine.simpleLobby;
 
 import lombok.Getter;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
 import top.vulpine.simpleLobby.command.SpawnCommand;

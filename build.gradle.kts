@@ -17,6 +17,7 @@ repositories {
 dependencies {
     implementation(libs.minimessage)
     implementation(libs.minimessage.legacy)
+    implementation(libs.bstats)
 
     compileOnly(libs.spigot)
     compileOnly(libs.bungeecord.chat)
@@ -47,6 +48,7 @@ tasks {
         }
 
         shade("net.kyori.adventure", "adventure")
+        shade("org.bstats", "bstats")
     }
 
     build {
