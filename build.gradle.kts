@@ -12,11 +12,14 @@ repositories {
     maven("https://oss.sonatype.org/content/groups/public/")
     maven("https://oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.extendedclip.com/releases/")
+    maven("https://repo.okaeri.cloud/releases")
 }
 
 dependencies {
     implementation(libs.minimessage)
     implementation(libs.minimessage.legacy)
+    implementation(libs.okaeri)
+    implementation(libs.okaeri.serdes)
     implementation(libs.bstats)
 
     compileOnly(libs.spigot)
@@ -48,6 +51,7 @@ tasks {
         }
 
         shade("net.kyori.adventure", "adventure")
+        shade("eu.okaeri", "okaeri")
         shade("org.bstats", "bstats")
     }
 

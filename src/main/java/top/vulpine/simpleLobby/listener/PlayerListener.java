@@ -1,6 +1,5 @@
 package top.vulpine.simpleLobby.listener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,29 +28,29 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
 
-        if (plugin.getConfig().getBoolean("actions.join.suppress_default_message")) {
+        if (plugin.getConfiguration().actions.join.suppressDefaultMessage) {
             event.setJoinMessage(null);
             Logger.debug("Join message suppressed for player: " + event.getPlayer().getName());
         }
 
-        if (plugin.getConfig().getBoolean("options.clear_inventory_on_join.enabled")) {
+        if (plugin.getConfiguration().options.clearInventoryOnJoin.enabled) {
             event.getPlayer().getInventory().clear();
             Logger.debug("Inventory cleared for player: " + event.getPlayer().getName());
         }
 
-        if (plugin.getConfig().getBoolean("options.clear_effects_on_join.enabled")) {
+        if (plugin.getConfiguration().options.clearEffectsOnJoin.enabled) {
             event.getPlayer().getActivePotionEffects().forEach(effect ->
                     event.getPlayer().removePotionEffect(effect.getType())
             );
             Logger.debug("Potion effects cleared for player: " + event.getPlayer().getName());
         }
 
-        if (plugin.getConfig().getBoolean("actions.join.enabled")) {
+        if (plugin.getConfiguration().actions.join.enabled) {
 
             Map<String, String> placeholders = new HashMap<>();
             placeholders.put("%player%", event.getPlayer().getName());
 
-            plugin.getActionParser().executeActions(plugin.getConfig().getStringList("actions.join.actions"),
+            plugin.getActionParser().executeActions(plugin.getConfiguration().actions.join.actions,
                     event.getPlayer(),
                     0,
                     placeholders
@@ -59,15 +58,10 @@ public class PlayerListener implements Listener {
 
         }
 
-        if (plugin.getConfig().getBoolean("spawn.tp_on_join")) {
+        if (plugin.getConfiguration().spawn.tpOnJoin) {
 
-            String world = plugin.getConfig().getString("spawn.location.world");
-            World worldObj = Bukkit.getWorld(world);
-            if (worldObj == null) {
-                Logger.warn("World '" + world + "' not found. Cannot teleport player to spawn.");
-            } else {
-                PlayerUtils.teleportPlayer(plugin, event.getPlayer());
-            }
+            World world = plugin.getConfiguration().spawn.location.getWorld();
+            PlayerUtils.teleportPlayer(plugin, event.getPlayer());
 
         }
 
@@ -76,17 +70,17 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
 
-        if (plugin.getConfig().getBoolean("actions.quit.suppress_default_message")) {
+        if (plugin.getConfiguration().actions.quit.suppressDefaultMessage) {
             event.setQuitMessage(null);
             Logger.debug("Quit message suppressed for player: " + event.getPlayer().getName());
         }
 
-        if (plugin.getConfig().getBoolean("actions.quit.enabled")) {
+        if (plugin.getConfiguration().actions.quit.enabled) {
 
             Map<String, String> placeholders = new HashMap<>();
             placeholders.put("%player%", event.getPlayer().getName());
 
-            plugin.getActionParser().executeActions(plugin.getConfig().getStringList("actions.quit.actions"),
+            plugin.getActionParser().executeActions(plugin.getConfiguration().actions.quit.actions,
                     event.getPlayer(),
                     0,
                     placeholders

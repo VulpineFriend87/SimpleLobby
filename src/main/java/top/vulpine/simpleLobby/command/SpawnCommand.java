@@ -6,11 +6,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.jetbrains.annotations.NotNull;
 import top.vulpine.simpleLobby.SimpleLobby;
 import top.vulpine.simpleLobby.scheduler.Cancellable;
 import top.vulpine.simpleLobby.utils.ActionParser;
@@ -39,36 +39,33 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 
         if (!PermissionChecker.hasPermission(sender, "command.spawn")) {
-            sender.sendMessage(Colorize.color(plugin.getConfig().getString("messages.no_permission")));
+            sender.sendMessage(Colorize.color(plugin.getConfiguration().messages.noPermission));
             return true;
         }
 
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(Colorize.color(plugin.getConfig().getString("messages.only_players")));
+            sender.sendMessage(Colorize.color(plugin.getConfiguration().messages.onlyPlayers));
             return true;
         }
 
-        if (!plugin.getConfig().getBoolean("spawn.command.enabled")) {
+        if (!plugin.getConfiguration().spawn.command.enabled) {
             return true;
         }
 
+        if (plugin.getConfiguration().spawn.command.delay.enabled) {
 
-        FileConfiguration config = plugin.getConfig();
-        boolean delayEnabled = config.getBoolean("spawn.command.delay.enabled");
-        if (delayEnabled) {
-
-            int seconds = config.getInt("spawn.command.delay.time");
-            boolean requireStill = config.getBoolean("spawn.command.delay.require_player_still");
+            int seconds = plugin.getConfiguration().spawn.command.delay.time;
+            boolean requireStill = plugin.getConfiguration().spawn.command.delay.requirePlayerStill;
 
             Map<String, String> placeholders = new HashMap<>();
             placeholders.put("time", String.valueOf(seconds));
 
             List<String> actions = requireStill ? 
-                config.getStringList("spawn.actions.delay_started_still") : 
-                config.getStringList("spawn.actions.delay_started");
+                plugin.getConfiguration().spawn.actions.delayStartedStill :
+                plugin.getConfiguration().spawn.actions.delayStarted;
 
             actionParser.executeActions(actions, player, 0, placeholders);
 
@@ -82,7 +79,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
                     tasks.remove(uuid);
                     locations.remove(uuid);
 
-                    List<String> teleportActions = plugin.getConfig().getStringList("spawn.actions.teleported");
+                    List<String> teleportActions = plugin.getConfiguration().spawn.actions.teleported;
                     actionParser.executeActions(teleportActions, player, 0, new HashMap<>());
                 }, seconds * 20L);
 
@@ -100,7 +97,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
 
             PlayerUtils.teleportPlayer(plugin, player);
 
-            List<String> teleportActions = config.getStringList("spawn.actions.teleported");
+            List<String> teleportActions = plugin.getConfiguration().spawn.actions.teleported;
             actionParser.executeActions(teleportActions, player, 0, new HashMap<>());
 
         }
@@ -109,14 +106,14 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         return List.of();
     }
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
 
-        if (!plugin.getConfig().getBoolean("spawn.command.delay.require_player_still")) return;
+        if (!plugin.getConfiguration().spawn.command.delay.requirePlayerStill) return;
 
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
@@ -131,7 +128,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
             if (task != null) task.cancel();
             locations.remove(uuid);
 
-            List<String> cancelActions = plugin.getConfig().getStringList("spawn.actions.teleport_canceled");
+            List<String> cancelActions = plugin.getConfiguration().spawn.actions.teleportCanceled;
             actionParser.executeActions(cancelActions, player, 0, new HashMap<>());
 
             Logger.debug("Player " + player.getName() + " moved while waiting for spawn teleport, teleport canceled.");
