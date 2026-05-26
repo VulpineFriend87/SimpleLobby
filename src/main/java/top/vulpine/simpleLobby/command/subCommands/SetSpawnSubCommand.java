@@ -3,9 +3,10 @@ package top.vulpine.simpleLobby.command.subCommands;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import top.vulpine.simpleLobby.SimpleLobby;
 import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
+import top.vulpine.simpleLobby.config.Config;
 import top.vulpine.simpleLobby.instance.SubCommand;
 import top.vulpine.simpleLobby.utils.Colorize;
 
@@ -23,40 +24,27 @@ public class SetSpawnSubCommand implements SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
 
+        SimpleLobby plugin = command.getPlugin();
+        Config config = plugin.getConfiguration();
+
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(Colorize.color(
-                    "&7[&f&lS&a&lL&7] &cThis command can only be executed by a player."
-            ));
+            sender.sendMessage(Colorize.color(config.messages.onlyPlayers));
             return;
         }
 
         Location location = player.getLocation();
-        FileConfiguration config = command.getPlugin().getConfig();
 
-        String world = location.getWorld().getName();
-        double x = location.getX();
-        double y = location.getY();
-        double z = location.getZ();
-        float yaw = location.getYaw();
-        float pitch = location.getPitch();
-
-        config.set("spawn.location.world", world);
-        config.set("spawn.location.x", x);
-        config.set("spawn.location.y", y);
-        config.set("spawn.location.z", z);
-        config.set("spawn.location.yaw", yaw);
-        config.set("spawn.location.pitch", pitch);
-
-        command.getPlugin().saveConfig();
+        config.spawn.location = location;
+        config.save();
 
         player.sendMessage(Colorize.color(
-                command.getPlugin().getConfig().getString("messages.spawn_set")
-                        .replace("%world%", world)
-                        .replace("%x%", String.valueOf(x))
-                        .replace("%y%", String.valueOf(y))
-                        .replace("%z%", String.valueOf(z))
-                        .replace("%yaw%", String.valueOf(yaw))
-                        .replace("%pitch%", String.valueOf(pitch))
+                config.messages.spawnSet
+                        .replace("%world%", location.getWorld().getName())
+                        .replace("%x%", String.valueOf(location.getX()))
+                        .replace("%y%", String.valueOf(location.getY()))
+                        .replace("%z%", String.valueOf(location.getZ()))
+                        .replace("%yaw%", String.valueOf(location.getYaw()))
+                        .replace("%pitch%", String.valueOf(location.getPitch()))
         ));
 
     }

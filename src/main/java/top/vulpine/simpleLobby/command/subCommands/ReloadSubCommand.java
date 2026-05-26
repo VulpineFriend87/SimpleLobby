@@ -3,6 +3,7 @@ package top.vulpine.simpleLobby.command.subCommands;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
+import top.vulpine.simpleLobby.config.Config;
 import top.vulpine.simpleLobby.instance.SubCommand;
 import top.vulpine.simpleLobby.utils.Colorize;
 
@@ -20,14 +21,14 @@ public class ReloadSubCommand implements SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
 
+        Config config = command.getPlugin().getConfiguration();
+
         long startTime = System.currentTimeMillis();
-        command.getPlugin().reloadConfig();
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
+        config.load();
+        long duration = System.currentTimeMillis() - startTime;
 
         sender.sendMessage(Colorize.color(
-                command.getPlugin().getConfig().getString("messages.reloaded")
-                        .replace("%time%", String.valueOf(duration))
+                config.messages.reloaded.replace("%time%", String.valueOf(duration))
         ));
 
     }

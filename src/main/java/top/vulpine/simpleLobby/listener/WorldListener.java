@@ -38,9 +38,9 @@ public class WorldListener implements Listener {
             return;
         }
 
-        boolean enabled = plugin.getConfig().getBoolean("options.disable_hunger_loss.enabled");
-        boolean whitelistEnabled = plugin.getConfig().getBoolean("options.disable_hunger_loss.whitelist.enabled");
-        List<String> whitelistedWorlds = plugin.getConfig().getStringList("options.disable_hunger_loss.whitelist.worlds");
+        boolean enabled = plugin.getConfiguration().options.disableHungerLoss.enabled;
+        boolean whitelistEnabled = plugin.getConfiguration().options.disableHungerLoss.whitelist.enabled;
+        List<String> whitelistedWorlds = plugin.getConfiguration().options.disableHungerLoss.whitelist.worlds;
         String world = player.getWorld().getName();
         if (enabled && (!whitelistEnabled || whitelistedWorlds.contains(world))) {
             event.setCancelled(true);
@@ -52,9 +52,9 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onMobSpawn(CreatureSpawnEvent event) {
 
-        boolean enabled = plugin.getConfig().getBoolean("options.disable_mob_spawning.enabled");
-        boolean whitelistEnabled = plugin.getConfig().getBoolean("options.disable_mob_spawning.whitelist.enabled");
-        List<String> whitelistedWorlds = plugin.getConfig().getStringList("options.disable_mob_spawning.whitelist.worlds");
+        boolean enabled = plugin.getConfiguration().options.disableMobSpawning.enabled;
+        boolean whitelistEnabled = plugin.getConfiguration().options.disableMobSpawning.whitelist.enabled;
+        List<String> whitelistedWorlds = plugin.getConfiguration().options.disableMobSpawning.whitelist.worlds;
         String world = event.getLocation().getWorld().getName();
         if (enabled && event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL
                 && (!whitelistEnabled || whitelistedWorlds.contains(world))) {
@@ -71,9 +71,9 @@ public class WorldListener implements Listener {
             return;
         }
 
-        boolean enabled = plugin.getConfig().getBoolean("options.disable_damage.enabled");
-        boolean whitelistEnabled = plugin.getConfig().getBoolean("options.disable_damage.whitelist.enabled");
-        List<String> whitelistedWorlds = plugin.getConfig().getStringList("options.disable_damage.whitelist.worlds");
+        boolean enabled = plugin.getConfiguration().options.disableDamage.enabled;
+        boolean whitelistEnabled = plugin.getConfiguration().options.disableDamage.whitelist.enabled;
+        List<String> whitelistedWorlds = plugin.getConfiguration().options.disableDamage.whitelist.worlds;
         String world = player.getWorld().getName();
         if (enabled && (!whitelistEnabled || whitelistedWorlds.contains(world))) {
             event.setCancelled(true);
@@ -85,12 +85,12 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
 
-        boolean enabled = plugin.getConfig().getBoolean("options.disable_block_placing.enabled");
+        boolean enabled = plugin.getConfiguration().options.disableBlockPlacing.enabled;
         if (enabled) {
-            boolean creativeBypass = plugin.getConfig().getBoolean("options.disable_block_placing.creative_bypass");
+            boolean creativeBypass = plugin.getConfiguration().options.disableBlockPlacing.creativeBypass;
             if (!(event.getPlayer().getGameMode() == GameMode.CREATIVE && creativeBypass)) {
-                boolean whitelistEnabled = plugin.getConfig().getBoolean("options.disable_block_placing.whitelist.enabled");
-                List<String> whitelistedWorlds = plugin.getConfig().getStringList("options.disable_block_placing.whitelist.worlds");
+                boolean whitelistEnabled = plugin.getConfiguration().options.disableBlockPlacing.whitelist.enabled;
+                List<String> whitelistedWorlds = plugin.getConfiguration().options.disableBlockPlacing.whitelist.worlds;
                 String world = event.getPlayer().getWorld().getName();
                 if (!whitelistEnabled || whitelistedWorlds.contains(world)) {
                     event.setCancelled(true);
@@ -104,12 +104,12 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
 
-        boolean enabled = plugin.getConfig().getBoolean("options.disable_block_breaking.enabled");
+        boolean enabled = plugin.getConfiguration().options.disableBlockBreaking.enabled;
         if (enabled) {
-            boolean creativeBypass = plugin.getConfig().getBoolean("options.disable_block_breaking.creative_bypass");
+            boolean creativeBypass = plugin.getConfiguration().options.disableBlockBreaking.creativeBypass;
             if (!(event.getPlayer().getGameMode() == GameMode.CREATIVE && creativeBypass)) {
-                boolean whitelistEnabled = plugin.getConfig().getBoolean("options.disable_block_breaking.whitelist.enabled");
-                List<String> whitelistedWorlds = plugin.getConfig().getStringList("options.disable_block_breaking.whitelist.worlds");
+                boolean whitelistEnabled = plugin.getConfiguration().options.disableBlockBreaking.whitelist.enabled;
+                List<String> whitelistedWorlds = plugin.getConfiguration().options.disableBlockBreaking.whitelist.worlds;
                 String world = event.getPlayer().getWorld().getName();
                 if (!whitelistEnabled || whitelistedWorlds.contains(world)) {
                     event.setCancelled(true);
@@ -123,12 +123,12 @@ public class WorldListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockInteraction(PlayerInteractEvent event) {
 
-        boolean enabled = plugin.getConfig().getBoolean("options.disable_block_interaction.enabled");
+        boolean enabled = plugin.getConfiguration().options.disableBlockInteraction.enabled;
         if (enabled) {
-            boolean creativeBypass = plugin.getConfig().getBoolean("options.disable_block_interaction.creative_bypass");
+            boolean creativeBypass = plugin.getConfiguration().options.disableBlockInteraction.creativeBypass;
             if (!(event.getPlayer().getGameMode() == GameMode.CREATIVE && creativeBypass)) {
-                boolean whitelistEnabled = plugin.getConfig().getBoolean("options.disable_block_interaction.whitelist.enabled");
-                List<String> whitelistedWorlds = plugin.getConfig().getStringList("options.disable_block_interaction.whitelist.worlds");
+                boolean whitelistEnabled = plugin.getConfiguration().options.disableBlockInteraction.whitelist.enabled;
+                List<String> whitelistedWorlds = plugin.getConfiguration().options.disableBlockInteraction.whitelist.worlds;
                 String world = event.getPlayer().getWorld().getName();
                 if (!whitelistEnabled || whitelistedWorlds.contains(world)) {
 

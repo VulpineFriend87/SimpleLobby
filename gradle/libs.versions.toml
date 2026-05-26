@@ -5,6 +5,7 @@ papi = "2.11.6"
 
 minimessage = "4.25.0"
 minimessage-legacy = "4.25.0"
+okaeri = "5.0.13"
 bstats = "3.2.1"
 
 shadow = "9.3.0"
@@ -17,6 +18,8 @@ papi = { module = "me.clip:placeholderapi", version.ref = "papi" }
 
 minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "minimessage" }
 minimessage-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "minimessage-legacy" }
+okaeri = { module = "eu.okaeri:okaeri-configs-yaml-bukkit", version.ref = "okaeri" }
+okaeri-serdes = { module = "eu.okaeri:okaeri-configs-serdes-bukkit", version.ref = "okaeri" }
 bstats = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
 
 [plugins ]

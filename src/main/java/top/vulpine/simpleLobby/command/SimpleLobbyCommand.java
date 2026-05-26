@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.jetbrains.annotations.NotNull;
 import top.vulpine.simpleLobby.SimpleLobby;
 import top.vulpine.simpleLobby.command.subCommands.ReloadSubCommand;
 import top.vulpine.simpleLobby.command.subCommands.SetSpawnSubCommand;
@@ -30,7 +31,7 @@ public class SimpleLobbyCommand implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         executeSubCommand(sender, args);
 
         return false;
@@ -53,7 +54,7 @@ public class SimpleLobbyCommand implements CommandExecutor, TabCompleter {
         if (!PermissionChecker.hasPermission(sender, "command." + args[0].toLowerCase())) {
 
             sender.sendMessage(Colorize.color(
-                    plugin.getConfig().getString("messages.no_permission")
+                    plugin.getConfiguration().messages.noPermission
             ));
 
             return;
@@ -69,7 +70,7 @@ public class SimpleLobbyCommand implements CommandExecutor, TabCompleter {
         } else {
 
             sender.sendMessage(Colorize.color(
-                    plugin.getConfig().getString("messages.unknown_command")
+                    plugin.getConfiguration().messages.unknownCommand
             ));
 
         }
@@ -77,7 +78,7 @@ public class SimpleLobbyCommand implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length == 0) {
             return Collections.emptyList();
         }
