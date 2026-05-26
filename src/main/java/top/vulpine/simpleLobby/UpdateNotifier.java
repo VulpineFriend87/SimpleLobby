@@ -45,8 +45,7 @@ public class UpdateNotifier implements Listener {
 
             if (con.getResponseCode() != 200) return;
 
-            JsonParser parser = new JsonParser();
-            JsonArray jsonArray = parser.parse(new InputStreamReader(con.getInputStream())).getAsJsonArray();
+            JsonArray jsonArray = JsonParser.parseReader(new InputStreamReader(con.getInputStream())).getAsJsonArray();
 
             for (int i = 0; i < jsonArray.size(); i++) {
                 JsonObject versionObj = jsonArray.get(i).getAsJsonObject();
