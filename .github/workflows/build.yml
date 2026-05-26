@@ -91,8 +91,6 @@ jobs:
             purpur
             folia
           game-versions: |
-            1.17
-            1.17.1
             1.18
             1.18.1
             1.18.2
