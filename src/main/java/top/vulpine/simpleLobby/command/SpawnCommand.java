@@ -55,6 +55,12 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
             return true;
         }
 
+        Location spawn = plugin.getConfiguration().spawn.location;
+        if (spawn == null || spawn.getWorld() == null) {
+            player.sendMessage(Colorize.color(plugin.getConfiguration().messages.spawnNotSet));
+            return true;
+        }
+
         if (plugin.getConfiguration().spawn.command.delay.enabled) {
 
             int seconds = plugin.getConfiguration().spawn.command.delay.time;

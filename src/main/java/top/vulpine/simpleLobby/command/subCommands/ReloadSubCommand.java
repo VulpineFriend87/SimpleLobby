@@ -3,7 +3,7 @@ package top.vulpine.simpleLobby.command.subCommands;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
-import top.vulpine.simpleLobby.config.impl.Config;
+import top.vulpine.simpleLobby.config.Config;
 import top.vulpine.simpleLobby.instance.SubCommand;
 import top.vulpine.simpleLobby.utils.Colorize;
 

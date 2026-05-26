@@ -1,6 +1,5 @@
 package top.vulpine.simpleLobby.listener;
 
-import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -60,8 +59,13 @@ public class PlayerListener implements Listener {
 
         if (plugin.getConfiguration().spawn.tpOnJoin) {
 
-            World world = plugin.getConfiguration().spawn.location.getWorld();
-            PlayerUtils.teleportPlayer(plugin, event.getPlayer());
+            org.bukkit.Location spawn = plugin.getConfiguration().spawn.location;
+            if (spawn == null || spawn.getWorld() == null) {
+                Logger.warn("tp_on_join is enabled but the spawn location is not set. Skipping teleport for "
+                        + event.getPlayer().getName() + ".");
+            } else {
+                PlayerUtils.teleportPlayer(plugin, event.getPlayer());
+            }
 
         }
 

@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.vulpine.simpleLobby.SimpleLobby;
 import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
-import top.vulpine.simpleLobby.config.impl.Config;
+import top.vulpine.simpleLobby.config.Config;
 import top.vulpine.simpleLobby.instance.SubCommand;
 import top.vulpine.simpleLobby.utils.Colorize;
 
