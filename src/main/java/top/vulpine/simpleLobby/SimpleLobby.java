@@ -8,7 +8,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
 import top.vulpine.simpleLobby.command.SpawnCommand;
-import top.vulpine.simpleLobby.config.Config;
+import top.vulpine.simpleLobby.config.impl.Config;
 import top.vulpine.simpleLobby.listener.PlayerListener;
 import top.vulpine.simpleLobby.listener.WorldListener;
 import top.vulpine.simpleLobby.scheduler.BukkitSchedulerAdapter;

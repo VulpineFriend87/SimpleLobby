@@ -1,12 +1,9 @@
-package top.vulpine.simpleLobby.config;
+package top.vulpine.simpleLobby.config.impl;
 
-import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.Comment;
 import eu.okaeri.configs.annotation.Header;
-import eu.okaeri.configs.annotation.NameModifier;
-import eu.okaeri.configs.annotation.NameStrategy;
-import eu.okaeri.configs.annotation.Names;
 import org.bukkit.Location;
+import top.vulpine.simpleLobby.config.BaseConfig;
 import top.vulpine.simpleLobby.utils.logger.LogLevel;
 
 import java.util.ArrayList;
@@ -27,18 +24,15 @@ import java.util.List;
 @Header("- \"[SOUND] <global/player>; <sound>; [volume]; [pitch]\"")
 @Header("- \"[DELAY] <milliseconds>\"")
 @Header("")
-@Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-public class Config extends OkaeriConfig {
+public class Config extends BaseConfig {
 
     public Spawn spawn = new Spawn();
 
-    @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-    public static class Spawn extends OkaeriConfig {
+    public static class Spawn extends BaseConfig {
 
         public Command command = new Command();
 
-        @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-        public static class Command extends OkaeriConfig {
+        public static class Command extends BaseConfig {
 
             @Comment("If enabled, players can use the '/spawn' command to teleport to spawn")
             public boolean enabled = true;
@@ -46,8 +40,7 @@ public class Config extends OkaeriConfig {
             @Comment("If enabled, players will have to wait a certain amount of time before being teleported to spawn")
             public Delay delay = new Delay();
 
-            @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-            public static class Delay extends OkaeriConfig {
+            public static class Delay extends BaseConfig {
 
                 public boolean enabled = false;
 
@@ -70,8 +63,7 @@ public class Config extends OkaeriConfig {
         @Comment("Placeholders: any PlaceholderAPI placeholder (if installed)")
         public Actions actions = new Actions();
 
-        @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-        public static class Actions extends OkaeriConfig {
+        public static class Actions extends BaseConfig {
 
             @Comment("[actions] Placeholders: %time%; requires spawn command delay to be enabled")
             public List<String> delayStarted = new ArrayList<>(List.of(
@@ -99,13 +91,11 @@ public class Config extends OkaeriConfig {
 
     public Actions actions = new Actions();
 
-    @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-    public static class Actions extends OkaeriConfig {
+    public static class Actions extends BaseConfig {
 
         public Join join = new Join();
 
-        @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-        public static class Join extends OkaeriConfig {
+        public static class Join extends BaseConfig {
 
             @Comment("If true, the default join message will not be shown")
             public boolean suppressDefaultMessage = true;
@@ -123,8 +113,7 @@ public class Config extends OkaeriConfig {
 
         public Quit quit = new Quit();
 
-        @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-        public static class Quit extends OkaeriConfig {
+        public static class Quit extends BaseConfig {
 
             @Comment("If true, the default quit message will not be shown")
             public boolean suppressDefaultMessage = true;
@@ -143,20 +132,18 @@ public class Config extends OkaeriConfig {
     @Comment("General world options")
     public Options options = new Options();
 
-    @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-    public static class Options extends OkaeriConfig {
+    public static class Options extends BaseConfig {
 
         public DisableHungerLoss disableHungerLoss = new DisableHungerLoss();
 
-        @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-        public static class DisableHungerLoss extends OkaeriConfig {
+        public static class DisableHungerLoss extends BaseConfig {
 
             public boolean enabled = true;
 
             public Whitelist whitelist = new Whitelist();
 
-            @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-            public static class Whitelist extends OkaeriConfig {
+            
+            public static class Whitelist extends BaseConfig {
                 public boolean enabled = false;
                 @Comment("List of worlds where hunger loss is disabled")
                 public List<String> worlds = new ArrayList<>();
@@ -166,15 +153,13 @@ public class Config extends OkaeriConfig {
 
         public DisableMobSpawning disableMobSpawning = new DisableMobSpawning();
 
-        @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-        public static class DisableMobSpawning extends OkaeriConfig {
+        public static class DisableMobSpawning extends BaseConfig {
 
             public boolean enabled = true;
 
             public Whitelist whitelist = new Whitelist();
 
-            @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-            public static class Whitelist extends OkaeriConfig {
+            public static class Whitelist extends BaseConfig {
                 public boolean enabled = false;
                 @Comment("List of worlds where mob spawning is disabled")
                 public List<String> worlds = new ArrayList<>();
@@ -184,15 +169,13 @@ public class Config extends OkaeriConfig {
 
         public DisableDamage disableDamage = new DisableDamage();
 
-        @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-        public static class DisableDamage extends OkaeriConfig {
+        public static class DisableDamage extends BaseConfig {
 
             public boolean enabled = true;
 
             public Whitelist whitelist = new Whitelist();
 
-            @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-            public static class Whitelist extends OkaeriConfig {
+            public static class Whitelist extends BaseConfig {
                 public boolean enabled = false;
                 @Comment("List of worlds where damage is disabled")
                 public List<String> worlds = new ArrayList<>();
@@ -202,22 +185,19 @@ public class Config extends OkaeriConfig {
 
         public ClearInventoryOnJoin clearInventoryOnJoin = new ClearInventoryOnJoin();
 
-        @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-        public static class ClearInventoryOnJoin extends OkaeriConfig {
+        public static class ClearInventoryOnJoin extends BaseConfig {
             public boolean enabled = true;
         }
 
         public ClearEffectsOnJoin clearEffectsOnJoin = new ClearEffectsOnJoin();
 
-        @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-        public static class ClearEffectsOnJoin extends OkaeriConfig {
+        public static class ClearEffectsOnJoin extends BaseConfig {
             public boolean enabled = false;
         }
 
         public DisableBlockPlacing disableBlockPlacing = new DisableBlockPlacing();
 
-        @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-        public static class DisableBlockPlacing extends OkaeriConfig {
+        public static class DisableBlockPlacing extends BaseConfig {
 
             public boolean enabled = true;
 
@@ -226,8 +206,7 @@ public class Config extends OkaeriConfig {
 
             public Whitelist whitelist = new Whitelist();
 
-            @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-            public static class Whitelist extends OkaeriConfig {
+            public static class Whitelist extends BaseConfig {
                 public boolean enabled = false;
                 @Comment("List of worlds where block placing is disabled")
                 public List<String> worlds = new ArrayList<>();
@@ -237,8 +216,7 @@ public class Config extends OkaeriConfig {
 
         public DisableBlockBreaking disableBlockBreaking = new DisableBlockBreaking();
 
-        @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-        public static class DisableBlockBreaking extends OkaeriConfig {
+        public static class DisableBlockBreaking extends BaseConfig {
 
             public boolean enabled = true;
 
@@ -247,8 +225,7 @@ public class Config extends OkaeriConfig {
 
             public Whitelist whitelist = new Whitelist();
 
-            @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-            public static class Whitelist extends OkaeriConfig {
+            public static class Whitelist extends BaseConfig {
                 public boolean enabled = false;
                 @Comment("List of worlds where block breaking is disabled")
                 public List<String> worlds = new ArrayList<>();
@@ -258,8 +235,7 @@ public class Config extends OkaeriConfig {
 
         public DisableBlockInteraction disableBlockInteraction = new DisableBlockInteraction();
 
-        @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-        public static class DisableBlockInteraction extends OkaeriConfig {
+        public static class DisableBlockInteraction extends BaseConfig {
 
             public boolean enabled = true;
 
@@ -268,8 +244,7 @@ public class Config extends OkaeriConfig {
 
             public Whitelist whitelist = new Whitelist();
 
-            @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-            public static class Whitelist extends OkaeriConfig {
+            public static class Whitelist extends BaseConfig {
                 public boolean enabled = false;
                 @Comment("List of worlds where block interaction is disabled")
                 public List<String> worlds = new ArrayList<>();
@@ -281,8 +256,7 @@ public class Config extends OkaeriConfig {
 
     public Messages messages = new Messages();
 
-    @Names(strategy = NameStrategy.SNAKE_CASE, modifier = NameModifier.TO_LOWER_CASE)
-    public static class Messages extends OkaeriConfig {
+    public static class Messages extends BaseConfig {
 
         public String noPermission = "&7[&f&lS&a&lL&7] &cMissing permission!";
 
