@@ -12,6 +12,7 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.VERSION }}
       type: ${{ steps.type.outputs.TYPE }}
+      changelog: ${{ steps.changelog.outputs.CHANGELOG }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,6 +35,17 @@ jobs:
         run: |
           VERSION=$(git tag --points-at HEAD | grep -E '^v' | head -n 1 | sed 's/^v//' || true)
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Build changelog compare link
+        id: changelog
+        run: |
+          CURRENT_TAG=$(git tag --points-at HEAD | grep -E '^v' | head -n 1 || true)
+          if [ -n "$CURRENT_TAG" ]; then
+            PREVIOUS_TAG=$(git describe --tags --abbrev=0 "${CURRENT_TAG}^" 2>/dev/null || true)
+            if [ -n "$PREVIOUS_TAG" ]; then
+              echo "CHANGELOG=**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}" >> $GITHUB_OUTPUT
+            fi
+          fi
 
       - name: Detect release type
         id: type
@@ -72,6 +84,7 @@ jobs:
           version: ${{ needs.build.outputs.version }}
           name: ${{ needs.build.outputs.version }}
           version-type: ${{ needs.build.outputs.type }}
+          changelog: ${{ needs.build.outputs.changelog }}
           loaders: |
             paper
             spigot
