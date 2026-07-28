@@ -13,11 +13,11 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.NotNull;
 import top.vulpine.simpleLobby.SimpleLobby;
 import top.vulpine.simpleLobby.scheduler.Cancellable;
-import top.vulpine.simpleLobby.utils.ActionParser;
-import top.vulpine.simpleLobby.utils.Colorize;
-import top.vulpine.simpleLobby.utils.PermissionChecker;
-import top.vulpine.simpleLobby.utils.PlayerUtils;
-import top.vulpine.simpleLobby.utils.logger.Logger;
+import top.vulpine.simpleLobby.util.ActionParser;
+import top.vulpine.simpleLobby.util.Colorize;
+import top.vulpine.simpleLobby.util.PermissionChecker;
+import top.vulpine.simpleLobby.util.PlayerUtils;
+import top.vulpine.simpleLobby.util.logger.Logger;
 
 import java.util.HashMap;
 import java.util.List;

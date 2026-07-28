@@ -5,7 +5,7 @@ import eu.okaeri.configs.annotation.Comment;
 import eu.okaeri.configs.annotation.CustomKey;
 import eu.okaeri.configs.annotation.Header;
 import org.bukkit.Location;
-import top.vulpine.simpleLobby.utils.logger.LogLevel;
+import top.vulpine.simpleLobby.util.logger.LogLevel;
 
 import java.util.ArrayList;
 import java.util.List;

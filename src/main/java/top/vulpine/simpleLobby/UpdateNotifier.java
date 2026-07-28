@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import top.vulpine.simpleLobby.utils.Colorize;
-import top.vulpine.simpleLobby.utils.PermissionChecker;
+import top.vulpine.simpleLobby.util.Colorize;
+import top.vulpine.simpleLobby.util.PermissionChecker;
 
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;

@@ -10,8 +10,8 @@ import top.vulpine.simpleLobby.SimpleLobby;
 import top.vulpine.simpleLobby.command.subCommands.ReloadSubCommand;
 import top.vulpine.simpleLobby.command.subCommands.SetSpawnSubCommand;
 import top.vulpine.simpleLobby.instance.SubCommand;
-import top.vulpine.simpleLobby.utils.Colorize;
-import top.vulpine.simpleLobby.utils.PermissionChecker;
+import top.vulpine.simpleLobby.util.Colorize;
+import top.vulpine.simpleLobby.util.PermissionChecker;
 
 import java.util.*;
 import java.util.stream.Collectors;

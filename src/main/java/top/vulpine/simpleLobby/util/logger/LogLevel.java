@@ -1,4 +1,4 @@
-package top.vulpine.simpleLobby.utils.logger;
+package top.vulpine.simpleLobby.util.logger;
 
 import java.util.logging.Level;
 

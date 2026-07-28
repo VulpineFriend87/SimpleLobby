@@ -1,4 +1,4 @@
-package top.vulpine.simpleLobby.utils;
+package top.vulpine.simpleLobby.util;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionAttachmentInfo;

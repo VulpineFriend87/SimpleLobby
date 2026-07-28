@@ -1,4 +1,4 @@
-package top.vulpine.simpleLobby.utils;
+package top.vulpine.simpleLobby.util;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import top.vulpine.simpleLobby.utils.logger.Logger;
+import top.vulpine.simpleLobby.util.logger.Logger;
 import top.vulpine.simpleLobby.SimpleLobby;
 
 import java.util.List;

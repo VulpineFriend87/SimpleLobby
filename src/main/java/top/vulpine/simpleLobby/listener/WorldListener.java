@@ -14,7 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import top.vulpine.simpleLobby.SimpleLobby;
-import top.vulpine.simpleLobby.utils.logger.Logger;
+import top.vulpine.simpleLobby.util.logger.Logger;
 
 import java.util.List;
 

@@ -5,8 +5,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import top.vulpine.simpleLobby.SimpleLobby;
-import top.vulpine.simpleLobby.utils.PlayerUtils;
-import top.vulpine.simpleLobby.utils.logger.Logger;
+import top.vulpine.simpleLobby.util.PlayerUtils;
+import top.vulpine.simpleLobby.util.logger.Logger;
 
 import java.util.HashMap;
 import java.util.Map;

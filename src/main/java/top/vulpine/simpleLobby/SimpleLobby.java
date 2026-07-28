@@ -14,9 +14,9 @@ import top.vulpine.simpleLobby.listener.WorldListener;
 import top.vulpine.simpleLobby.scheduler.BukkitSchedulerAdapter;
 import top.vulpine.simpleLobby.scheduler.FoliaScheduler;
 import top.vulpine.simpleLobby.scheduler.SchedulerAdapter;
-import top.vulpine.simpleLobby.utils.ActionParser;
-import top.vulpine.simpleLobby.utils.logger.LogLevel;
-import top.vulpine.simpleLobby.utils.logger.Logger;
+import top.vulpine.simpleLobby.util.ActionParser;
+import top.vulpine.simpleLobby.util.logger.LogLevel;
+import top.vulpine.simpleLobby.util.logger.Logger;
 
 import java.io.File;
 

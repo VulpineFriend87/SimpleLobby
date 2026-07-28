@@ -1,4 +1,4 @@
-package top.vulpine.simpleLobby.utils;
+package top.vulpine.simpleLobby.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
