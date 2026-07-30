@@ -4,7 +4,6 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import top.vulpine.simpleLobby.util.logger.Logger;
 import top.vulpine.simpleLobby.SimpleLobby;
@@ -252,12 +251,25 @@ public class ActionParser {
 
         String[] parts = params.split(";", 4);
 
+        if (parts.length < 2) {
+            Logger.warn("Invalid SOUND action, expected '<global/player>; <sound>': " + params);
+            return;
+        }
+
         String target = parts[0].trim();
         String soundString = parts[1].trim();
-        float volume = parts.length > 2 ? Float.parseFloat(parts[2]) : 1.0f;
-        float pitch = parts.length > 3 ? Float.parseFloat(parts[3]) : 1.0f;
+        float volume = parts.length > 2 ? Float.parseFloat(parts[2].trim()) : 1.0f;
+        float pitch = parts.length > 3 ? Float.parseFloat(parts[3].trim()) : 1.0f;
 
-        Sound sound = Sound.valueOf(soundString);
+        // Sent as a key rather than an org.bukkit.Sound: that enum became an
+        // interface in 1.21.3, and Sound.valueOf() no longer links from a jar
+        // compiled against the older API. See SoundKeys.
+        String sound = SoundKeys.resolve(soundString);
+
+        if (sound == null) {
+            Logger.warn("Unknown sound: " + soundString);
+            return;
+        }
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
