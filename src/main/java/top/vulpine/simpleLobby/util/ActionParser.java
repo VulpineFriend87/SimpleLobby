@@ -1,7 +1,7 @@
 package top.vulpine.simpleLobby.util;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -205,12 +205,16 @@ public class ActionParser {
         String target = parts[0].trim();
         String message = Colorize.color(replacePlaceholders(player, parts[1].trim(), placeholders));
 
+        // Colorize still hands back a legacy string, so it has to be read back into
+        // a component for the Paper API.
+        Component component = LegacyComponentSerializer.legacySection().deserialize(message);
+
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                plugin.getScheduler().runEntity(p, () -> p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message)));
+                plugin.getScheduler().runEntity(p, () -> p.sendActionBar(component));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            plugin.getScheduler().runEntity(player, () -> player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message)));
+            plugin.getScheduler().runEntity(player, () -> player.sendActionBar(component));
         }
 
     }

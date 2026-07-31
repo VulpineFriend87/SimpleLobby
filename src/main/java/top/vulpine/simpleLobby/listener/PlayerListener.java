@@ -28,7 +28,7 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
 
         if (plugin.getConfiguration().actions.join.suppressDefaultMessage) {
-            event.setJoinMessage(null);
+            event.joinMessage(null);
             Logger.debug("Join message suppressed for player: " + event.getPlayer().getName());
         }
 
@@ -75,7 +75,7 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
 
         if (plugin.getConfiguration().actions.quit.suppressDefaultMessage) {
-            event.setQuitMessage(null);
+            event.quitMessage(null);
             Logger.debug("Quit message suppressed for player: " + event.getPlayer().getName());
         }
 
