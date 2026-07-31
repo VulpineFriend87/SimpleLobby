@@ -6,6 +6,8 @@ import eu.okaeri.configs.yaml.bukkit.serdes.SerdesBukkit;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
+import top.vulpine.commons.text.Colorize;
+import top.vulpine.commons.text.Dialect;
 import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
 import top.vulpine.simpleLobby.command.SpawnCommand;
 import top.vulpine.simpleLobby.config.Config;
@@ -37,6 +39,8 @@ public final class SimpleLobby extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        Colorize.init(Dialect.LEGACY);
 
         try {
             configuration = ConfigManager.create(Config.class, (it) -> {

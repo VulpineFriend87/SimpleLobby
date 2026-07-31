@@ -2,7 +2,7 @@ package top.vulpine.simpleLobby.util.logger;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import top.vulpine.simpleLobby.util.Colorize;
+import top.vulpine.commons.text.Colorize;
 
 /**
  * A utility class for logging messages to the console with different log levels.

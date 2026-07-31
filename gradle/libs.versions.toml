@@ -4,6 +4,7 @@ papi = "2.11.6"
 
 okaeri = "5.0.13"
 bstats = "3.2.1"
+commons = "0.1.0"
 
 shadow = "9.3.0"
 lombok = "9.2.0"
@@ -15,6 +16,7 @@ papi = { module = "me.clip:placeholderapi", version.ref = "papi" }
 okaeri = { module = "eu.okaeri:okaeri-configs-yaml-bukkit", version.ref = "okaeri" }
 okaeri-serdes = { module = "eu.okaeri:okaeri-configs-serdes-bukkit", version.ref = "okaeri" }
 bstats = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
+commons = { module = "top.vulpine:commons", version.ref = "commons" }
 
 [plugins ]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

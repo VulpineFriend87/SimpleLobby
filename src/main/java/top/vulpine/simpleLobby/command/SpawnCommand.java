@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import top.vulpine.simpleLobby.SimpleLobby;
 import top.vulpine.simpleLobby.scheduler.Cancellable;
 import top.vulpine.simpleLobby.util.ActionParser;
-import top.vulpine.simpleLobby.util.Colorize;
+import top.vulpine.commons.text.Colorize;
 import top.vulpine.simpleLobby.util.PermissionChecker;
 import top.vulpine.simpleLobby.util.PlayerUtils;
 import top.vulpine.simpleLobby.util.logger.Logger;

@@ -10,7 +10,7 @@ import top.vulpine.simpleLobby.SimpleLobby;
 import top.vulpine.simpleLobby.command.subCommands.ReloadSubCommand;
 import top.vulpine.simpleLobby.command.subCommands.SetSpawnSubCommand;
 import top.vulpine.simpleLobby.instance.SubCommand;
-import top.vulpine.simpleLobby.util.Colorize;
+import top.vulpine.commons.text.Colorize;
 import top.vulpine.simpleLobby.util.PermissionChecker;
 
 import java.util.*;

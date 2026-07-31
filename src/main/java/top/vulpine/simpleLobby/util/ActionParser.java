@@ -1,13 +1,15 @@
 package top.vulpine.simpleLobby.util;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import top.vulpine.commons.text.Colorize;
 import top.vulpine.simpleLobby.util.logger.Logger;
 import top.vulpine.simpleLobby.SimpleLobby;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
@@ -173,21 +175,24 @@ public class ActionParser {
 
         String target = parts[0].trim();
 
-        String title = parts.length > 1 ? Colorize.color(parts[1].trim()) : "";
-        String subtitle = parts.length > 2 ? Colorize.color(parts[2].trim()) : "";
+        String title = parts.length > 1 ? parts[1].trim() : "";
+        String subtitle = parts.length > 2 ? parts[2].trim() : "";
         int fadeIn = parts.length > 3 ? Integer.parseInt(parts[3].trim()) : 10;
         int stay = parts.length > 4 ? Integer.parseInt(parts[4].trim()) : 40;
         int fadeOut = parts.length > 5 ? Integer.parseInt(parts[5].trim()) : 10;
 
-        String finalTitle = replacePlaceholders(player, title, placeholders);
-        String finalSubtitle = replacePlaceholders(player, subtitle, placeholders);
+        Title finalTitle = Title.title(
+                Colorize.color(replacePlaceholders(player, title, placeholders)),
+                Colorize.color(replacePlaceholders(player, subtitle, placeholders)),
+                Title.Times.times(ticks(fadeIn), ticks(stay), ticks(fadeOut))
+        );
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                plugin.getScheduler().runEntity(p, () -> p.sendTitle(finalTitle, finalSubtitle, fadeIn, stay, fadeOut));
+                plugin.getScheduler().runEntity(p, () -> p.showTitle(finalTitle));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            plugin.getScheduler().runEntity(player, () -> player.sendTitle(finalTitle, finalSubtitle, fadeIn, stay, fadeOut));
+            plugin.getScheduler().runEntity(player, () -> player.showTitle(finalTitle));
         }
     }
 
@@ -203,18 +208,14 @@ public class ActionParser {
         String[] parts = params.split(";", 2);
 
         String target = parts[0].trim();
-        String message = Colorize.color(replacePlaceholders(player, parts[1].trim(), placeholders));
-
-        // Colorize still hands back a legacy string, so it has to be read back into
-        // a component for the Paper API.
-        Component component = LegacyComponentSerializer.legacySection().deserialize(message);
+        Component message = Colorize.color(replacePlaceholders(player, parts[1].trim(), placeholders));
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                plugin.getScheduler().runEntity(p, () -> p.sendActionBar(component));
+                plugin.getScheduler().runEntity(p, () -> p.sendActionBar(message));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            plugin.getScheduler().runEntity(player, () -> player.sendActionBar(component));
+            plugin.getScheduler().runEntity(player, () -> player.sendActionBar(message));
         }
 
     }
@@ -231,9 +232,7 @@ public class ActionParser {
         String[] parts = params.split(";", 2);
 
         String target = parts[0].trim();
-        String message = Colorize.color(parts[1].trim());
-
-        String finalMessage = replacePlaceholders(player, message, placeholders);
+        Component finalMessage = Colorize.color(replacePlaceholders(player, parts[1].trim(), placeholders));
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -307,6 +306,7 @@ public class ActionParser {
 
     /**
      * Replaces placeholders in a string with their values for the given player.
+     * Runs before colorizing, so colors coming from a placeholder are rendered too.
      *
      * @param player the player for placeholder context
      * @param str the string to process
@@ -315,12 +315,20 @@ public class ActionParser {
      */
     private String replacePlaceholders(Player player, String str, Map<String, String> placeholders) {
         for (Map.Entry<String, String> entry : placeholders.entrySet()) {
-            str = Colorize.color(str.replace(entry.getKey(), entry.getValue()));
+            str = str.replace(entry.getKey(), entry.getValue());
         }
 
-        str = PlaceholderUtils.replace(player, str);
+        return PlaceholderUtils.replace(player, str);
+    }
 
-        return str;
+    /**
+     * Converts a tick count from the config into the duration a title expects.
+     *
+     * @param ticks the number of ticks
+     * @return the equivalent duration
+     */
+    private static Duration ticks(int ticks) {
+        return Duration.ofMillis(ticks * 50L);
     }
 
 }
