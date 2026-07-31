@@ -87,12 +87,9 @@ jobs:
           changelog: ${{ needs.build.outputs.changelog }}
           loaders: |
             paper
-            spigot
             purpur
             folia
           game-versions: |
-            1.18
-            1.18.1
             1.18.2
             1.19
             1.19.1
