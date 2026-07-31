@@ -1,8 +1,11 @@
+import net.minecrell.pluginyml.paper.PaperPluginDescription
+
 plugins {
     id("java-library")
 
     alias(libs.plugins.lombok)
     alias(libs.plugins.shadow)
+    alias(libs.plugins.pluginyml)
 }
 
 repositories {
@@ -58,4 +61,18 @@ tasks {
     build {
         dependsOn(shadowJar)
     }
+}
+
+bukkit {
+    name = project.name
+    description = project.description
+    version = project.version.toString()
+    apiVersion = "1.18"
+    main = "${project.group}.${packageName}.${project.name}"
+
+    author = "VulpineFriend87"
+    website = "https://vulpine.top"
+    foliaSupported = true
+
+    softDepend = listOf("PlaceholderAPI")
 }

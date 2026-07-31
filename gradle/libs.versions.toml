@@ -9,6 +9,7 @@ commons = "0.1.0"
 
 shadow = "9.3.0"
 lombok = "9.2.0"
+pluginyml = "0.9.0"
 
 [libraries]
 paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
@@ -23,3 +24,4 @@ commons = { module = "top.vulpine:commons", version.ref = "commons" }
 [plugins ]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 lombok = { id = "io.freefair.lombok", version.ref = "lombok" }
+pluginyml = { id = "de.eldoria.plugin-yml.bukkit", version.ref = "pluginyml" }
