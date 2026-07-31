@@ -1,5 +1,6 @@
 package top.vulpine.simpleLobby.command;
 
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -12,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.NotNull;
 import top.vulpine.simpleLobby.SimpleLobby;
-import top.vulpine.simpleLobby.scheduler.Cancellable;
 import top.vulpine.simpleLobby.util.ActionParser;
 import top.vulpine.commons.text.Colorize;
 import top.vulpine.simpleLobby.util.PermissionChecker;
@@ -30,7 +30,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
 
     private final SimpleLobby plugin;
     private final ActionParser actionParser;
-    private final Map<UUID, Cancellable> tasks = new ConcurrentHashMap<>();
+    private final Map<UUID, WrappedTask> tasks = new ConcurrentHashMap<>();
     private final Map<UUID, Location> locations = new ConcurrentHashMap<>();
 
     public SpawnCommand(SimpleLobby plugin) {
@@ -75,27 +75,35 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
 
             actionParser.executeActions(actions, player, 0, placeholders);
 
+            long ticks = Math.max(1L, seconds * 20L);
+
             if (requireStill) {
 
                 UUID uuid = player.getUniqueId();
                 locations.put(uuid, player.getLocation().clone());
 
-                Cancellable task = plugin.getScheduler().runEntityLater(player, () -> {
+                WrappedTask task = plugin.getScheduler().runAtEntityLater(player, () -> {
                     PlayerUtils.teleportPlayer(plugin, player);
                     tasks.remove(uuid);
                     locations.remove(uuid);
 
                     List<String> teleportActions = plugin.getConfiguration().spawn.actions.teleported;
                     actionParser.executeActions(teleportActions, player, 0, new HashMap<>());
-                }, seconds * 20L);
+                }, ticks);
 
-                tasks.put(uuid, task);
+                // Null means the player was gone before the task could be scheduled,
+                // so there is nothing to keep around for the move listener to cancel.
+                if (task != null) {
+                    tasks.put(uuid, task);
+                } else {
+                    locations.remove(uuid);
+                }
 
             } else {
 
-                plugin.getScheduler().runEntityLater(player,
+                plugin.getScheduler().runAtEntityLater(player,
                         () -> PlayerUtils.teleportPlayer(plugin, player),
-                        seconds * 20L);
+                        ticks);
 
             }
 
@@ -130,7 +138,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
 
         if (from.getBlockX() != to.getBlockX() || from.getBlockY() != to.getBlockY() || from.getBlockZ() != to.getBlockZ()) {
 
-            Cancellable task = tasks.remove(uuid);
+            WrappedTask task = tasks.remove(uuid);
             if (task != null) task.cancel();
             locations.remove(uuid);
 

@@ -1,5 +1,7 @@
 package top.vulpine.simpleLobby;
 
+import com.tcoded.folialib.FoliaLib;
+import com.tcoded.folialib.impl.PlatformScheduler;
 import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
 import eu.okaeri.configs.yaml.bukkit.serdes.SerdesBukkit;
@@ -13,9 +15,6 @@ import top.vulpine.simpleLobby.command.SpawnCommand;
 import top.vulpine.simpleLobby.config.Config;
 import top.vulpine.simpleLobby.listener.PlayerListener;
 import top.vulpine.simpleLobby.listener.WorldListener;
-import top.vulpine.simpleLobby.scheduler.BukkitSchedulerAdapter;
-import top.vulpine.simpleLobby.scheduler.FoliaScheduler;
-import top.vulpine.simpleLobby.scheduler.SchedulerAdapter;
 import top.vulpine.simpleLobby.util.ActionParser;
 import top.vulpine.simpleLobby.util.logger.LogLevel;
 import top.vulpine.simpleLobby.util.logger.Logger;
@@ -33,7 +32,7 @@ public final class SimpleLobby extends JavaPlugin {
     private Config configuration;
 
     private ActionParser actionParser;
-    private SchedulerAdapter scheduler;
+    private FoliaLib foliaLib;
 
     private static final int PLUGIN_ID = 28227;
 
@@ -65,16 +64,8 @@ public final class SimpleLobby extends JavaPlugin {
         }
         Logger.init(logLevel);
 
-        boolean folia;
-        try {
-            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
-            folia = true;
-        } catch (ClassNotFoundException e) {
-            folia = false;
-        }
-        this.scheduler = folia ? new FoliaScheduler(this) : new BukkitSchedulerAdapter(this);
-        Logger.debug("Detected " + (folia ? "Folia" : "Bukkit/Spigot") + " server, using "
-                + scheduler.getClass().getSimpleName());
+        this.foliaLib = new FoliaLib(this);
+        Logger.debug("Scheduling through FoliaLib, detected platform: " + foliaLib.getImplType() + ".");
 
         String[] message = {
                 "",
@@ -112,6 +103,24 @@ public final class SimpleLobby extends JavaPlugin {
                 "<gray>[<b><white>S<green>L<gray></b>] <white>A new version of SimpleLobby is available! <gray>(<st>%current%</st> <green>%new%<gray>)");
 
         Logger.system("SimpleLobby has been enabled successfully.");
+    }
+
+    @Override
+    public void onDisable() {
+
+        if (foliaLib != null) {
+            foliaLib.getScheduler().cancelAllTasks();
+        }
+
+    }
+
+    /**
+     * The scheduler every task in the plugin goes through.
+     *
+     * @return FoliaLib's scheduler for the platform the server is running.
+     */
+    public PlatformScheduler getScheduler() {
+        return foliaLib.getScheduler();
     }
 
 }

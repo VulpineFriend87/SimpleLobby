@@ -124,9 +124,9 @@ public class ActionParser {
         String command = parts[1].trim().replace("%player%", player.getName());
 
         if (target.equalsIgnoreCase("console")) {
-            plugin.getScheduler().runGlobal(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
+            plugin.getScheduler().runNextTick(task -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
         } else if (target.equalsIgnoreCase("player")) {
-            plugin.getScheduler().runEntity(player, () -> player.performCommand(command));
+            plugin.getScheduler().runAtEntity(player, task -> player.performCommand(command));
         }
 
     }
@@ -154,10 +154,10 @@ public class ActionParser {
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                plugin.getScheduler().runEntity(p, () -> p.setGameMode(gamemode));
+                plugin.getScheduler().runAtEntity(p, task -> p.setGameMode(gamemode));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            plugin.getScheduler().runEntity(player, () -> player.setGameMode(gamemode));
+            plugin.getScheduler().runAtEntity(player, task -> player.setGameMode(gamemode));
         }
 
     }
@@ -189,10 +189,10 @@ public class ActionParser {
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                plugin.getScheduler().runEntity(p, () -> p.showTitle(finalTitle));
+                plugin.getScheduler().runAtEntity(p, task -> p.showTitle(finalTitle));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            plugin.getScheduler().runEntity(player, () -> player.showTitle(finalTitle));
+            plugin.getScheduler().runAtEntity(player, task -> player.showTitle(finalTitle));
         }
     }
 
@@ -212,10 +212,10 @@ public class ActionParser {
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                plugin.getScheduler().runEntity(p, () -> p.sendActionBar(message));
+                plugin.getScheduler().runAtEntity(p, task -> p.sendActionBar(message));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            plugin.getScheduler().runEntity(player, () -> player.sendActionBar(message));
+            plugin.getScheduler().runAtEntity(player, task -> player.sendActionBar(message));
         }
 
     }
@@ -236,10 +236,10 @@ public class ActionParser {
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                plugin.getScheduler().runEntity(p, () -> p.sendMessage(finalMessage));
+                plugin.getScheduler().runAtEntity(p, task -> p.sendMessage(finalMessage));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            plugin.getScheduler().runEntity(player, () -> player.sendMessage(finalMessage));
+            plugin.getScheduler().runAtEntity(player, task -> player.sendMessage(finalMessage));
         }
 
     }
@@ -276,10 +276,10 @@ public class ActionParser {
 
         if (target.equalsIgnoreCase("global")) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                plugin.getScheduler().runEntity(p, () -> p.playSound(p.getLocation(), sound, volume, pitch));
+                plugin.getScheduler().runAtEntity(p, task -> p.playSound(p.getLocation(), sound, volume, pitch));
             }
         } else if (target.equalsIgnoreCase("player")) {
-            plugin.getScheduler().runEntity(player, () -> player.playSound(player.getLocation(), sound, volume, pitch));
+            plugin.getScheduler().runAtEntity(player, task -> player.playSound(player.getLocation(), sound, volume, pitch));
         }
 
     }
@@ -296,9 +296,12 @@ public class ActionParser {
     private void executeDelay(String params, List<String> actions, Player player, int nextIndex, Map<String, String> placeholders) {
 
         int delay = Integer.parseInt(params.trim());
-        long ticks = delay / 50L;
 
-        plugin.getScheduler().runEntityLater(player,
+        // Nothing can run sooner than the next tick, and asking for less makes
+        // FoliaLib warn about it in the console.
+        long ticks = Math.max(1L, delay / 50L);
+
+        plugin.getScheduler().runAtEntityLater(player,
                 () -> executeActions(actions, player, nextIndex, placeholders),
                 ticks);
 

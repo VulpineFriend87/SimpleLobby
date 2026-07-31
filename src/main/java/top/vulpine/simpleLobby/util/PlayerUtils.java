@@ -17,7 +17,7 @@ public class PlayerUtils {
      */
     public static void teleportPlayer(SimpleLobby plugin, Player player) {
 
-        plugin.getScheduler().teleport(player, plugin.getConfiguration().spawn.location);
+        plugin.getScheduler().teleportAsync(player, plugin.getConfiguration().spawn.location);
 
         Logger.debug("Teleported player " + player.getName() + " to spawn at " + plugin.getConfiguration().spawn.location.getWorld() + " (" +
                 plugin.getConfiguration().spawn.location.getX() + ", " +

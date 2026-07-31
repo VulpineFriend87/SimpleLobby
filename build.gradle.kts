@@ -9,6 +9,7 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.tcoded.com/releases")
     maven("https://repo.extendedclip.com/releases/")
     maven("https://repo.okaeri.cloud/releases")
     maven("https://repo.vulpine.top/repository/maven-open/")
@@ -18,6 +19,7 @@ dependencies {
     implementation(libs.okaeri)
     implementation(libs.okaeri.serdes)
     implementation(libs.bstats)
+    implementation(libs.folialib)
     implementation(libs.commons)
 
     compileOnly(libs.paper)
@@ -49,6 +51,7 @@ tasks {
 
         shade("eu.okaeri", "okaeri")
         shade("org.bstats", "bstats")
+        shade("com.tcoded.folialib", "folialib")
         shade("top.vulpine.commons", "commons")
     }
 

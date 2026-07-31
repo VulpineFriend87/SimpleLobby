@@ -30,8 +30,8 @@ public class UpdateNotifier implements Listener {
 
         Bukkit.getPluginManager().registerEvents(this, plugin);
 
-        plugin.getScheduler().runAsync(this::updateCache);
-        plugin.getScheduler().runAsyncRepeating(this::updateCache, 30, 30, TimeUnit.MINUTES);
+        plugin.getScheduler().runAsync(task -> updateCache());
+        plugin.getScheduler().runTimerAsync(this::updateCache, 30, 30, TimeUnit.MINUTES);
     }
 
     private void updateCache() {
