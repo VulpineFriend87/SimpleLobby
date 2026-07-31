@@ -1,7 +1,7 @@
 name: SimpleLobby
 version: '1.4'
 main: top.vulpine.simpleLobby.SimpleLobby
-api-version: '1.17'
+api-version: '1.18'
 folia-supported: true
 authors: [ VulpineFriend87 ]
 website: https://vulpine.top
