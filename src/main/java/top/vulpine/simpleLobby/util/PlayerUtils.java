@@ -2,7 +2,7 @@ package top.vulpine.simpleLobby.util;
 
 import org.bukkit.entity.Player;
 import top.vulpine.simpleLobby.SimpleLobby;
-import top.vulpine.simpleLobby.util.logger.Logger;
+import top.vulpine.commons.log.Logger;
 
 /**
  * Utility class for player-related operations in the SimpleLobby plugin.

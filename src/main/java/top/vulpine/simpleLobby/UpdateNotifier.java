@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import top.vulpine.commons.log.Logger;
 import top.vulpine.commons.text.Colorize;
 import top.vulpine.simpleLobby.util.PermissionChecker;
 
@@ -57,7 +58,7 @@ public class UpdateNotifier implements Listener {
                 }
             }
         } catch (Exception e) {
-            plugin.getLogger().warning("Modrinth update check failed: " + e.getMessage());
+            Logger.warn("Modrinth update check failed: " + e.getMessage());
         }
     }
 

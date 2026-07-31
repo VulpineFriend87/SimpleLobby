@@ -16,8 +16,8 @@ import top.vulpine.simpleLobby.config.Config;
 import top.vulpine.simpleLobby.listener.PlayerListener;
 import top.vulpine.simpleLobby.listener.WorldListener;
 import top.vulpine.simpleLobby.util.ActionParser;
-import top.vulpine.simpleLobby.util.logger.LogLevel;
-import top.vulpine.simpleLobby.util.logger.Logger;
+import top.vulpine.commons.log.LogAction;
+import top.vulpine.commons.log.Logger;
 
 import java.io.File;
 
@@ -36,10 +36,18 @@ public final class SimpleLobby extends JavaPlugin {
 
     private static final int PLUGIN_ID = 28227;
 
+    private static final String LOG_PREFIX = "<dark_gray>[<white>Simple<green>Lobby<dark_gray>] <reset>";
+
+    private enum Action implements LogAction {
+        CONFIG, SETUP
+    }
+
     @Override
     public void onEnable() {
 
         Colorize.init(Dialect.LEGACY);
+
+        Logger.builder().prefix(LOG_PREFIX).build();
 
         try {
             configuration = ConfigManager.create(Config.class, (it) -> {
@@ -49,23 +57,16 @@ public final class SimpleLobby extends JavaPlugin {
                 it.load(true);
             });
         } catch (Exception e) {
-            Logger.error("Failed to load configuration: " + e.getMessage());
+            Logger.error(Action.CONFIG, "Failed to load configuration: " + e.getMessage());
             e.printStackTrace();
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
-        LogLevel logLevel;
-        try {
-            logLevel = configuration.logLevel;
-        } catch (IllegalArgumentException e) {
-            Logger.warn("Invalid log level in config, defaulting to INFO");
-            logLevel = LogLevel.INFO;
-        }
-        Logger.init(logLevel);
+        Logger.setLevel(configuration.logLevel);
 
         this.foliaLib = new FoliaLib(this);
-        Logger.debug("Scheduling through FoliaLib, detected platform: " + foliaLib.getImplType() + ".");
+        Logger.debug(Action.SETUP, "Scheduling through FoliaLib, detected platform: " + foliaLib.getImplType() + ".");
 
         String[] message = {
                 "",
@@ -83,10 +84,10 @@ public final class SimpleLobby extends JavaPlugin {
             Logger.system(line);
         }
 
-        Logger.debug("Loading Action Parser...");
+        Logger.debug(Action.SETUP, "Loading Action Parser...");
         actionParser = new ActionParser(this);
 
-        Logger.debug("Registering commands and listeners...");
+        Logger.debug(Action.SETUP, "Registering commands and listeners...");
         getCommand("simplelobby").setExecutor(new SimpleLobbyCommand(this));
 
         SpawnCommand spawnCommand = new SpawnCommand(this);
@@ -96,7 +97,7 @@ public final class SimpleLobby extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WorldListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 
-        Logger.debug("Initializing metrics...");
+        Logger.debug(Action.SETUP, "Initializing metrics...");
         new Metrics(this, PLUGIN_ID);
 
         new UpdateNotifier(this, "simplelobby",
@@ -114,11 +115,6 @@ public final class SimpleLobby extends JavaPlugin {
 
     }
 
-    /**
-     * The scheduler every task in the plugin goes through.
-     *
-     * @return FoliaLib's scheduler for the platform the server is running.
-     */
     public PlatformScheduler getScheduler() {
         return foliaLib.getScheduler();
     }

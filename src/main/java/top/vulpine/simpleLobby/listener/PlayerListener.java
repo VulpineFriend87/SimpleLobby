@@ -6,7 +6,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import top.vulpine.simpleLobby.SimpleLobby;
 import top.vulpine.simpleLobby.util.PlayerUtils;
-import top.vulpine.simpleLobby.util.logger.Logger;
+import top.vulpine.commons.log.LogAction;
+import top.vulpine.commons.log.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,10 @@ public class PlayerListener implements Listener {
 
     private final SimpleLobby plugin;
 
+    private enum Action implements LogAction {
+        JOIN, QUIT
+    }
+
     public PlayerListener(SimpleLobby plugin) {
         this.plugin = plugin;
     }
@@ -29,19 +34,19 @@ public class PlayerListener implements Listener {
 
         if (plugin.getConfiguration().actions.join.suppressDefaultMessage) {
             event.joinMessage(null);
-            Logger.debug("Join message suppressed for player: " + event.getPlayer().getName());
+            Logger.debug(Action.JOIN, "Join message suppressed for player: " + event.getPlayer().getName());
         }
 
         if (plugin.getConfiguration().options.clearInventoryOnJoin.enabled) {
             event.getPlayer().getInventory().clear();
-            Logger.debug("Inventory cleared for player: " + event.getPlayer().getName());
+            Logger.debug(Action.JOIN, "Inventory cleared for player: " + event.getPlayer().getName());
         }
 
         if (plugin.getConfiguration().options.clearEffectsOnJoin.enabled) {
             event.getPlayer().getActivePotionEffects().forEach(effect ->
                     event.getPlayer().removePotionEffect(effect.getType())
             );
-            Logger.debug("Potion effects cleared for player: " + event.getPlayer().getName());
+            Logger.debug(Action.JOIN, "Potion effects cleared for player: " + event.getPlayer().getName());
         }
 
         if (plugin.getConfiguration().actions.join.enabled) {
@@ -61,7 +66,7 @@ public class PlayerListener implements Listener {
 
             org.bukkit.Location spawn = plugin.getConfiguration().spawn.location;
             if (spawn == null || spawn.getWorld() == null) {
-                Logger.warn("tp_on_join is enabled but the spawn location is not set. Skipping teleport for "
+                Logger.warn(Action.JOIN, "tp_on_join is enabled but the spawn location is not set. Skipping teleport for "
                         + event.getPlayer().getName() + ".");
             } else {
                 PlayerUtils.teleportPlayer(plugin, event.getPlayer());
@@ -76,7 +81,7 @@ public class PlayerListener implements Listener {
 
         if (plugin.getConfiguration().actions.quit.suppressDefaultMessage) {
             event.quitMessage(null);
-            Logger.debug("Quit message suppressed for player: " + event.getPlayer().getName());
+            Logger.debug(Action.QUIT, "Quit message suppressed for player: " + event.getPlayer().getName());
         }
 
         if (plugin.getConfiguration().actions.quit.enabled) {

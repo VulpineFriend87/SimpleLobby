@@ -17,7 +17,7 @@ import top.vulpine.simpleLobby.util.ActionParser;
 import top.vulpine.commons.text.Colorize;
 import top.vulpine.simpleLobby.util.PermissionChecker;
 import top.vulpine.simpleLobby.util.PlayerUtils;
-import top.vulpine.simpleLobby.util.logger.Logger;
+import top.vulpine.commons.log.Logger;
 
 import java.util.HashMap;
 import java.util.List;

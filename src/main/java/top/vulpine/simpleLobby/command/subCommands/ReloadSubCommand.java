@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
 import top.vulpine.simpleLobby.config.Config;
 import top.vulpine.simpleLobby.instance.SubCommand;
+import top.vulpine.commons.log.Logger;
 import top.vulpine.commons.text.Colorize;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public class ReloadSubCommand implements SubCommand {
         long startTime = System.currentTimeMillis();
         config.load();
         long duration = System.currentTimeMillis() - startTime;
+
+        Logger.setLevel(config.logLevel);
 
         sender.sendMessage(Colorize.color(
                 config.messages.reloaded.replace("%time%", String.valueOf(duration))

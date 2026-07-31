@@ -14,7 +14,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import top.vulpine.simpleLobby.SimpleLobby;
-import top.vulpine.simpleLobby.util.logger.Logger;
+import top.vulpine.commons.log.LogAction;
+import top.vulpine.commons.log.Logger;
 
 import java.util.List;
 
@@ -26,6 +27,10 @@ import java.util.List;
 public class WorldListener implements Listener {
 
     private final SimpleLobby plugin;
+
+    private enum Aktion implements LogAction {
+        HUNGER, SPAWNING, DAMAGE, PLACING, BREAKING, INTERACTION
+    }
 
     public WorldListener(SimpleLobby plugin) {
         this.plugin = plugin;
@@ -44,7 +49,7 @@ public class WorldListener implements Listener {
         String world = player.getWorld().getName();
         if (enabled && (!whitelistEnabled || whitelistedWorlds.contains(world))) {
             event.setCancelled(true);
-            Logger.debug("Hunger loss prevented for player: " + player.getName());
+            Logger.debug(Aktion.HUNGER, "Hunger loss prevented for player: " + player.getName());
         }
 
     }
@@ -59,7 +64,7 @@ public class WorldListener implements Listener {
         if (enabled && event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL
                 && (!whitelistEnabled || whitelistedWorlds.contains(world))) {
             event.setCancelled(true);
-            Logger.debug("Mob spawn prevented in world: " + world);
+            Logger.debug(Aktion.SPAWNING, "Mob spawn prevented in world: " + world);
         }
 
     }
@@ -77,7 +82,7 @@ public class WorldListener implements Listener {
         String world = player.getWorld().getName();
         if (enabled && (!whitelistEnabled || whitelistedWorlds.contains(world))) {
             event.setCancelled(true);
-            Logger.debug("Damage prevented for player: " + player.getName());
+            Logger.debug(Aktion.DAMAGE, "Damage prevented for player: " + player.getName());
         }
 
     }
@@ -94,7 +99,7 @@ public class WorldListener implements Listener {
                 String world = event.getPlayer().getWorld().getName();
                 if (!whitelistEnabled || whitelistedWorlds.contains(world)) {
                     event.setCancelled(true);
-                    Logger.debug("Block place prevented in world: " + world);
+                    Logger.debug(Aktion.PLACING, "Block place prevented in world: " + world);
                 }
             }
         }
@@ -113,7 +118,7 @@ public class WorldListener implements Listener {
                 String world = event.getPlayer().getWorld().getName();
                 if (!whitelistEnabled || whitelistedWorlds.contains(world)) {
                     event.setCancelled(true);
-                    Logger.debug("Block break prevented in world: " + world);
+                    Logger.debug(Aktion.BREAKING, "Block break prevented in world: " + world);
                 }
             }
         }
@@ -146,7 +151,7 @@ public class WorldListener implements Listener {
                     }
 
                     event.setCancelled(true);
-                    Logger.debug("Block interaction prevented in world: " + world);
+                    Logger.debug(Aktion.INTERACTION, "Block interaction prevented in world: " + world);
                 }
             }
         }

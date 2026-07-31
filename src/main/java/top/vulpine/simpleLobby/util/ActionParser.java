@@ -6,7 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import top.vulpine.commons.text.Colorize;
-import top.vulpine.simpleLobby.util.logger.Logger;
+import top.vulpine.commons.log.LogAction;
+import top.vulpine.commons.log.Logger;
 import top.vulpine.simpleLobby.SimpleLobby;
 
 import java.time.Duration;
@@ -20,6 +21,10 @@ import java.util.Map;
 public class ActionParser {
 
     private final SimpleLobby plugin;
+
+    private enum Action implements LogAction {
+        PARSE, EXECUTE
+    }
 
     /**
      * Constructs a new ActionParser.
@@ -47,13 +52,13 @@ public class ActionParser {
             try {
 
                 if (!actionString.startsWith("[")) {
-                    Logger.warn("Invalid action format (missing opening bracket): " + actionString);
+                    Logger.warn(Action.PARSE, "Invalid action format (missing opening bracket): " + actionString);
                     continue;
                 }
 
                 int closingBracketIndex = actionString.indexOf("]");
                 if (closingBracketIndex == -1) {
-                    Logger.warn("Invalid action format (missing closing bracket): " + actionString);
+                    Logger.warn(Action.PARSE, "Invalid action format (missing closing bracket): " + actionString);
                     continue;
                 }
 
@@ -91,12 +96,12 @@ public class ActionParser {
                         return;
 
                     default:
-                        Logger.warn("Unknown action: " + action);
+                        Logger.warn(Action.PARSE, "Unknown action: " + action);
                 }
 
             } catch (Exception e) {
 
-                Logger.warn("Failed to execute action: " + actionString);
+                Logger.warn(Action.EXECUTE, "Failed to execute action: " + actionString);
                 e.printStackTrace();
 
             }
@@ -114,7 +119,7 @@ public class ActionParser {
     private void executeCommand(String params, Player player) {
 
         if (player == null) {
-            Logger.warn("Player is null, cannot execute command.");
+            Logger.warn(Action.EXECUTE, "Player is null, cannot execute command.");
             return;
         }
 
@@ -148,7 +153,7 @@ public class ActionParser {
         try {
             gamemode = GameMode.valueOf(gamemodeString);
         } catch (IllegalArgumentException e) {
-            Logger.warn("Invalid gamemode: " + gamemodeString);
+            Logger.warn(Action.PARSE, "Invalid gamemode: " + gamemodeString);
             return;
         }
 
@@ -255,7 +260,7 @@ public class ActionParser {
         String[] parts = params.split(";", 4);
 
         if (parts.length < 2) {
-            Logger.warn("Invalid SOUND action, expected '<global/player>; <sound>': " + params);
+            Logger.warn(Action.PARSE, "Invalid SOUND action, expected '<global/player>; <sound>': " + params);
             return;
         }
 
@@ -270,7 +275,7 @@ public class ActionParser {
         String sound = SoundKeys.resolve(soundString);
 
         if (sound == null) {
-            Logger.warn("Unknown sound: " + soundString);
+            Logger.warn(Action.PARSE, "Unknown sound: " + soundString);
             return;
         }
 

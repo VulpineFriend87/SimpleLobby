@@ -3,7 +3,7 @@ package top.vulpine.simpleLobby.util;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
-import top.vulpine.simpleLobby.util.logger.Logger;
+import top.vulpine.commons.log.Logger;
 
 import java.util.HashMap;
 import java.util.Locale;
