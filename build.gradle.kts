@@ -31,7 +31,7 @@ dependencies {
 
 group = "top.vulpine"
 val packageName = "simpleLobby"
-version = "1.5"
+version = "1.5.1"
 description = "A lightweight Minecraft plugin for easy lobby management and customizable spawn actions."
 
 java {
