@@ -8,7 +8,7 @@ folialib = "0.5.2"
 commons = "0.2.0"
 
 shadow = "9.6.1"
-lombok = "9.2.0"
+lombok = "9.5.0"
 pluginyml = "0.9.0"
 
 [libraries]
