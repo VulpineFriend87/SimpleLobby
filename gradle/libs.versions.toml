@@ -4,7 +4,7 @@ papi = "2.11.6"
 
 okaeri = "5.0.13"
 bstats = "3.2.1"
-folialib = "0.5.1"
+folialib = "0.5.2"
 commons = "0.2.0"
 
 shadow = "9.3.0"
