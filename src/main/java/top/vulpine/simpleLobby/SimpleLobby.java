@@ -38,12 +38,23 @@ public final class SimpleLobby extends JavaPlugin {
 
     private static final String LOG_PREFIX = "<dark_gray>[<white>Simple<green>Lobby<dark_gray>] <reset>";
 
+    private static final String MODRINTH = "https://modrinth.com/plugin/simplelobby";
+
     private enum Action implements LogAction {
         CONFIG, SETUP
     }
 
     @Override
     public void onEnable() {
+
+        if (!hasPaperApi()) {
+            getLogger().severe("Spigot support was dropped in SimpleLobby 1.5, so this version will not start here.");
+            getLogger().severe("1.4.1 is the last version that runs on Spigot.");
+            getLogger().severe("I recommend switching to Paper, or a fork of it such as Purpur or Folia.");
+            getLogger().severe("Latest version: " + MODRINTH);
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
 
         Colorize.init(Dialect.LEGACY);
 
@@ -117,6 +128,17 @@ public final class SimpleLobby extends JavaPlugin {
 
     public PlatformScheduler getScheduler() {
         return foliaLib.getScheduler();
+    }
+
+    private static boolean hasPaperApi() {
+
+        try {
+            Class.forName("net.kyori.adventure.text.minimessage.MiniMessage");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+
     }
 
 }
