@@ -42,9 +42,9 @@ public class SimpleLobbyCommand implements CommandExecutor, TabCompleter {
         if (args.length == 0) {
 
             sender.sendMessage(Colorize.color(
-                    "&r\n&7 This server is running\n&r\n&f Simple&aLobby &7[v" + plugin.getDescription().getVersion() + "] " +
-                            "\n&7 By " + String.join(", ", plugin.getDescription().getAuthors()) +
-                            "\n&r"
+                    "<reset>\n<gray> This server is running\n<reset>\n<white> Simple<green>Lobby <gray>[v" + plugin.getDescription().getVersion() + "] " +
+                            "\n<gray> By " + String.join(", ", plugin.getDescription().getAuthors()) +
+                            "\n<reset>"
             ));
 
             return;

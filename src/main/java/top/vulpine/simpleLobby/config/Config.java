@@ -79,25 +79,25 @@ public class Config extends OkaeriConfig {
             @Comment("[actions] Placeholders: %time%; requires spawn command delay to be enabled")
             @CustomKey("delay_started")
             public List<String> delayStarted = new ArrayList<>(List.of(
-                    "[MESSAGE] player; &7[&f&lS&a&lL&7] &aYou will be teleported to spawn in %time% second(s)"
+                    "[MESSAGE] player; <gray>[<bold><white>S<green>L</bold><gray>] <green>You will be teleported to spawn in %time% second(s)"
             ));
 
             @Comment("[actions] Placeholders: %time%; requires spawn command delay to be enabled and require_player_still to be true")
             @CustomKey("delay_started_still")
             public List<String> delayStartedStill = new ArrayList<>(List.of(
-                    "[MESSAGE] player; &7[&f&lS&a&lL&7] &aYou will be teleported to spawn in %time% second(s). Do not move."
+                    "[MESSAGE] player; <gray>[<bold><white>S<green>L</bold><gray>] <green>You will be teleported to spawn in %time% second(s). Do not move."
             ));
 
             @Comment("[actions] Requires spawn command delay to be enabled and require_player_still to be true")
             @CustomKey("teleport_canceled")
             public List<String> teleportCanceled = new ArrayList<>(List.of(
-                    "[MESSAGE] player; &7[&f&lS&a&lL&7] &cTeleport to spawn canceled, you moved."
+                    "[MESSAGE] player; <gray>[<bold><white>S<green>L</bold><gray>] <red>Teleport to spawn canceled, you moved."
             ));
 
             @Comment("[actions]")
             @CustomKey("teleported")
             public List<String> teleported = new ArrayList<>(List.of(
-                    "[MESSAGE] player; &7[&f&lS&a&lL&7] &aYou have been teleported to spawn."
+                    "[MESSAGE] player; <gray>[<bold><white>S<green>L</bold><gray>] <green>You have been teleported to spawn."
             ));
 
         }
@@ -124,8 +124,8 @@ public class Config extends OkaeriConfig {
             @Comment("[actions] Placeholders: %player%, any PlaceholderAPI placeholder (if installed)")
             @CustomKey("actions")
             public List<String> actions = new ArrayList<>(List.of(
-                    "[TITLE] player; &bWelcome to the server!; &7Enjoy your stay!; 20; 60; 20",
-                    "[MESSAGE] global; &b%player% &7has joined the server.",
+                    "[TITLE] player; <aqua>Welcome to the server!; <gray>Enjoy your stay!; 20; 60; 20",
+                    "[MESSAGE] global; <aqua>%player% <gray>has joined the server.",
                     "[GAMEMODE] player; adventure"
             ));
 
@@ -146,7 +146,7 @@ public class Config extends OkaeriConfig {
             @Comment("[actions] Placeholders: %player%, any PlaceholderAPI placeholder (if installed)")
             @CustomKey("actions")
             public List<String> actions = new ArrayList<>(List.of(
-                    "[MESSAGE] global; &b%player% &7has left the server."
+                    "[MESSAGE] global; <aqua>%player% <gray>has left the server."
             ));
 
         }
@@ -339,24 +339,24 @@ public class Config extends OkaeriConfig {
     public static class Messages extends OkaeriConfig {
 
         @CustomKey("no_permission")
-        public String noPermission = "&7[&f&lS&a&lL&7] &cMissing permission!";
+        public String noPermission = "<gray>[<bold><white>S<green>L</bold><gray>] <red>Missing permission!";
 
         @CustomKey("only_players")
-        public String onlyPlayers = "&7[&f&lS&a&lL&7] &cThis command can only be executed by players.";
+        public String onlyPlayers = "<gray>[<bold><white>S<green>L</bold><gray>] <red>This command can only be executed by players.";
 
         @Comment("Placeholders: %time%")
         @CustomKey("reloaded")
-        public String reloaded = "&7[&f&lS&a&lL&7] &aConfiguration reloaded in &f%time%ms&a.";
+        public String reloaded = "<gray>[<bold><white>S<green>L</bold><gray>] <green>Configuration reloaded in <white>%time%ms<green>.";
 
         @Comment("Placeholders: %world%, %x%, %y%, %z%, %yaw%, %pitch%")
         @CustomKey("spawn_set")
-        public String spawnSet = "&7[&f&lS&a&lL&7] &aSuccessfully set the spawn in &f%world%&a at &f%x%&a, &f%y%&a, &f%z%&a, &fyaw:%yaw%&a, &fpitch:%pitch%&a.";
+        public String spawnSet = "<gray>[<bold><white>S<green>L</bold><gray>] <green>Successfully set the spawn in <white>%world%<green> at <white>%x%<green>, <white>%y%<green>, <white>%z%<green>, <white>yaw:%yaw%<green>, <white>pitch:%pitch%<green>.";
 
         @CustomKey("spawn_not_set")
-        public String spawnNotSet = "&7[&f&lS&a&lL&7] &cThe spawn has not been set yet. Contact an administrator.";
+        public String spawnNotSet = "<gray>[<bold><white>S<green>L</bold><gray>] <red>The spawn has not been set yet. Contact an administrator.";
 
         @CustomKey("unknown_command")
-        public String unknownCommand = "&7[&f&lS&a&lL&7] &cUnknown command!";
+        public String unknownCommand = "<gray>[<bold><white>S<green>L</bold><gray>] <red>Unknown command!";
 
     }
 
