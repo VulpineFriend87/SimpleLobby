@@ -1,6 +1,6 @@
 [versions]
 paper = "1.18.2-R0.1-SNAPSHOT"
-papi = "2.11.6"
+papi = "2.12.3"
 
 okaeri = "5.0.13"
 bstats = "3.2.1"
