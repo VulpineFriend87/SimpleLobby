@@ -75,4 +75,15 @@ bukkit {
     foliaSupported = true
 
     softDepend = listOf("PlaceholderAPI")
+
+    commands {
+        register("simplelobby") {
+            description = "Main SimpleLobby command"
+            aliases = listOf("sl", "slobby")
+        }
+
+        register("spawn") {
+            description = "Teleports the executor to the spawn (if enabled)"
+        }
+    }
 }
