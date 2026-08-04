@@ -6,6 +6,7 @@ okaeri = "5.0.13"
 bstats = "3.2.1"
 folialib = "0.5.2"
 commons = "0.2.0"
+lamp = "4.0.0-rc.17"
 
 shadow = "9.6.1"
 lombok = "9.5.0"
@@ -20,6 +21,8 @@ okaeri-serdes = { module = "eu.okaeri:okaeri-configs-serdes-bukkit", version.ref
 bstats = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
 folialib = { module = "com.tcoded:FoliaLib", version.ref = "folialib" }
 commons = { module = "top.vulpine:commons", version.ref = "commons" }
+lamp-common = { module = "io.github.revxrsal:lamp.common", version.ref = "lamp" }
+lamp-bukkit = { module = "io.github.revxrsal:lamp.bukkit", version.ref = "lamp" }
 
 [plugins ]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

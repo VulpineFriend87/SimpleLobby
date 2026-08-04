@@ -24,6 +24,8 @@ dependencies {
     implementation(libs.bstats)
     implementation(libs.folialib)
     implementation(libs.commons)
+    implementation(libs.lamp.common)
+    implementation(libs.lamp.bukkit)
 
     compileOnly(libs.paper)
     compileOnly(libs.papi)
@@ -37,6 +39,10 @@ description = "A lightweight Minecraft plugin for easy lobby management and cust
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("-parameters")
 }
 
 tasks {
@@ -56,6 +62,7 @@ tasks {
         shade("org.bstats", "bstats")
         shade("com.tcoded.folialib", "folialib")
         shade("top.vulpine.commons", "commons")
+        shade("revxrsal.commands", "lamp")
     }
 
     build {
@@ -75,15 +82,4 @@ bukkit {
     foliaSupported = true
 
     softDepend = listOf("PlaceholderAPI")
-
-    commands {
-        register("simplelobby") {
-            description = "Main SimpleLobby command"
-            aliases = listOf("sl", "slobby")
-        }
-
-        register("spawn") {
-            description = "Teleports the executor to the spawn (if enabled)"
-        }
-    }
 }

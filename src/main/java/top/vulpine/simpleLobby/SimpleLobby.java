@@ -8,10 +8,16 @@ import eu.okaeri.configs.yaml.bukkit.serdes.SerdesBukkit;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
+import revxrsal.commands.Lamp;
+import revxrsal.commands.bukkit.BukkitLamp;
+import revxrsal.commands.bukkit.actor.BukkitCommandActor;
 import top.vulpine.commons.text.Colorize;
 import top.vulpine.commons.text.Dialect;
-import top.vulpine.simpleLobby.command.SimpleLobbyCommand;
+import top.vulpine.simpleLobby.command.MainCommand;
 import top.vulpine.simpleLobby.command.SpawnCommand;
+import top.vulpine.simpleLobby.command.annotation.RequiresPermission;
+import top.vulpine.simpleLobby.command.exception.ExceptionHandler;
+import top.vulpine.simpleLobby.util.PermissionChecker;
 import top.vulpine.simpleLobby.config.Config;
 import top.vulpine.simpleLobby.listener.PlayerListener;
 import top.vulpine.simpleLobby.listener.WorldListener;
@@ -99,10 +105,17 @@ public final class SimpleLobby extends JavaPlugin {
         actionParser = new ActionParser(this);
 
         Logger.debug(Action.SETUP, "Registering commands and listeners...");
-        getCommand("simplelobby").setExecutor(new SimpleLobbyCommand(this));
+
+        Lamp<BukkitCommandActor> lamp = BukkitLamp.builder(this)
+                .exceptionHandler(new ExceptionHandler(this))
+                .permissionForAnnotation(RequiresPermission.class, annotation ->
+                        actor -> PermissionChecker.hasPermission(actor.sender(), annotation.value()))
+                .build();
 
         SpawnCommand spawnCommand = new SpawnCommand(this);
-        getCommand("spawn").setExecutor(spawnCommand);
+
+        lamp.register(new MainCommand(this), spawnCommand);
+
         getServer().getPluginManager().registerEvents(spawnCommand, this);
 
         getServer().getPluginManager().registerEvents(new WorldListener(this), this);

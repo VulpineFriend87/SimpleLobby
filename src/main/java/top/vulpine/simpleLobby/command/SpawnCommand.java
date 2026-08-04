@@ -3,21 +3,18 @@ package top.vulpine.simpleLobby.command;
 import com.tcoded.folialib.wrapper.task.WrappedTask;
 import lombok.Getter;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.jetbrains.annotations.NotNull;
-import top.vulpine.simpleLobby.SimpleLobby;
-import top.vulpine.simpleLobby.util.ActionParser;
-import top.vulpine.commons.text.Colorize;
-import top.vulpine.simpleLobby.util.PermissionChecker;
-import top.vulpine.simpleLobby.util.PlayerUtils;
+import revxrsal.commands.annotation.Command;
+import revxrsal.commands.annotation.Description;
 import top.vulpine.commons.log.Logger;
+import top.vulpine.commons.text.Colorize;
+import top.vulpine.simpleLobby.SimpleLobby;
+import top.vulpine.simpleLobby.command.annotation.RequiresPermission;
+import top.vulpine.simpleLobby.util.ActionParser;
+import top.vulpine.simpleLobby.util.PlayerUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +23,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
-public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
+public class SpawnCommand implements Listener {
 
     private final SimpleLobby plugin;
     private final ActionParser actionParser;
@@ -38,27 +35,19 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
         this.actionParser = new ActionParser(plugin);
     }
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-
-        if (!PermissionChecker.hasPermission(sender, "command.spawn")) {
-            sender.sendMessage(Colorize.color(plugin.getConfiguration().messages.noPermission));
-            return true;
-        }
-
-        if (!(sender instanceof Player player)) {
-            sender.sendMessage(Colorize.color(plugin.getConfiguration().messages.onlyPlayers));
-            return true;
-        }
+    @Command("spawn")
+    @RequiresPermission("command.spawn")
+    @Description("Teleports the executor to the spawn (if enabled)")
+    public void spawn(Player player) {
 
         if (!plugin.getConfiguration().spawn.command.enabled) {
-            return true;
+            return;
         }
 
         Location spawn = plugin.getConfiguration().spawn.location;
         if (spawn == null || spawn.getWorld() == null) {
             player.sendMessage(Colorize.color(plugin.getConfiguration().messages.spawnNotSet));
-            return true;
+            return;
         }
 
         if (plugin.getConfiguration().spawn.command.delay.enabled) {
@@ -69,7 +58,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
             Map<String, String> placeholders = new HashMap<>();
             placeholders.put("time", String.valueOf(seconds));
 
-            List<String> actions = requireStill ? 
+            List<String> actions = requireStill ?
                 plugin.getConfiguration().spawn.actions.delayStartedStill :
                 plugin.getConfiguration().spawn.actions.delayStarted;
 
@@ -91,8 +80,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
                     actionParser.executeActions(teleportActions, player, 0, new HashMap<>());
                 }, ticks);
 
-                // Null means the player was gone before the task could be scheduled,
-                // so there is nothing to keep around for the move listener to cancel.
+                // player was gone
                 if (task != null) {
                     tasks.put(uuid, task);
                 } else {
@@ -116,12 +104,6 @@ public class SpawnCommand implements CommandExecutor, TabCompleter, Listener {
 
         }
 
-        return true;
-    }
-
-    @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        return List.of();
     }
 
     @EventHandler

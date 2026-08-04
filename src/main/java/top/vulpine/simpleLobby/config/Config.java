@@ -338,9 +338,6 @@ public class Config extends OkaeriConfig {
 
     public static class Messages extends OkaeriConfig {
 
-        @CustomKey("no_permission")
-        public String noPermission = "<gray>[<bold><white>S<green>L</bold><gray>] <red>Missing permission!";
-
         @CustomKey("only_players")
         public String onlyPlayers = "<gray>[<bold><white>S<green>L</bold><gray>] <red>This command can only be executed by players.";
 
@@ -354,9 +351,6 @@ public class Config extends OkaeriConfig {
 
         @CustomKey("spawn_not_set")
         public String spawnNotSet = "<gray>[<bold><white>S<green>L</bold><gray>] <red>The spawn has not been set yet. Contact an administrator.";
-
-        @CustomKey("unknown_command")
-        public String unknownCommand = "<gray>[<bold><white>S<green>L</bold><gray>] <red>Unknown command!";
 
     }
 
