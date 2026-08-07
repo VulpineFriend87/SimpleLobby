@@ -79,14 +79,14 @@ public final class SimpleLobby extends JavaPlugin {
         // warnings through the plugin's own logger before anything is read.
         Actions.logger(message -> Logger.warn(Action.ACTIONS, message));
 
-        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            Actions.placeholders(PlaceholderAPI::setPlaceholders);
-            Logger.debug(Action.SETUP, "PlaceholderAPI found, placeholders in actions will be expanded.");
-        }
-
         if (!loadConfiguration()) {
             getServer().getPluginManager().disablePlugin(this);
             return;
+        }
+
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            Actions.placeholders(PlaceholderAPI::setPlaceholders);
+            Logger.debug(Action.SETUP, "PlaceholderAPI found, placeholders in actions will be expanded.");
         }
 
         this.foliaLib = new FoliaLib(this);
