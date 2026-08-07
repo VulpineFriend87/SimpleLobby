@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.Description;
 import revxrsal.commands.annotation.Subcommand;
-import top.vulpine.commons.log.Logger;
 import top.vulpine.commons.text.Colorize;
 import top.vulpine.simpleLobby.SimpleLobby;
 import top.vulpine.simpleLobby.command.annotation.RequiresPermission;
@@ -39,16 +38,12 @@ public class MainCommand {
     @Description("Reloads the SimpleLobby configuration")
     public void reload(CommandSender sender) {
 
-        Config config = plugin.getConfiguration();
-
         long startTime = System.currentTimeMillis();
-        config.load();
+        plugin.loadConfiguration();
         long duration = System.currentTimeMillis() - startTime;
 
-        Logger.setLevel(config.logLevel);
-
         sender.sendMessage(Colorize.color(
-                config.messages.reloaded.replace("%time%", String.valueOf(duration))
+                plugin.getConfiguration().messages.reloaded.replace("%time%", String.valueOf(duration))
         ));
 
     }

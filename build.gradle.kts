@@ -1,5 +1,3 @@
-import net.minecrell.pluginyml.paper.PaperPluginDescription
-
 plugins {
     id("java-library")
 
@@ -24,6 +22,7 @@ dependencies {
     implementation(libs.bstats)
     implementation(libs.folialib)
     implementation(libs.commons)
+    implementation(libs.actions)
     implementation(libs.lamp.common)
     implementation(libs.lamp.bukkit)
 
@@ -62,6 +61,7 @@ tasks {
         shade("org.bstats", "bstats")
         shade("com.tcoded.folialib", "folialib")
         shade("top.vulpine.commons", "commons")
+        shade("top.vulpine.actions", "actions")
         shade("revxrsal.commands", "lamp")
     }
 

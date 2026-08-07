@@ -9,9 +9,6 @@ import top.vulpine.simpleLobby.util.PlayerUtils;
 import top.vulpine.commons.log.LogAction;
 import top.vulpine.commons.log.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Handles player joins and quits events in the SimpleLobby plugin.
  * It clears inventory and potion effects on join, executes actions on join and quit,
@@ -50,16 +47,7 @@ public class PlayerListener implements Listener {
         }
 
         if (plugin.getConfiguration().actions.join.enabled) {
-
-            Map<String, String> placeholders = new HashMap<>();
-            placeholders.put("%player%", event.getPlayer().getName());
-
-            plugin.getActionParser().executeActions(plugin.getConfiguration().actions.join.actions,
-                    event.getPlayer(),
-                    0,
-                    placeholders
-            );
-
+            plugin.getActions().run(event.getPlayer(), plugin.getConfiguration().actions.join.actions);
         }
 
         if (plugin.getConfiguration().spawn.tpOnJoin) {
@@ -84,17 +72,11 @@ public class PlayerListener implements Listener {
             Logger.debug(Action.QUIT, "Quit message suppressed for player: " + event.getPlayer().getName());
         }
 
+        // Anything still waiting on a delay belongs to a player who is no longer here.
+        plugin.getActions().cancel(event.getPlayer());
+
         if (plugin.getConfiguration().actions.quit.enabled) {
-
-            Map<String, String> placeholders = new HashMap<>();
-            placeholders.put("%player%", event.getPlayer().getName());
-
-            plugin.getActionParser().executeActions(plugin.getConfiguration().actions.quit.actions,
-                    event.getPlayer(),
-                    0,
-                    placeholders
-            );
-
+            plugin.getActions().run(event.getPlayer(), plugin.getConfiguration().actions.quit.actions);
         }
 
     }

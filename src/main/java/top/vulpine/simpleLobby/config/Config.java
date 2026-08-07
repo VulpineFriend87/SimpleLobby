@@ -4,26 +4,26 @@ import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.Comment;
 import eu.okaeri.configs.annotation.CustomKey;
 import eu.okaeri.configs.annotation.Header;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import top.vulpine.actions.action.Action;
+import top.vulpine.actions.action.impl.GamemodeAction;
+import top.vulpine.actions.action.impl.MessageAction;
+import top.vulpine.actions.action.impl.TitleAction;
+import top.vulpine.actions.target.Target;
 import top.vulpine.commons.log.LogLevel;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Header("SimpleLobby Configuration - By Vulpine (https://vulpine.top)")
 @Header("")
-@Header("Wherever you see the [actions] tag, you can put in a list all the actions you want to perform in order.")
-@Header("These are the actions you can use:")
+@Header("Action lists can send messages and titles, play sounds, run commands, wait,")
+@Header("and branch on conditions. Every action, target and placeholder is documented at:")
 @Header("")
-@Header("   <required> [optional]")
-@Header("")
-@Header("- \"[COMMAND] <console/player>; <command without slash>\"")
-@Header("- \"[GAMEMODE] <global/player>; <gamemode>\"")
-@Header("- \"[TITLE] <global/player>; <title>; [subtitle]; [fadeIn]; [stay]; [fadeOut]\"")
-@Header("- \"[ACTIONBAR] <global/player>; <message>\"")
-@Header("- \"[MESSAGE] <global/player>; <message>\"")
-@Header("- \"[SOUND] <global/player>; <sound>; [volume]; [pitch]\"")
-@Header("- \"[DELAY] <milliseconds>\"")
+@Header("   https://github.com/VulpineFriend87/Actions")
 @Header("")
 public class Config extends OkaeriConfig {
 
@@ -76,28 +76,35 @@ public class Config extends OkaeriConfig {
 
         public static class Actions extends OkaeriConfig {
 
-            @Comment("[actions] Placeholders: %time%; requires spawn command delay to be enabled")
+            @Comment("Placeholders: %time%; requires spawn command delay to be enabled")
             @CustomKey("delay_started")
-            public List<String> delayStarted = new ArrayList<>(List.of(
-                    "[MESSAGE] player; <gray>[<bold><white>S<green>L</bold><gray>] <green>You will be teleported to spawn in %time% second(s)"
+            public List<Action> delayStarted = new ArrayList<>(List.of(
+                    MessageAction.builder()
+                            .text("<gray>[<bold><white>S<green>L</bold><gray>] <green>You will be teleported to spawn in %time% second(s)")
+                            .build()
             ));
 
-            @Comment("[actions] Placeholders: %time%; requires spawn command delay to be enabled and require_player_still to be true")
+            @Comment("Placeholders: %time%; requires spawn command delay to be enabled and require_player_still to be true")
             @CustomKey("delay_started_still")
-            public List<String> delayStartedStill = new ArrayList<>(List.of(
-                    "[MESSAGE] player; <gray>[<bold><white>S<green>L</bold><gray>] <green>You will be teleported to spawn in %time% second(s). Do not move."
+            public List<Action> delayStartedStill = new ArrayList<>(List.of(
+                    MessageAction.builder()
+                            .text("<gray>[<bold><white>S<green>L</bold><gray>] <green>You will be teleported to spawn in %time% second(s). Do not move.")
+                            .build()
             ));
 
-            @Comment("[actions] Requires spawn command delay to be enabled and require_player_still to be true")
+            @Comment("Requires spawn command delay to be enabled and require_player_still to be true")
             @CustomKey("teleport_canceled")
-            public List<String> teleportCanceled = new ArrayList<>(List.of(
-                    "[MESSAGE] player; <gray>[<bold><white>S<green>L</bold><gray>] <red>Teleport to spawn canceled, you moved."
+            public List<Action> teleportCanceled = new ArrayList<>(List.of(
+                    MessageAction.builder()
+                            .text("<gray>[<bold><white>S<green>L</bold><gray>] <red>Teleport to spawn canceled, you moved.")
+                            .build()
             ));
 
-            @Comment("[actions]")
             @CustomKey("teleported")
-            public List<String> teleported = new ArrayList<>(List.of(
-                    "[MESSAGE] player; <gray>[<bold><white>S<green>L</bold><gray>] <green>You have been teleported to spawn."
+            public List<Action> teleported = new ArrayList<>(List.of(
+                    MessageAction.builder()
+                            .text("<gray>[<bold><white>S<green>L</bold><gray>] <green>You have been teleported to spawn.")
+                            .build()
             ));
 
         }
@@ -121,12 +128,26 @@ public class Config extends OkaeriConfig {
             @CustomKey("enabled")
             public boolean enabled = true;
 
-            @Comment("[actions] Placeholders: %player%, any PlaceholderAPI placeholder (if installed)")
+            @Comment("Placeholders: %player%, any PlaceholderAPI placeholder (if installed)")
             @CustomKey("actions")
-            public List<String> actions = new ArrayList<>(List.of(
-                    "[TITLE] player; <aqua>Welcome to the server!; <gray>Enjoy your stay!; 20; 60; 20",
-                    "[MESSAGE] global; <aqua>%player% <gray>has joined the server.",
-                    "[GAMEMODE] player; adventure"
+            public List<Action> actions = new ArrayList<>(List.of(
+
+                    TitleAction.builder()
+                            .title("<aqua>Welcome to the server!")
+                            .subtitle("<gray>Enjoy your stay!")
+                            .fadeIn("20t")
+                            .stay("60t")
+                            .fadeOut("20t")
+                            .build(),
+
+                    MessageAction.builder()
+                            .target(Target.ALL)
+                            .text("<aqua>%player% <gray>has joined the server.")
+                            .build(),
+
+                    GamemodeAction.builder()
+                            .mode(GameMode.ADVENTURE)
+                            .build()
             ));
 
         }
@@ -143,10 +164,13 @@ public class Config extends OkaeriConfig {
             @CustomKey("enabled")
             public boolean enabled = true;
 
-            @Comment("[actions] Placeholders: %player%, any PlaceholderAPI placeholder (if installed)")
+            @Comment("Placeholders: %player%, any PlaceholderAPI placeholder (if installed)")
             @CustomKey("actions")
-            public List<String> actions = new ArrayList<>(List.of(
-                    "[MESSAGE] global; <aqua>%player% <gray>has left the server."
+            public List<Action> actions = new ArrayList<>(List.of(
+                    MessageAction.builder()
+                            .target(Target.ALL)
+                            .text("<aqua>%player% <gray>has left the server.")
+                            .build()
             ));
 
         }
@@ -353,6 +377,11 @@ public class Config extends OkaeriConfig {
         public String spawnNotSet = "<gray>[<bold><white>S<green>L</bold><gray>] <red>The spawn has not been set yet. Contact an administrator.";
 
     }
+
+    @Comment("Action lists you can call from anywhere with the 'run' action, so a")
+    @Comment("sequence written once is shared instead of copied into every event.")
+    @CustomKey("sequences")
+    public Map<String, List<Action>> sequences = new LinkedHashMap<>();
 
     @Comment("Log level for the plugin. Can be: DEBUG, INFO, WARN, ERROR.")
     @Comment("Leave as it is if you don't know what to choose.")
