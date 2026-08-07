@@ -36,16 +36,33 @@ jobs:
           VERSION=$(git tag --points-at HEAD | grep -E '^v' | head -n 1 | sed 's/^v//' || true)
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Build changelog compare link
+      - name: Build changelog
         id: changelog
         run: |
           CURRENT_TAG=$(git tag --points-at HEAD | grep -E '^v' | head -n 1 || true)
-          if [ -n "$CURRENT_TAG" ]; then
-            PREVIOUS_TAG=$(git describe --tags --abbrev=0 "${CURRENT_TAG}^" 2>/dev/null || true)
-            if [ -n "$PREVIOUS_TAG" ]; then
-              echo "CHANGELOG=**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}" >> $GITHUB_OUTPUT
-            fi
+
+          if [ -z "$CURRENT_TAG" ]; then
+            exit 0
           fi
+
+          NOTES=$(git tag -l "$CURRENT_TAG" --format='%(contents)')
+
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 "${CURRENT_TAG}^" 2>/dev/null || true)
+
+          {
+            echo "CHANGELOG<<CHANGELOG_EOF"
+
+            if [ -n "$NOTES" ]; then
+              printf '%s\n' "$NOTES"
+            fi
+
+            if [ -n "$PREVIOUS_TAG" ]; then
+              echo ""
+              echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}"
+            fi
+
+            echo "CHANGELOG_EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Detect release type
         id: type
