@@ -5,7 +5,7 @@ papi = "2.12.3"
 okaeri = "5.0.13"
 bstats = "3.2.1"
 folialib = "0.5.2"
-commons = "0.2.0"
+commons = "0.3.0"
 lamp = "4.0.0-rc.18"
 actions = "0.2.0"
 
