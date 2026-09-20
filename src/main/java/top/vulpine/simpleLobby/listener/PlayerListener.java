@@ -34,12 +34,12 @@ public class PlayerListener implements Listener {
             Logger.debug(Action.JOIN, "Join message suppressed for player: " + event.getPlayer().getName());
         }
 
-        if (plugin.getConfiguration().options.clearInventoryOnJoin.enabled) {
+        if (plugin.getConfiguration().options.clearInventoryOnJoin.appliesTo(event.getPlayer())) {
             event.getPlayer().getInventory().clear();
             Logger.debug(Action.JOIN, "Inventory cleared for player: " + event.getPlayer().getName());
         }
 
-        if (plugin.getConfiguration().options.clearEffectsOnJoin.enabled) {
+        if (plugin.getConfiguration().options.clearEffectsOnJoin.appliesTo(event.getPlayer())) {
             event.getPlayer().getActivePotionEffects().forEach(effect ->
                     event.getPlayer().removePotionEffect(effect.getType())
             );

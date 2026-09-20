@@ -26,6 +26,8 @@ import top.vulpine.simpleLobby.command.exception.ExceptionHandler;
 import top.vulpine.simpleLobby.config.LegacyActions;
 import top.vulpine.simpleLobby.util.PermissionChecker;
 import top.vulpine.simpleLobby.config.Config;
+import top.vulpine.simpleLobby.listener.EntityListener;
+import top.vulpine.simpleLobby.listener.ItemListener;
 import top.vulpine.simpleLobby.listener.PlayerListener;
 import top.vulpine.simpleLobby.listener.WorldListener;
 import top.vulpine.simpleLobby.util.ActionRunner;
@@ -126,6 +128,8 @@ public final class SimpleLobby extends JavaPlugin {
         getServer().getPluginManager().registerEvents(spawnCommand, this);
 
         getServer().getPluginManager().registerEvents(new WorldListener(this), this);
+        getServer().getPluginManager().registerEvents(new EntityListener(this), this);
+        getServer().getPluginManager().registerEvents(new ItemListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 
         Logger.debug(Action.SETUP, "Initializing metrics...");

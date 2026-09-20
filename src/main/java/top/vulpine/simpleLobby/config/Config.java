@@ -6,6 +6,7 @@ import eu.okaeri.configs.annotation.CustomKey;
 import eu.okaeri.configs.annotation.Header;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import top.vulpine.actions.action.Action;
 import top.vulpine.actions.action.impl.GamemodeAction;
 import top.vulpine.actions.action.impl.MessageAction;
@@ -184,175 +185,156 @@ public class Config extends OkaeriConfig {
     public static class Options extends OkaeriConfig {
 
         @CustomKey("disable_hunger_loss")
-        public DisableHungerLoss disableHungerLoss = new DisableHungerLoss();
-
-        public static class DisableHungerLoss extends OkaeriConfig {
-
-            @CustomKey("enabled")
-            public boolean enabled = true;
-
-            @CustomKey("whitelist")
-            public Whitelist whitelist = new Whitelist();
-            
-            public static class Whitelist extends OkaeriConfig {
-
-                @CustomKey("enabled")
-                public boolean enabled = false;
-
-                @Comment("List of worlds where hunger loss is disabled")
-                @CustomKey("worlds")
-                public List<String> worlds = new ArrayList<>();
-
-            }
-
-        }
+        public Toggle disableHungerLoss = new Toggle();
 
         @CustomKey("disable_mob_spawning")
-        public DisableMobSpawning disableMobSpawning = new DisableMobSpawning();
-
-        public static class DisableMobSpawning extends OkaeriConfig {
-
-            @CustomKey("enabled")
-            public boolean enabled = true;
-
-            @CustomKey("whitelist")
-            public Whitelist whitelist = new Whitelist();
-
-            public static class Whitelist extends OkaeriConfig {
-
-                @CustomKey("enabled")
-                public boolean enabled = false;
-
-                @Comment("List of worlds where mob spawning is disabled")
-                @CustomKey("worlds")
-                public List<String> worlds = new ArrayList<>();
-
-            }
-
-        }
+        public Toggle disableMobSpawning = new Toggle();
 
         @CustomKey("disable_damage")
-        public DisableDamage disableDamage = new DisableDamage();
-
-        public static class DisableDamage extends OkaeriConfig {
-
-            @CustomKey("enabled")
-            public boolean enabled = true;
-
-            @CustomKey("whitelist")
-            public Whitelist whitelist = new Whitelist();
-
-            public static class Whitelist extends OkaeriConfig {
-
-                @CustomKey("enabled")
-                public boolean enabled = false;
-                @Comment("List of worlds where damage is disabled")
-
-                @CustomKey("worlds")
-                public List<String> worlds = new ArrayList<>();
-
-            }
-
-        }
+        public Toggle disableDamage = new Toggle();
 
         @CustomKey("clear_inventory_on_join")
-        public ClearInventoryOnJoin clearInventoryOnJoin = new ClearInventoryOnJoin();
-
-        public static class ClearInventoryOnJoin extends OkaeriConfig {
-            @CustomKey("enabled")
-            public boolean enabled = true;
-        }
+        public Toggle clearInventoryOnJoin = new Toggle();
 
         @CustomKey("clear_effects_on_join")
-        public ClearEffectsOnJoin clearEffectsOnJoin = new ClearEffectsOnJoin();
+        public Toggle clearEffectsOnJoin = Toggle.off();
 
-        public static class ClearEffectsOnJoin extends OkaeriConfig {
-            @CustomKey("enabled")
-            public boolean enabled = false;
-        }
-
+        @Comment("Also covers emptying a bucket, which does not count as placing a block")
         @CustomKey("disable_block_placing")
-        public DisableBlockPlacing disableBlockPlacing = new DisableBlockPlacing();
+        public PlayerToggle disableBlockPlacing = new PlayerToggle();
 
-        public static class DisableBlockPlacing extends OkaeriConfig {
-
-            @CustomKey("enabled")
-            public boolean enabled = true;
-
-            @Comment("If true, players in creative mode can place blocks")
-            @CustomKey("creative_bypass")
-            public boolean creativeBypass = true;
-
-            @CustomKey("whitelist")
-            public Whitelist whitelist = new Whitelist();
-
-            public static class Whitelist extends OkaeriConfig {
-
-                @CustomKey("enabled")
-                public boolean enabled = false;
-
-                @Comment("List of worlds where block placing is disabled")
-                @CustomKey("worlds")
-                public List<String> worlds = new ArrayList<>();
-
-            }
-
-        }
-
+        @Comment("Also covers filling a bucket, which does not count as breaking a block")
         @CustomKey("disable_block_breaking")
-        public DisableBlockBreaking disableBlockBreaking = new DisableBlockBreaking();
-
-        public static class DisableBlockBreaking extends OkaeriConfig {
-
-            @CustomKey("enabled")
-            public boolean enabled = true;
-
-            @Comment("If true, players in creative mode can break blocks")
-            @CustomKey("creative_bypass")
-            public boolean creativeBypass = true;
-
-            @CustomKey("whitelist")
-            public Whitelist whitelist = new Whitelist();
-
-            public static class Whitelist extends OkaeriConfig {
-
-                @CustomKey("enabled")
-                public boolean enabled = false;
-
-                @Comment("List of worlds where block breaking is disabled")
-                @CustomKey("worlds")
-                public List<String> worlds = new ArrayList<>();
-
-            }
-
-        }
+        public PlayerToggle disableBlockBreaking = new PlayerToggle();
 
         @CustomKey("disable_block_interaction")
-        public DisableBlockInteraction disableBlockInteraction = new DisableBlockInteraction();
+        public PlayerToggle disableBlockInteraction = new PlayerToggle();
 
-        public static class DisableBlockInteraction extends OkaeriConfig {
+        @Comment("Stops farmland and turtle eggs from being destroyed by walking over them")
+        @CustomKey("disable_trampling")
+        public PlayerToggle disableTrampling = new PlayerToggle();
 
-            @CustomKey("enabled")
-            public boolean enabled = true;
+        @Comment("Stops players hitting or right-clicking mobs, armor stands, item frames and paintings")
+        @CustomKey("disable_entity_interaction")
+        public PlayerToggle disableEntityInteraction = new PlayerToggle();
 
-            @Comment("If true, players in creative mode can interact with blocks")
-            @CustomKey("creative_bypass")
-            public boolean creativeBypass = true;
+        @CustomKey("disable_item_dropping")
+        public PlayerToggle disableItemDropping = new PlayerToggle();
 
-            @CustomKey("whitelist")
-            public Whitelist whitelist = new Whitelist();
+        @CustomKey("disable_item_pickup")
+        public PlayerToggle disableItemPickup = new PlayerToggle();
 
-            public static class Whitelist extends OkaeriConfig {
+        @Comment("Stops players moving items around their own inventory. Chests and plugin menus are left alone")
+        @CustomKey("disable_inventory_interaction")
+        public PlayerToggle disableInventoryInteraction = new PlayerToggle();
 
-                @CustomKey("enabled")
-                public boolean enabled = false;
+        @Comment("Stops fire being lit and stops blocks burning away")
+        @CustomKey("disable_fire")
+        public PlayerToggle disableFire = new PlayerToggle();
 
-                @Comment("List of worlds where block interaction is disabled")
-                @CustomKey("worlds")
-                public List<String> worlds = new ArrayList<>();
+        @Comment("Stops explosions destroying blocks. Damage to players is covered by disable_damage")
+        @CustomKey("disable_explosions")
+        public Toggle disableExplosions = new Toggle();
 
+    }
+
+    /**
+     * An option that can be switched off, or limited to a list of worlds.
+     */
+    public static class Toggle extends OkaeriConfig {
+
+        @CustomKey("enabled")
+        public boolean enabled = true;
+
+        @CustomKey("whitelist")
+        public Whitelist whitelist = new Whitelist();
+
+        /**
+         * @return a toggle that starts out switched off
+         */
+        public static Toggle off() {
+            Toggle toggle = new Toggle();
+            toggle.enabled = false;
+            return toggle;
+        }
+
+        /**
+         * @param player the player the event belongs to
+         * @return true if this option should take effect for them
+         */
+        public boolean appliesTo(Player player) {
+            return appliesIn(player.getWorld().getName());
+        }
+
+        /**
+         * @param world name of the world the event happened in
+         * @return true if this option should take effect there
+         */
+        public boolean appliesIn(String world) {
+            return this.enabled && this.whitelist.covers(world);
+        }
+
+    }
+
+    /**
+     * A {@link Toggle} for something a player does, which creative mode can be let through.
+     */
+    public static class PlayerToggle extends OkaeriConfig {
+
+        @CustomKey("enabled")
+        public boolean enabled = true;
+
+        @Comment("If true, players in creative mode are not affected by this option")
+        @CustomKey("creative_bypass")
+        public boolean creativeBypass = true;
+
+        @CustomKey("whitelist")
+        public Whitelist whitelist = new Whitelist();
+
+        /**
+         * @param player the player the event belongs to
+         * @return true if this option should take effect for them
+         */
+        public boolean appliesTo(Player player) {
+
+            if (this.creativeBypass && player.getGameMode() == GameMode.CREATIVE) {
+                return false;
             }
 
+            return appliesIn(player.getWorld().getName());
+        }
+
+        /**
+         * For the same rule applied to something that is not a player, where there is no
+         * gamemode to bypass with.
+         *
+         * @param world name of the world the event happened in
+         * @return true if this option should take effect there
+         */
+        public boolean appliesIn(String world) {
+            return this.enabled && this.whitelist.covers(world);
+        }
+
+    }
+
+    /**
+     * The worlds an option is limited to. Switched off, the option applies everywhere.
+     */
+    public static class Whitelist extends OkaeriConfig {
+
+        @CustomKey("enabled")
+        public boolean enabled = false;
+
+        @Comment("List of worlds the option above applies in")
+        @CustomKey("worlds")
+        public List<String> worlds = new ArrayList<>();
+
+        /**
+         * @param world name of the world the event happened in
+         * @return true if the option reaches that world
+         */
+        public boolean covers(String world) {
+            return !this.enabled || this.worlds.contains(world);
         }
 
     }
