@@ -23,7 +23,7 @@ SimpleLobby is a lightweight, flexible, and powerful plugin designed for easy lo
 - **Flexible Use Cases:** Perfect for authentication lobbies, minigame lobbies, world spawns, and events.
 - **Permission System:** Fine-grained permission checks for commands and actions.
 - **Placeholder Support:** Integrates with PlaceholderAPI for dynamic messages.
-- **World Options:** Prevent hunger loss, damage, mob spawning, and block breaking/placing/interaction as needed.
+- **World Options:** Lock the lobby down as far as you need; hunger, damage, mob spawning, block breaking/placing/interaction, trampling, entities, items and inventories, fire and explosions — globally or per world.
 
 ## Why SimpleLobby?
 
