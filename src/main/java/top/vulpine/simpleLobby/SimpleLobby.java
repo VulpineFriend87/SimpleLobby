@@ -53,8 +53,6 @@ public final class SimpleLobby extends JavaPlugin {
 
     private static final int PLUGIN_ID = 28227;
 
-    private static final String LOG_PREFIX = "<dark_gray>[<white>Simple<green>Lobby<dark_gray>] <reset>";
-
     private static final String MODRINTH = "https://modrinth.com/plugin/simplelobby";
 
     private enum Action implements LogAction {
@@ -74,8 +72,7 @@ public final class SimpleLobby extends JavaPlugin {
         }
 
         Colorize.init(Dialect.LEGACY);
-
-        Logger.builder().prefix(LOG_PREFIX).build();
+        Logger.builder().logger(getComponentLogger()).build();
 
         // Bad actions are warned about and skipped rather than thrown, so route those
         // warnings through the plugin's own logger before anything is read.
