@@ -51,9 +51,13 @@ public final class SimpleLobby extends JavaPlugin {
     private SequenceRegistry sequences;
     private FoliaLib foliaLib;
 
+    private static final String MODRINTH = "https://modrinth.com/plugin/simplelobby";
+
     private static final int PLUGIN_ID = 28227;
 
-    private static final String MODRINTH = "https://modrinth.com/plugin/simplelobby";
+    private static final String MINIMUM = "1.18.2";
+
+    private boolean started;
 
     private enum Action implements LogAction {
         CONFIG, SETUP, ACTIONS
@@ -62,10 +66,15 @@ public final class SimpleLobby extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        if (!hasPaperApi()) {
-            getLogger().severe("Spigot support was dropped in SimpleLobby 1.5, so this version will not start here.");
-            getLogger().severe("1.4.1 is the last version that runs on Spigot.");
-            getLogger().severe("I recommend switching to Paper, or a fork of it such as Purpur or Folia.");
+        if (isOlderThan(running(), MINIMUM)) {
+            getLogger().severe("SimpleLobby needs Minecraft " + MINIMUM + " or newer, this server runs "
+                    + running() + ".");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        if (!isPaper()) {
+            getLogger().severe("SimpleLobby needs Paper or a fork of it, such as Purpur or Folia.");
             getLogger().severe("Latest version: " + MODRINTH);
             getServer().getPluginManager().disablePlugin(this);
             return;
@@ -73,6 +82,7 @@ public final class SimpleLobby extends JavaPlugin {
 
         Colorize.init(Dialect.LEGACY);
         Logger.builder().logger(getComponentLogger()).build();
+        this.started = true;
 
         // Bad actions are warned about and skipped rather than thrown, so route those
         // warnings through the plugin's own logger before anything is read.
@@ -141,6 +151,10 @@ public final class SimpleLobby extends JavaPlugin {
     @Override
     public void onDisable() {
 
+        if (!started) {
+            return;
+        }
+
         if (actions != null) {
             actions.cancelAll();
         }
@@ -148,6 +162,8 @@ public final class SimpleLobby extends JavaPlugin {
         if (foliaLib != null) {
             foliaLib.getScheduler().cancelAllTasks();
         }
+
+        Logger.close();
 
     }
 
@@ -215,15 +231,58 @@ public final class SimpleLobby extends JavaPlugin {
         return foliaLib.getScheduler();
     }
 
-    private static boolean hasPaperApi() {
+    private static boolean isPaper() {
 
         try {
-            Class.forName("net.kyori.adventure.text.minimessage.MiniMessage");
+            Class.forName("com.destroystokyo.paper.PaperConfig");
             return true;
         } catch (ClassNotFoundException e) {
             return false;
         }
+    }
 
+    /**
+     * The Minecraft version this server runs.
+     *
+     * <p>Read from {@code getBukkitVersion}, which every version has, rather than from
+     * {@code getMinecraftVersion}, which Paper only added later.</p>
+     */
+    private String running() {
+        return getServer().getBukkitVersion().split("-")[0];
+    }
+
+    /**
+     * Whether one Minecraft version is older than another.
+     *
+     * <p>Compared number by number rather than as text, because Paper moved from 1.21 to 26 and
+     * every way of ordering those two as strings puts them the wrong way round.</p>
+     *
+     * @param version what the server reports
+     * @param minimum the oldest Catalog supports
+     * @return whether the server is below it, and false for anything unreadable
+     */
+    static boolean isOlderThan(String version, String minimum) {
+
+        String[] here = version.split("\\.");
+        String[] least = minimum.split("\\.");
+
+        for (int i = 0; i < least.length; i++) {
+
+            int mine;
+
+            try {
+                mine = i < here.length ? Integer.parseInt(here[i].trim()) : 0;
+            } catch (NumberFormatException e) {
+                // An unreadable version is not a reason to refuse to start.
+                return false;
+            }
+
+            if (mine != Integer.parseInt(least[i])) {
+                return mine < Integer.parseInt(least[i]);
+            }
+        }
+
+        return false;
     }
 
 }
