@@ -1,17 +1,6 @@
-<p align="center">
-  <img height="400" width="400" src="https://raw.githubusercontent.com/VulpineFriend87/SimpleLobby/refs/heads/main/logo.png" alt="SimpleLobby logo" />
-</p>
-
-<p align="center">
-  <a href="https://www.spigotmc.org/resources/127262/">
-    <img src="https://img.shields.io/badge/SpigotMC-f09630?style=for-the-badge&logo=spigotmc&logoColor=fff" alt="SpigotMC" />
-  </a>
-  <a href="https://modrinth.com/plugin/simplelobby">
-    <img src="https://img.shields.io/badge/Modrinth-%2300AF5C?style=for-the-badge&logo=modrinth&logoColor=fff" alt="Modrinth" />
-  </a>
-</p>
-
-<br><br>
+<a href="https://modrinth.com/plugin/simplelobby"><img alt="Available on Modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg"></a>
+<img alt="Works on Paper 1.18.2+" height="56" src="https://u.vulpine.top/u/AIB6AM.svg">
+<img alt="Requires Java 17+" height="56" src="https://u.vulpine.top/u/ggP6Ta.svg">
 
 SimpleLobby is a lightweight, flexible, and powerful plugin designed for easy lobby management and spawn-setting on your Minecraft server. Whether you need an authentication lobby, a world with custom join actions, or just a simple spawn point, SimpleLobby is the plugin you are looking for.
 
