@@ -6,7 +6,7 @@ okaeri = "5.0.13"
 bstats = "3.2.1"
 folialib = "0.5.2"
 commons = "0.3.1"
-lamp = "4.0.0-rc.18"
+lamp = "4.0.0-rc.19"
 actions = "0.2.0"
 
 shadow = "9.6.1"
