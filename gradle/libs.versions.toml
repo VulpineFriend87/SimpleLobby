@@ -10,7 +10,7 @@ lamp = "4.0.0-rc.19"
 actions = "0.2.0"
 
 shadow = "9.6.1"
-lombok = "9.8.0"
+lombok = "9.8.2"
 pluginyml = "0.9.0"
 
 [libraries]
